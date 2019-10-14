@@ -1,0 +1,66 @@
+%!TEX root = ../dissertation.tex
+\chapter{Introduction}
+\label{introduction}
+% Introduction
+This chapter provides an introduction to the project, defining its background and motivation, the problem statement, research questions, and the aims and objectives.
+% This chapter provides an introduction to the project, defining its background and motivation, scope, the problem statement and the aims and objectives. It also provides an overview of the subsequent chapters of this thesis.
+
+\section{Background}
+\label{Background and Motivation}
+Machine translation was first implemented in 1954 using a direct dictionary translation technique, where an IBM experiment successfully translated 49 Russian sentences into English.
+Since then, rule-based, statistical, and transfer-based techniques have been at the forefront of machine translation. However, in recent years there has been a shift towards neural machine translation (NMT), taking advantage of complex neural network architectures.
+
+Under the right circumstances, NMT has shown promise in providing more accurate translations in comparison to alternative machine translation techniques. Deep learning neural networks require a huge volume of parallel data for the resultant model to be of sufficient quality. Although not typically an issue for high-resource languages such as English, German, and Spanish, there are many languages that have very little data available online, leading to poor performance of the model translation. Dialects all over the world such as (((((insert        countries       and      dialects     here))))) are great examples of this, where the vast majority of the dialect is spoken rather than written. NMT approaches that are developed for low-resource languages ideally make the issue of poor translation quality less prevalent. This is important because approaches that work well for high-resource languages do not necessarily work well on low-resource languages.
+%The reliance on huge quantities of data means that
+% why does it not work well?
+
+
+% ==============================================
+% Removed %
+% The project consists of two parts. The first part involves gathering training data and creating synthetic data to build a parallel corpus. The second part of the project involves using the parallel corpus to train neural machine translation models using various approaches, enabling Scottish Gaelic to English translation 
+%
+% The goal of the project is to research, implement and analyse the different approaches used in low-resource neural machine translation and determine what is best suited for the low-resource language Scottish Gaelic.
+% The focus of the project is on Scottish Gaelic because previous work that has been published have not implemented neural machine translation, instead relying on alternative translation techniques.
+%
+% Deep learning neural networks, especially in a translation context, require a huge volume of parallel data for the resultant model to be of sufficient quality. Although not typically an issue for high-resource languages such as English, German, and Spanish, many languages have very little data available online, leading to poor performance of the model translation. Neural machine translation approaches that are developed specifically for low-resource languages have the potential to make the issue of poor translation quality less prevalent.
+%
+% Recent advances in machine translation quality have been achieved in part by taking large quantities of parallel training data and using it to train neural machine translation models. Although this works well for high-resource languages where there are many existing data sets available, the neural machine translation quality of low-resource languages suffers substantially due to the reliance on training data volume. 
+% Therefore, the lack of parallel training data is a potential barrier to entry for a language to achieve high quality machine translation. By identifying the best approaches for neural machine translation on a low-resource language and 
+%
+%
+% ==============================================
+
+
+\section{Problem Statement}
+The lack of parallel training data is a potential barrier to entry for a language to achieve high quality NMT. Low-resource NMT approaches have the ability to play a key role in the sustainability of endangered languages and dialects that are only spoken by small subsets of a country's population.
+% Why is the is important
+% What is the impact
+
+\section{Research Questions}
+There is a research gap in the application of neural machine translation to Scottish Gaelic.
+
+From this, the project will aim to answer the following questions:
+
+\begin{enumerate}
+    \item What results do current transfer learning and meta-learning NMT approaches achieve when applied to Scottish Gaelic?
+    \item Can the introduction of language learning materials in a low-resource training data set improve the quality of translation?
+\end{enumerate}
+
+% OLD ITEMS:
+% What results do various transfer and meta learning based approaches achieve for Scottish Gaelic NMT?
+% Is translation quality improved by combining aspects of transfer learning with meta learning?
+% Does the introduction of the language learning materials in a low-resource training data set improve the quality of translation?
+
+\section{Aim \& Objectives}
+The aim of this project is to implement a neural machine translation model for a low-resource language (Scottish Gaelic) that is comparable to the translation quality of prior research using alternative machine translation techniques applied the same language.
+
+The project objectives are listed below:
+
+\begin{enumerate}
+  \item Review the existing literature on neural machine translation approaches for low-resource languages
+  \item Gather high quality parallel training data
+  \item Implement the most successful approaches identified in the literature review
+  %\item Implement a combination of the aforementioned approaches in an attempt to improve upon the initial results
+  \item Evaluate the quality of the models generated by the low-resource NMT approaches
+  %\item Evaluate the quality of the models generated by the neural machine translation approaches and compare with the results with alternative low-resource machine translation techniques
+\end{enumerate}
