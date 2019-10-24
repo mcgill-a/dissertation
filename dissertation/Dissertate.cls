@@ -79,6 +79,8 @@
 \RequirePackage{setspace}
 \RequirePackage{verbatim}
 
+% Allow PDF's
+\usepackage{pdfpages}
 
 % Fonts.
 \RequirePackage{color}
