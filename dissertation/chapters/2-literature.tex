@@ -110,38 +110,35 @@ Research by \cite{sennrich_improving_2016} incorporates monolingual data into \a
 % noise beam is sentences with various types of noise (deleting, replacing and swapping words)
 
 
-
-
-
-
-
-
-
 \subsection{Sentence Segmentation}
-\cite{zhang_corpus_2019} sentence segmentation:
+
+Sentence segmentation is the process of using punctuation marks within a sentence as delimiters to divide the sentence into multiple partial sentences. When applied to an existing parallel corpus that contains long sentences with punctuation, sentence segmentation can be used as a data augmentation technique. \cite{zhang_corpus_2019} implemented this by generating pseudo-parallel sentence pairs using sentence segmentation with back-translation as follows:
 \begin{itemize}
-    \item Segmenting long sentences in a corpus using back-translation
-    \item Generating pseudo-parallel sentence pairs
-    \item Improves translation performance
+    \item Divide the sentences in a parallel training data set into partial sentences
+    \item Back-translate the partial sentences from the target language
+    \item Use back-translated data to replace partial sentences from the source language
 \end{itemize}
+
+Results of their sentence segmentation implementation demonstrate that the increase of parallel sentence pairs can lead to improvements over baseline \acrshort{NMT} translation performance. In addition, their proposed method outperformed models using the back-translation augmentation method for the Japanese - Chinese 'ASPEC-JC' (\cite{NAKAZAWA16.621}) training corpus.
+
 % Segmenting long sentences in a corpus using back-translation
 % and generating pseudo-parallel sentence pairs
 % improves translation performance
 
 
-\cite{fadaee_data_2017} more sentence segmentation:
-\begin{itemize}
-    \item Targets low-frequency words by generating new sentence pairs
-    \item Containing new rare words in synthetically created contexts
-    \item Improves translation quality up to 2.9 BLEU score over baseline
-    \item Up to 3.2 BLEU score over back-translation
-\end{itemize}
+
+
+%\cite{kuang_automatic_2016}
+% automatic long sentence -- improves translation for long sentences...
+% nothing to do with training data augmentation
+
+%\cite{fadaee_data_2017}
+% replace certain words with other words. not sentence segmentation....
 % Targets low-frequency words by generating new sentence pairs, containing new rare words
 % in synthetically created contexts
 % improves translation quality up to 2.9 BLEU over baseline
 % and up to 3.2 over back-translation
 
-\clearpage
 \subsection{Easy Data Augmentation}
 \acrfull{EDA} is a data augmentation technique which aims to improve \acrfull{NLP} text classification performance by creating augmented training data to artificially increase the size of the corpus. It is the corpus augmentation technique that uses a combination of word replacements, insertions, swaps, and deletions. Additional input parameters such as number of augmented sentences per original sentence, and the percentage of words from the original sentence to change allow for fine-tuning of the output relevant to the usage context. For each individual sentence in the training data, an augmented sentence is generated using an operation selected randomly from four different techniques:
 \begin{itemize}
@@ -213,11 +210,9 @@ Their findings demonstrate that the \acrshort{SCDA} method provides a consistent
 % unlike other methods that may not work well in all tasks,
 % theirs does, regardless of the data set
 
-
-
-
 % The augmented data closely match the position of the original data,
-\clearpage
+
+
 \section{Low-Resource Machine Translation Approaches}
 \label{LRNMT}
 
@@ -236,11 +231,6 @@ Research by \cite{dowling_leveraging_2019} takes advantage of the increased data
 
 
 The \acrshort{SMT} model saw improvements in performance over baseline when combining the synthetic training data with the original training data. The reason stated for not using \acrshort{NMT} in this research was due to the limited corpus size. As \acrshort{NMT} translation quality suffers significantly when models are trained with a low quantity of data, and as demonstrated in research by \cite{dowling_smt_2018}, a well tailored \acrshort{SMT} model achieves much better translation quality in comparison to an "out-of-the-box" \acrshort{NMT} model for Irish translation. Therefore, the research and implementation of low-resource machine translation approaches for Scottish Gaelic may contribute towards solving this problem.
-
-
-
-
-\clearpage
 
 \subsection{Transfer Learning}
 
@@ -312,7 +302,5 @@ Despite the primary focus of \acrshort{MAML} research relating to object recogni
 
 % say how this paper uses meta agnostic model for translation
 Research by \cite{gu_meta-learning_2018} is the first of its kind to use \acrshort{MAML} for \acrshort{NMT}. In comparison to the transfer based approach by \cite{zoph_transfer_2016}, results showed further improvements with a BLEU score of 22.04, despite training data for the low-resource language limited to 16,000 words (around 600 parallel sentences). As the corpus size of the low-resource language decreases, transfer learning approaches suffer significantly more than meta learning, which proves the effectiveness of \acrshort{MAML} for low-resource languages. However, as the corpus size increases, the differences in BLEU score between the two approaches are much less significant.
-
-\clearpage
 
 \section{Conclusion}
