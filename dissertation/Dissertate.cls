@@ -82,6 +82,10 @@
 % Allow PDF's
 \usepackage{pdfpages}
 
+% Table graphics package
+\usepackage{graphicx}
+\usepackage{booktabs}
+
 % Fonts.
 \RequirePackage{color}
 \RequirePackage{xcolor}

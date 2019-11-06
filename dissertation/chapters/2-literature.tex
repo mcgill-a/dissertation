@@ -37,35 +37,25 @@ Add your quote here
 \label{Machine Translation}
 \subsection{Available Datasets}
 
+% Please add the following required packages to your document preamble:
+% \usepackage{graphicx}
+\begin{table}[!h]
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|l|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Language(s)}} & \textbf{Data Type} & \multicolumn{1}{c|}{\textbf{Source}} \\ \hline
+\begin{tabular}[c]{@{}l@{}}Scottish Gaelic (GD)\\ English (EN)\end{tabular} & Bilingual & OPUS: Open Parallel Corpus \\ \hline
+\begin{tabular}[c]{@{}l@{}}Scottish Gaelic (GD)\\ English (EN)\end{tabular} & Bilingual & LearnGaelic PDF Learning Materials \\ \hline
+\begin{tabular}[c]{@{}l@{}}Scottish Gaelic (GD)\\ English (EN)\end{tabular} & Bilingual & Scottish Parliament Publications \\ \hline
+Placeholder & Monolingual & Placeholder \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+\clearpage
 \subsection{Techniques}
 
-%\subsubsection{Rule-Based Machine Translation}
-
-
 \subsubsection{Statistical Machine Translation}
-
-\acrfull{SMT} is a statistical approach for machine translation first presented by \cite{brown_statistical_1990}. 
-\acrshort{SMT} assumes that all sentences in a source language have a possibility of being the correct translation of a sentence in a target language. 
-Find the source sentence S that the translator used to produce the target sentence T by selecting the pair with the highest probability $Pr ( T | S )$.
-
-This is done using a language model, translation model, and decoder
-as shown below in Figure \ref{fig:smt_diagram}.
-
-\begin{figure}[ht!]
-\centering
-\includegraphics[width=1\textwidth]{media/literature/machine_translation/smt_3.png}
-\caption[Diagram of \acrshort{SMT} probability distribution and decoder]{Left side: \acrshort{SMT} probability distribution for source (S) and target (T) sentence pairs. Right side: \acrshort{SMT} decoder selecting the highest probability sentence pair (\cite{brown_statistical_1990})}
-\label{fig:smt_diagram}
-\end{figure}
-
-% 
-
-Explain the language model
-
-Explain the translation model
-
-Explain the decoder
-
 
 % every sentence in one language is a possible translation of any sentence in another
 % Assign every pair of sentences a probability
@@ -77,6 +67,124 @@ Explain the decoder
 % Seek the sentence S from which the translator produced T.
 % Chance of error is minimised by choosing that sentence S that is most probable given T
 % Thus, we wish to choose S so as to maximise Pr(S|T)
+
+\acrfull{SMT} is a statistical approach for machine translation first presented by \cite{brown_statistical_1990}. 
+\acrshort{SMT} assumes that all sentences in a source language have the possibility of being the correct translation of a sentence in a target language. 
+In other words, find the source sentence S that the translator used to produce the target sentence T by selecting the pair with the highest probability $Pr ( T | S )$.
+
+This is done using a language model, translation model, and decoder
+as shown below in Figure \ref{fig:smt_diagram}.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=1\textwidth]{media/literature/machine_translation/smt_3.png}
+\caption[Diagram of \acrshort{SMT} probability distribution and decoder]{Left side: \acrshort{SMT} probability distribution for source (S) and target (T) sentence pairs. Right side: \acrshort{SMT} decoder selecting the highest probability sentence pair (\cite{brown_statistical_1990})}
+\label{fig:smt_diagram}
+\end{figure}
+
+
+
+% SMT - instead of defining all the language rules and exceptions to rules, let the system find the rules itself
+% analyse millions of parallel data sets that have already been translated by human translators
+% once the computer finds the pattern, use this pattern to translate text in the future
+% repeat this process a lot, lots of patterns, lots of translations
+
+
+% probabilistic models estimated from parallel corpora
+% need large quantities of training data
+
+
+% From SLIDES: http://folk.uio.no/plison/pdfs/talks/meetup_SMT.pdf
+% encodes the faithfulness of T as a translation of S
+
+% early translation models relied on probabilities for individual words
+% did not account well for idiosyncratic expressions
+
+% decompose translation probability P(s|t)  into phrase pairs
+% - phrase probability (as given by the translation table)
+% - distortion probability (relative distance between the phrase positions in the two languages)
+
+% Three challenges:
+% estimating the language model probability, Pr(e) - called the language modelling problem
+% estimating the translation model probability, Pr(f|e) - called the translation modelling problem
+% devising an effective and efficient sub-optimal search for the English string that maximises their product
+% ^ called the search problem search problem
+
+%Explain the language model:
+The language model provides an estimation of how probable a given source sentence is based on the probability distribution of word sequences. This model is associated with the fluency of the translation as it is trained using target language monolingual data, providing the guidelines for well written translation output. Using a large training corpus, the n-gram probability of every word is determined from the words immediately proceeding it. One drawback to this approach is that the unrecognised increased probability for words that are dependant on each other but are further apart.
+
+%in scenarios where words are linked to other words that are further away from them, 
+
+%n-gram probabilities on large amounts of monolingual data 
+
+%This is accomplished by using large amounts of monolingual data, n-gram probabilities can 
+
+
+
+% bigram or general m-gram model
+
+% encodes the fluency of T in the target language
+
+% also want the translated sentence T to be fluent in the target language
+% statistical language model is a probability distribution over sequences of words
+% typically represented as n-grams, where the probability of each word depends on the words occurring before it
+
+% N-gram probabilities can be estimated from large amounts of monolingual data
+% Bigrams or trigrams are most popular
+% Smoothing methods to account for data sparsity
+
+% Does not do well with long-range dependencies (words that depend on another word that is multiple words away)
+
+%Explain the translation model:
+% decomposed into a lexical and an alignment model
+% estimation of the lexical correspondence between languages (lexical = words or vocab of a language)
+
+%The translation model proposed by \cite{brown_statistical_1990} includes the following parameters:
+The translation model is an estimation of the source and target language vocabulary correspondence. It is associated with the quality of the translations, as it is responsible for predicting the translations of words and short sequences of words, mapping the source language to the target language. The model parameters proposed by are estimated by training probabilistic models on large quantities of parallel training data, derived from the following sets of probabilities as proposed by \cite{brown_statistical_1990}:
+\begin{itemize}
+    \item Fertility probabilities:  $Pr(n|s)$ - the probability that a source word $s$ generates $n$ target words in a given source-target sentence alignment
+    
+    \item Lexical probabilities: $Pr(s|t)$ - the probability that a source word $s$ translates into a target word $t$, for each element in the source and target language vocabularies
+    
+    \item Distortion probabilities: $Pr(i|j, l)$ - the probability of the position of a target word $i$, based on the position of the source word $j$, and the length of the target sentence $l$
+    
+    %\item Probability p1: p(you|NULL) the probability that the spurious word you is generated from NULL
+    % %\item if an English word isn't aligned with a french word then it is omitted
+    %\item Lexical probability t: t(Quan|When) the probability that Quan translates into When
+    
+    %\item Distortion d: d(j|i, m, n) the probability that the word in position j generates a word in position i. m and n are the length of the source and target sentences
+    % \item distortions allow adjectives to precede the noun that they modify in english but to follow them in french
+\end{itemize}
+
+
+% \cite{brown_mathematics_1993}
+% the language model probability is large for well-formed English strings regardless of their connection to French.
+% together, they produce a large probability for well-formed English strings that account well for French.
+
+% alignment mapping i j -> i = a_j from source position j to target position i = a_j
+% use of alignment model raises major problems as it fails to capture dependencies between groups of words
+% it is difficult to handle different word order and the translation of compound nouns
+
+% \cite{och_1999_improved} described two methods for SMT that extend the baseline alignment model
+% to account for these problems
+
+
+%Explain the decoder
+
+During the runtime of an \acrshort{SMT} system, the decoder uses the translation and language models to find the best translation from the source input to the target language output.
+
+The decoder starts off with an empty hypothesis for the translation. The hypothesis is expanded incrementally by partial hypotheses using the translation and language models. As there are an exponential number of hypotheses in relation to the length of the source sentence, search optimisation techniques are required to find the most likely translation. A beam search is a very efficient decoding technique that can be used to confine the search space to a limited quantity of low cost hypotheses by comparing hypotheses with equal length translation output and removing those with a high cost and estimated future cost (\cite{koehn_pharaoh_2004}).
+
+% how to use translation and language models to find the best translation T for a sentence S?
+
+% Search through the space of possible translations
+% incremental decoding process (beam search): gradual expansion of translation hypothesis
+% every partial hypothesis is associated with a cost
+% translation and language models + estimate of future costs
+% beam search only keeps track of a limited number of good hypotheses (based on their cost), the rest is discarded
+
+% the search space is further reduced through hypothesis recombination
+
 
 %\cite{brown_statistical_1990}
 %\begin{itemize}
