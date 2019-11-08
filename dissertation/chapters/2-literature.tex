@@ -10,27 +10,169 @@ Add your quote here
 \clearpage
 
 
-\section{Machine Learning}
+%\section{Machine Learning}
+
+%\subsection{Types of machine learning?}
+
+%\begin{itemize}
+%    \item Backpropagation + vanishing gradient problem
+%    \item Convolutional Neural Networks (CNN)
+%    \item Recurrent Neural Networks (RNN)
+%    \item Long Short Term Memory (LSTM)
+%    \item Transformer model
+%\end{itemize}
 
 
 
+\section{Deep Learning}
+% deep learning refers to training a neural network...
+
+
+% Intro - what is a neural network? what are they good at (what are they used for)? 
+
+% how do they work?
+
+
+
+%\cite{lecun_deep_2015} DL background information. MLPs, CNNs, RNNs
+
+
+\subsection{Feedforward Neural Networks}
+
+\subsubsection{Single-Layer Perceptron}
+% first and simplest type of artificial network devised
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.7\textwidth]{media/literature/machine_learning/ml_perceptron_single.png}
+\caption[Diagram of a single-layer perceptron]{Single-Layer Perceptron (\cite{rosenblatt_perceptron_1958})}
+\label{fig:perceptron_single}
+\end{figure}
+
+
+\subsubsection{Multi-Layer Perceptron}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.7\textwidth]{media/literature/machine_learning/ml_perceptron_multi.png}
+\caption[Diagram of a multi-layer perceptron]{Multi-Layer Perceptron (\cite{michael_perceptron_2019})}
+\label{fig:perceptron_multi}
+\end{figure}
+
+%\cite{goodfellow_deep_learning_2016} talks about feedforward networks (MLPs)
+
+\clearpage
+\subsection{Convolutional Neural Networks}
+
+%\subsubsection{Introduction}
+% what is a CNN?
+
+A \acrfull{CNN} is an artificial neural network similar to the multi-layer perceptron with additional hidden convolutional layers. \acrshort{CNN}s are very good at detecting patterns from data which makes them ideal for image classification, object recognition, and more recently \acrfull{NLP}.
+
+Research by \cite{lecun_backprop_cnn_1989} was the first to demonstrate how the back-propagation algorithm proposed by \cite{rumelhart_learning_1986} could be integrated into a convolutional neural network.
+Using the \acrshort{CNN}, they successfully performed character recognition and classification on images of handwritten digits from data provided by the U.S Postal Service.
+
+The \acrshort{CNN} architecture is shown in Figure \ref{fig:cnn_1} using an example of image classification.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=1\textwidth]{media/literature/machine_learning/ml_cnn_1.png}
+\caption[Diagram of a convolutional neural network architecture]{Convolutional Neural Network architecture (\cite{lopez_deep_2017})}
+\label{fig:cnn_1}
+\end{figure}
+
+Each convolutional layer has a specified number of filters that are used to detect different patterns. The filters are initialised with random numbers and are adjusted using back-propagation to learn the weights automatically. For image classification, a filter represents a small matrix with a preset number of columns and rows. 3x3 is a common matrix size because as the matrix size increases, so does the number of parameters, increasing the likelihood of overfitting. When a convolutional layer receives an input, the filter convolves over each 3x3 block of pixels in the image and the value of each cell becomes the dot product of the block of pixels and the filter. Once the matrix contains all the dot products, it is output from the current layer and used as the input to the next layer.
+
+In early convolutional layers, filters may only detect very simple features such as edges and shapes but as the layers get deeper in the neural network, filters are able to identify more complicated objects such as a facial features or types of animals. These high level features are what the classifier uses for weighting the output predictions.
+\acrshort{NLP} tasks consist of text input sentences rather than images so rows within a matrix are word embedding vectors that are generated using tools such as word2vec (\cite{mikolov_word2vec_2013}). 
+%The matrix width depends on the size of the embedding,
+As each row in the matrix represents an entire word, filters span the full width of the row to match the width of the matrix input, with a height of between 2-5 words (\cite{lopez_deep_2017}).
 
 \begin{itemize}
-    \item Backpropagation + vanishing gradient problem
-    \item Recurrent Neural Networks (RNN)
-    \item Long Short Term Memory (LSTM)
-    \item Transformer model
+    \item [\textbf{To do:}]
+    \item More information to introduce the CNN architecture
+    \item Back-propagation (update weights)
+    \item Pooling layer (sub-sample input after convolutional layers)
+    \item Activation function (decide if neuron fires or not)
+    \item Batch normalisation (improve speed + performance, helps reduce overfitting)
+    \item Dropout (ignore random set of neurons during training, helps reduce overfitting)
+    \item Fully connected layer
+    
 \end{itemize}
 
-\acrfull{LSTM} is an \acrshort{RNN} architecture proposed by \cite{hochreiter_long_1997} that was designed to help overcome the vanishing gradient problem present during backpropagation, using a gradient-based algorithm that enforces a consistent internal state error flow. This ensures that gradients will not become insignificant and halt the learning process.
 
-\subsection{Neural Networks}
+%\cite{lecun_deep_2015}
 
-\subsection{Deep Learning}
-
-\subsection{Keras}
+%\cite{jacovi_understanding_2018} conv nets for text classification: n-grams etc.
 
 
+
+
+% why is it different from an MLP?
+
+%\subsubsection{Architecture}
+
+% Convolutional Layer
+
+
+
+% Pooling Layer
+% Activation Function
+% Batch normalisation (helps reduce overfitting)
+% Dropout
+% Fully Connected Layer
+
+% sections from example dissertation:
+% - activation functions
+% - training
+% -     - weight initialisation
+% - back propagation
+
+
+\subsection{Recurrent Neural Networks}
+
+\begin{itemize}
+    \item [\textbf{To do:}]
+    \item Introduction
+    \item Comparison to CNN
+    \item Architecture
+    \item LSTM
+\end{itemize}
+
+%\subsubsection{Introduction}
+% what is an RNN?
+
+%\subsubsection{Why is it different than a CNN?}
+% what is it good for?
+
+%\subsubsection{Architecture}
+% how does it work?
+
+%\subsubsection{Lstm}
+% what is LSTM?
+
+%\cite{mikolov_recurrent_2010} recurrent neural network slides
+
+%\cite{goodfellow_deep_learning_2016} book on machine learning
+
+% 
+
+% output of a particular layer is saved and fed back to the input
+% this helps predict the outcome of the layer
+
+% first layer is formed the same way as it is in the feed-forward network.  Product of the sum of the weights and features
+% however, subsequent layers, the recurrent neural network process begins
+
+% =============== LSTM ===============
+
+%\acrfull{LSTM} is an \acrshort{RNN} architecture proposed by \cite{hochreiter_long_1997} that was designed to help overcome the vanishing gradient problem present during backpropagation, using a gradient-based algorithm that enforces a consistent internal state error flow. This ensures that gradients will not become insignificant and halt the learning process.
+
+%\subsubsection{Long Short Term Memory}
+
+
+
+
+%\subsection{Keras}
 
 \clearpage
 \section{Machine Translation}
@@ -51,6 +193,11 @@ Placeholder & Monolingual & Placeholder \\ \hline
 \end{tabular}%
 }
 \end{table}
+
+\begin{itemize}
+    \item Quantity
+    \item Prepared?
+\end{itemize}
 
 \clearpage
 \subsection{Techniques}
