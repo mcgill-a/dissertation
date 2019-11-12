@@ -1,7 +1,7 @@
-\begin{savequote}[75mm]
-Add your quote here
-\qauthor{Author of quote}
-\end{savequote}
+%\begin{savequote}[75mm]
+%Add your quote here
+%\qauthor{Author of quote}
+%\end{savequote}
 
 \chapter{Literature Review}
 \label{literature}
@@ -25,31 +25,35 @@ Add your quote here
 
 
 \section{Deep Learning}
-% deep learning refers to training a neural network...
+% Give an actual introduction here explaining basic perceptron and how CNNs can be used in NLP and translation
+
+% What is a neural network?
+
+%\cite{schmidhuber_deep_2015}
 
 
-% Intro - what is a neural network? what are they good at (what are they used for)? 
+% What is deep learning?
+Deep learning is a subset of machine learning inspired by the human brain that uses artificial neural networks with many hidden layers to extract features from inputs while training with large data amounts of data.
+% 
+Extracting simple features from the lower levels of representation helps to identify the abstract features present in the higher representation levels that are vital to the output classification of data (\cite{bengio_deep_2011}).
+%
+The intricacies of a data structure are identified using backpropagation to determine how the neural network should update the weights that are responsible for calculating the representation in each layer, based on the representation of the previous layer. (\cite{lecun_deep_2015}).
 
-% how do they work?
-
-
-
-%\cite{lecun_deep_2015} DL background information. MLPs, CNNs, RNNs
-
-
-\subsection{Feedforward Neural Networks}
-
-\subsubsection{Single-Layer Perceptron}
-% first and simplest type of artificial network devised
-
-\begin{figure}[ht!]
-\centering
-\includegraphics[width=0.7\textwidth]{media/literature/machine_learning/ml_perceptron_single.png}
-\caption[Diagram of a single-layer perceptron]{Single-Layer Perceptron (\cite{rosenblatt_perceptron_1958})}
-\label{fig:perceptron_single}
-\end{figure}
+% What are they good at doing?
+% They are good at speech recognition, image recognition, natural language processing, facial detection, self driving, machine translation
 
 
+% Introduce NMT
+
+% What are the two main approaches?
+
+
+
+
+% \cite{lecun_deep_2015} DL background information. MLPs, CNNs, RNNs
+
+%\subsection{Feedforward Neural Networks}
+% \cite{kehtarnavaz_comparison_2017} MLP study
 \subsubsection{Multi-Layer Perceptron}
 
 \begin{figure}[ht!]
@@ -67,7 +71,7 @@ Add your quote here
 %\subsubsection{Introduction}
 % what is a CNN?
 
-A \acrfull{CNN} is an artificial neural network similar to the multi-layer perceptron with additional hidden convolutional layers. \acrshort{CNN}s are very good at detecting patterns from data which makes them ideal for image classification, object recognition, and more recently \acrfull{NLP}.
+A \acrfull{CNN} is an artificial neural network similar to the multi-layer perceptron with additional hidden convolutional layers. \acrshort{CNN}s are very good at detecting patterns from data which makes them ideal for image classification, object recognition, and more recently \acrfull{NLP} (\cite{young_cnns_recent_2018}).
 
 Research by \cite{lecun_backprop_cnn_1989} was the first to demonstrate how the back-propagation algorithm proposed by \cite{rumelhart_learning_1986} could be integrated into a convolutional neural network.
 Using the \acrshort{CNN}, they successfully performed character recognition and classification on images of handwritten digits from data provided by the U.S Postal Service.
@@ -81,24 +85,68 @@ The \acrshort{CNN} architecture is shown in Figure \ref{fig:cnn_1} using an exam
 \label{fig:cnn_1}
 \end{figure}
 
-Each convolutional layer has a specified number of filters that are used to detect different patterns. The filters are initialised with random numbers and are adjusted using back-propagation to learn the weights automatically. For image classification, a filter represents a small matrix with a preset number of columns and rows. 3x3 is a common matrix size because as the matrix size increases, so does the number of parameters, increasing the likelihood of overfitting. When a convolutional layer receives an input, the filter convolves over each 3x3 block of pixels in the image and the value of each cell becomes the dot product of the block of pixels and the filter. Once the matrix contains all the dot products, it is output from the current layer and used as the input to the next layer.
+In general, each convolutional layer involves three different actions (\cite{goodfellow_deep_learning_2016}):
+\begin{itemize}
+    \item Run multiple convolutions in parallel, producing a set of linear activations
+    %item The layer performs several convolutions in parallel to produce a set of linear activations
+    \item Use a nonlinear activation function on each linear activation
+    %\item Each linear activation is run through a nonlinear activation function such as \acrshort{RELU}
+    \item Use a pooling function to downsample the layer output
+    %\item Use a pooling function to modify the output of the layer further
+\end{itemize}
+
+
+% Convolutional layers + filters
+A convolutional layer has a specified number of filters that are used to detect different patterns. The filters are initialised with random numbers and are adjusted using back-propagation to learn the weights automatically. For image classification, a filter represents a small matrix with a preset number of columns and rows.
+%3x3 is a common matrix size because as the matrix size increases, so does the number of parameters, increasing the likelihood of overfitting. 
+When a convolutional layer receives an input, the filter convolves over each $n$ x $n$ block of pixels in the image and the value of each cell becomes the dot product of the block of pixels and the filter. Once the matrix contains all the dot products, it is output from the current layer and used as the input to the next layer.
 
 In early convolutional layers, filters may only detect very simple features such as edges and shapes but as the layers get deeper in the neural network, filters are able to identify more complicated objects such as a facial features or types of animals. These high level features are what the classifier uses for weighting the output predictions.
-\acrshort{NLP} tasks consist of text input sentences rather than images so rows within a matrix are word embedding vectors that are generated using tools such as word2vec (\cite{mikolov_word2vec_2013}). 
-%The matrix width depends on the size of the embedding,
+\acrshort{NLP} tasks consist of text input sentences rather than images so rows within a matrix are word embedding vectors that are generated using models such as word2vec (\cite{mikolov_word2vec_2013}). 
 As each row in the matrix represents an entire word, filters span the full width of the row to match the width of the matrix input, with a height of between 2-5 words (\cite{lopez_deep_2017}).
 
+% Activation function
+The activation function of a neural network transforms the weighted input of a neuron into the activation of the output, determining whether a neuron fires or not. Unlike the sigmoid and hyperbolic tangent activation functions that suffer from the vanishing gradient problem, \acrfull{RELU} converges quickly and overcomes the vanishing gradient problem, making it the recommended activation function for modern \acrshort{CNN}s (\cite{nair_rectified_2010}).
+
+% Pooling layer
+Feature maps (the output activations for a given filter) are sensitive to the position of a feature in an image. Pooling layers address this issue by reducing the resolution of the feature maps to achieve spatial invariance (\cite{scherer_evaluation_2010}). The downsampled feature maps can be thought of as a summary of the nearby outputs present in small $n$ x $n$ patches (the pooling window) of the feature map. The most common methods of pooling are are max pooling and average pooling, however \cite{scherer_evaluation_2010} found that the max pooling operation significantly outperforms subsampling operations.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.5\textwidth]{media/literature/machine_learning/ml_pooling.png}
+\caption[Diagram of CNN Max Pooling and Average Pooling ]{\acrshort{CNN} Max Pooling (MP) and Average Pooling (AP) (\cite{wang_pooling_2018})}
+\label{fig:cnn_pooling}
+\end{figure}
+
+%These pooling methods are visualised below in Figure \ref{fig:cnn_pooling}:
+As demonstrated above in Figure \ref{fig:cnn_pooling}, max pooling and average pooling are carried out by:
+
 \begin{itemize}
-    \item [\textbf{To do:}]
-    \item More information to introduce the CNN architecture
-    \item Back-propagation (update weights)
-    \item Pooling layer (sub-sample input after convolutional layers)
-    \item Activation function (decide if neuron fires or not)
-    \item Batch normalisation (improve speed + performance, helps reduce overfitting)
-    \item Dropout (ignore random set of neurons during training, helps reduce overfitting)
-    \item Fully connected layer
-    
+    \item Max Pooling: Select the maximum value within the pooling window
+    \item Average Pooling: Select the average value within the pooling window
 \end{itemize}
+
+% Dropout
+Dropout is a technique that helps address the problem of overfitting for \acrshort{CNN}s that have a lot of parameters. During training, a random set of neurons and their subsequent connections in the neural network are dropped (ignored) with probability $p$ (\cite{srivastava_dropout_2014}). This can be seen below in Figure \ref{fig:cnn_dropout}. In the original research by \cite{hinton_dropout_2012}, dropout was only applied to the fully connected layers of a \acrshort{CNN}. However, in more recent research by \cite{lai_dropout_2017}, it was found that regularisation increased when dropout is also used after the activation function of every convolutional layer in the network at a lower probability ($p = 0.1$).
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.6\textwidth]{media/literature/machine_learning/ml_dropout.png}
+\caption[Diagram of the Dropout Neural Network Model]{Dropout Neural Network Model. Left side: Standard \acrshort{NN} with 2 hidden layers. Right side: Standard \acrshort{NN} with 2 hidden layers, after applying dropout (\cite{srivastava_dropout_2014})}
+\label{fig:cnn_dropout}
+\end{figure}
+
+
+% TODO
+% - More information to introduce the CNN architecture
+% - Back-propagation (update weights) % REMOVE but mention
+% - Pooling layer (sub-sample input after convolutional layers)
+% XXX - Activation function (decide if neuron fires or not) % mention briefly
+% - Batch normalisation (improve speed + performance, helps reduce overfitting)
+% XXX - Dropout (ignore random set of neurons during training, helps reduce overfitting) 
+% - Fully connected layer
+%    
+%\end{itemize}
 
 
 %\cite{lecun_deep_2015}
@@ -128,7 +176,7 @@ As each row in the matrix represents an entire word, filters span the full width
 % -     - weight initialisation
 % - back propagation
 
-
+\clearpage
 \subsection{Recurrent Neural Networks}
 
 \begin{itemize}
@@ -183,21 +231,17 @@ As each row in the matrix represents an entire word, filters span the full width
 % \usepackage{graphicx}
 \begin{table}[!h]
 \resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|l|l|}
+\begin{tabular}{|l|l|l|l|}
 \hline
-\multicolumn{1}{|c|}{\textbf{Language(s)}} & \textbf{Data Type} & \multicolumn{1}{c|}{\textbf{Source}} \\ \hline
-\begin{tabular}[c]{@{}l@{}}Scottish Gaelic (GD)\\ English (EN)\end{tabular} & Bilingual & OPUS: Open Parallel Corpus \\ \hline
-\begin{tabular}[c]{@{}l@{}}Scottish Gaelic (GD)\\ English (EN)\end{tabular} & Bilingual & LearnGaelic PDF Learning Materials \\ \hline
-\begin{tabular}[c]{@{}l@{}}Scottish Gaelic (GD)\\ English (EN)\end{tabular} & Bilingual & Scottish Parliament Publications \\ \hline
-Placeholder & Monolingual & Placeholder \\ \hline
+\multicolumn{1}{|c|}{\textbf{Language(s)}} & \textbf{Data Type} & \multicolumn{1}{c|}{\textbf{Sentences}} & \multicolumn{1}{c|}{\textbf{Source}} \\ \hline
+\begin{tabular}[c]{@{}l@{}}Scottish Gaelic (GD)\\ English (EN)\end{tabular} & Bilingual & 57.5k & OPUS: GNOME v1 (\cite{tiedemann_opus_2012}) \\ \hline
+\begin{tabular}[c]{@{}l@{}}Scottish Gaelic (GD)\\ English (EN)\end{tabular} & Bilingual & 36.6k & OPUS: Ubuntu v14.10 (\cite{tiedemann_opus_2012}) \\ \hline
+\begin{tabular}[c]{@{}l@{}}Scottish Gaelic (GD)\\ English (EN)\end{tabular} & Bilingual & N/A & LearnGaelic PDF Materials (\cite{learn_gaelic_2019})\\ \hline
+%\begin{tabular}[c]{@{}l@{}}Scottish Gaelic (GD)\\ English (EN)\end{tabular} & Bilingual & N/A & Scottish Parliament Publications \\ \hline
+%Placeholder & Monolingual &  & Placeholder \\ \hline
 \end{tabular}%
 }
 \end{table}
-
-\begin{itemize}
-    \item Quantity
-    \item Prepared?
-\end{itemize}
 
 \clearpage
 \subsection{Techniques}
@@ -287,7 +331,7 @@ The language model provides an estimation of how probable a given source sentenc
 % estimation of the lexical correspondence between languages (lexical = words or vocab of a language)
 
 %The translation model proposed by \cite{brown_statistical_1990} includes the following parameters:
-The translation model is an estimation of the source and target language vocabulary correspondence. It is associated with the quality of the translations, as it is responsible for predicting the translations of words and short sequences of words, mapping the source language to the target language. The model parameters proposed by are estimated by training probabilistic models on large quantities of parallel training data, derived from the following sets of probabilities as proposed by \cite{brown_statistical_1990}:
+The translation model is an estimation of the source and target language vocabulary correspondence. It is associated with the quality of the translations, as it is responsible for predicting the translations of words and short sequences of words, mapping the source language to the target language. Model parameters are estimated by training probabilistic models on large quantities of parallel training data, derived from the following sets of probabilities as proposed by \cite{brown_statistical_1990}:
 \begin{itemize}
     \item Fertility probabilities:  $Pr(n|s)$ - the probability that a source word $s$ generates $n$ target words in a given source-target sentence alignment
     
@@ -320,7 +364,7 @@ The translation model is an estimation of the source and target language vocabul
 
 During the runtime of an \acrshort{SMT} system, the decoder uses the translation and language models to find the best translation from the source input to the target language output.
 
-The decoder starts off with an empty hypothesis for the translation. The hypothesis is expanded incrementally by partial hypotheses using the translation and language models. As there are an exponential number of hypotheses in relation to the length of the source sentence, search optimisation techniques are required to find the most likely translation. A beam search is a very efficient decoding technique that can be used to confine the search space to a limited quantity of low cost hypotheses by comparing hypotheses with equal length translation output and removing those with a high cost and estimated future cost (\cite{koehn_pharaoh_2004}).
+The decoder starts off with an empty hypothesis for the translation. The hypothesis is expanded incrementally by partial hypotheses using the translation and language models. As there is an exponential number of hypotheses in relation to the length of the source sentence, search optimisation techniques are required to find the most likely translation. A beam search is a very efficient decoding technique that can be used to confine the search space to a limited quantity of low cost hypotheses by comparing hypotheses with equal length translation output and removing those with a high cost and estimated future cost (\cite{koehn_pharaoh_2004}).
 
 % how to use translation and language models to find the best translation T for a sentence S?
 
@@ -453,9 +497,11 @@ Rather than encoding the entire sentence into one fixed-length vector, the input
 \subsection{Evaluation}
 
 %Say something about human translation evaluation, cite a reference and the state why it is not applicable to MT.
-Although likely to provide a more accurate evaluation of translation quality, it is not possible for professional human translators to handle the high output rate of machine translation techniques during training. Therefore, automatic evaluation plays a key role in the machine translation process, where it is important that translation models can be evaluated quickly and accurately to speed up the training process.
+%Although likely to provide a more accurate evaluation of translation quality, it is not possible for professional human translators to handle the high output rate of machine translation techniques during training.
+Although likely to provide a more accurate evaluation of translation quality, hiring professional human translators is costly and time consuming, making it incompatible with the high output rate of machine translation during training.
+Therefore, automatic evaluation plays a key role in the machine translation process, where it is important that translation models can be evaluated quickly and accurately to speed up the training process.
 
-\acrfull{BLEU} is an automatic machine translation algorithm that is widely regarded as the standard evaluation metric, originating from research by \cite{papineni_bleu_2001}. \acrshort{BLEU} score evaluations are calculated based on the difference between the machine translation output and the translation of a professional human translator. If they are very similar, a high \acrshort{BLEU} score will be awarded. Overall this approach works well, however, translations are scored lower regardless of context or meaning if different words are used. This makes it virtually impossible to achieve a perfect score, even for professional human translators, unless the exact same ordering of words are used. Despite this drawback, it remains to be a state-of-the-art automatic translation evaluation algorithm.
+\acrfull{BLEU} is an automatic machine translation algorithm that is widely regarded as the standard evaluation metric, originating from research by \cite{papineni_bleu_2001}. \acrshort{BLEU} score evaluations are calculated based on the difference between the machine translation output and the translation of a professional human translator. If they are very similar, a high \acrshort{BLEU} score will be awarded. Overall this approach works well, however, translations are scored lower regardless of context or meaning if different words are used. This makes it virtually impossible to achieve a perfect score, even for professional human translators, unless the exact same ordering of words are used. Despite this drawback, it remains the state-of-the-art automatic translation evaluation metric.
 
 % Multiple reference translations
 % As long as the translation is pretty close, it will get a high BLEU score
@@ -482,10 +528,10 @@ Although likely to provide a more accurate evaluation of translation quality, it
 
 % sum of the count clips divided by the total number of bigrams
 
-The underlying metric of \acrshort{BLEU} is the 'precision measure', which is determined by the fraction of the translation output that appears in the reference translations. This is expanded upon in the 'modified precision measure' which involves the following steps:
+The underlying metric of \acrshort{BLEU} is the 'precision measure', which is determined by the fraction of the translation output that appears in the reference translations. This is expanded upon in the 'modified precision measure' which involves the following three steps:
 \begin{itemize}
     \item Count the occurrences of each n-gram in the reference translations
-    \item Clip (reduce) the counts to be no more than then number of times the n-gram appears in a single reference
+    \item Clip (reduce) the counts to be equal to the maximum number of times the n-gram appears in a single reference
     \item Divide the sum of all clipped counts by the total number of n-gram occurrences
 \end{itemize}
 %counting the maximum number of times a word occurs in any single reference translation
@@ -493,11 +539,11 @@ The underlying metric of \acrshort{BLEU} is the 'precision measure', which is de
 %clipped counts up, and divides by the total (unclipped) number of candidate words.
 
 % Stolen -----------------------------------------
-\acrshort{BLEU} score is calculated by taking the geometric mean of modified precision scores and then multiply the result by an exponential brevity penalty factor
+%\acrshort{BLEU} score is calculated by taking the geometric mean of modified precision scores and then multiplying the result by an exponential brevity penalty factor.
 % Stolen -----------------------------------------
-
-\acrshort{BLEU} also has a brevity penalty ($BP$) that is designed to penalise translations that are too short. This adjustment factor helps ensure that a translation with a high \acrshort{BLEU} score not only matches in words and word ordering but in length as well.
-If the translation length is more than the reference output length then then brevity penalty is 1. Otherwise, the brevity penalty is calculated using the following equation, where $r$ is the effective reference corpus length and $c$ is the candidate translation length:
+\acrshort{BLEU} score is calculated using the geometric mean of the modified precision scores multiplied by an exponential brevity penalty.
+The brevity penalty ($BP$) that is designed to penalise translations that are too short. This adjustment factor helps ensure that a translation with a high \acrshort{BLEU} score not only matches in words and word ordering but in length as well.
+If the translation length is more than the reference output length then the brevity penalty is 1. Otherwise, the brevity penalty is calculated using the following equation, where $r$ is the effective reference corpus length and $c$ is the candidate translation length:
 \begin{equation}
     BP = e^{(1-r/c)}
 \end{equation}
