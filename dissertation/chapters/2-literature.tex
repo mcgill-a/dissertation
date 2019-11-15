@@ -34,38 +34,31 @@
 
 % What is deep learning?
 Deep learning is a subset of machine learning inspired by the human brain that uses artificial neural networks with many hidden layers to extract features from inputs while training with large data amounts of data.
-% 
-Extracting simple features from the lower levels of representation helps to identify the abstract features present in the higher representation levels that are vital to the output classification of data (\cite{bengio_deep_2011}).
-%
-The intricacies of a data structure are identified using backpropagation to determine how the neural network should update the weights that are responsible for calculating the representation in each layer, based on the representation of the previous layer. (\cite{lecun_deep_2015}).
-
-% What are they good at doing?
-% They are good at speech recognition, image recognition, natural language processing, facial detection, self driving, machine translation
-
-
-% Introduce NMT
-
-% What are the two main approaches?
-
-
-
-
-% \cite{lecun_deep_2015} DL background information. MLPs, CNNs, RNNs
-
-%\subsection{Feedforward Neural Networks}
-% \cite{kehtarnavaz_comparison_2017} MLP study
-\subsubsection{Multi-Layer Perceptron}
+Deep learning neural networks such as a \acrfull{CNN} are inspired by feedforward neural networks such as the perceptron. A single-layer perceptron is the most basic form of neural network that is used for binary classification, with a single layer of output nodes that are connected directly to weighted inputs through an activation function. A multi-layer perceptron expands the single-layer perceptron with the addition of hidden layers, where all nodes in one layer are connected to all the nodes in the next layer, as shown below in Figure \ref{fig:perceptron_multi}. The additional layers allow the perceptron to solve nonlinear classification problems (\cite{driss_comparison_2017}).
 
 \begin{figure}[ht!]
 \centering
-\includegraphics[width=0.7\textwidth]{media/literature/machine_learning/ml_perceptron_multi.png}
+\includegraphics[width=0.65\textwidth]{media/literature/machine_learning/ml_perceptron_multi.png}
 \caption[Diagram of a multi-layer perceptron]{Multi-Layer Perceptron (\cite{michael_perceptron_2019})}
 \label{fig:perceptron_multi}
 \end{figure}
 
 %\cite{goodfellow_deep_learning_2016} talks about feedforward networks (MLPs)
 
-\clearpage
+Extracting simple features from the lower levels of representation helps to identify the abstract features present in the higher representation levels that lead to the output classification of data (\cite{bengio_deep_2011}).
+%
+The intricacies of a data structure are identified using backpropagation to determine how the neural network should update the weights that are responsible for calculating the representation in each layer, based on the representation of the previous layer. (\cite{lecun_deep_2015}).
+
+% What are they good at doing?
+% They are good at speech recognition, image recognition, natural language processing, facial detection, self driving, machine translation
+
+% Introduce NMT
+
+% \cite{lecun_deep_2015} DL background information. MLPs, CNNs, RNNs
+
+%\subsection{Feedforward Neural Networks}
+
+%\clearpage
 \subsection{Convolutional Neural Networks}
 
 %\subsubsection{Introduction}
@@ -73,7 +66,7 @@ The intricacies of a data structure are identified using backpropagation to dete
 
 A \acrfull{CNN} is an artificial neural network similar to the multi-layer perceptron with additional hidden convolutional layers. \acrshort{CNN}s are very good at detecting patterns from data which makes them ideal for image classification, object recognition, and more recently \acrfull{NLP} (\cite{young_cnns_recent_2018}).
 
-Research by \cite{lecun_backprop_cnn_1989} was the first to demonstrate how the back-propagation algorithm proposed by \cite{rumelhart_learning_1986} could be integrated into a convolutional neural network.
+Research by \cite{lecun_backprop_cnn_1989} was the first to demonstrate how the backpropagation algorithm proposed by \cite{rumelhart_learning_1986} could be integrated into a convolutional neural network.
 Using the \acrshort{CNN}, they successfully performed character recognition and classification on images of handwritten digits from data provided by the U.S Postal Service.
 
 The \acrshort{CNN} architecture is shown in Figure \ref{fig:cnn_1} using an example of image classification.
@@ -85,7 +78,7 @@ The \acrshort{CNN} architecture is shown in Figure \ref{fig:cnn_1} using an exam
 \label{fig:cnn_1}
 \end{figure}
 
-In general, each convolutional layer involves three different actions (\cite{goodfellow_deep_learning_2016}):
+A convolutional layer typically involves three different actions (\cite{goodfellow_deep_learning_2016}):
 \begin{itemize}
     \item Run multiple convolutions in parallel, producing a set of linear activations
     %item The layer performs several convolutions in parallel to produce a set of linear activations
@@ -97,13 +90,16 @@ In general, each convolutional layer involves three different actions (\cite{goo
 
 
 % Convolutional layers + filters
-A convolutional layer has a specified number of filters that are used to detect different patterns. The filters are initialised with random numbers and are adjusted using back-propagation to learn the weights automatically. For image classification, a filter represents a small matrix with a preset number of columns and rows.
+A convolutional layer has a specified number of filters that are used to detect different patterns. The filters are initialised with random numbers and are adjusted using backpropagation to learn the weights automatically. For image classification, a filter represents a small matrix with a preset number of columns and rows.
 %3x3 is a common matrix size because as the matrix size increases, so does the number of parameters, increasing the likelihood of overfitting. 
-When a convolutional layer receives an input, the filter convolves over each $n$ x $n$ block of pixels in the image and the value of each cell becomes the dot product of the block of pixels and the filter. Once the matrix contains all the dot products, it is output from the current layer and used as the input to the next layer.
+When a convolutional layer receives an input, the filter convolves over each $n$ x $n$ block of pixels in the image and the value of each cell becomes the dot product of the block of pixels and the filter. Once the matrix contains all the dot products, it is output from the current layer and used as input to the next layer.
 
 In early convolutional layers, filters may only detect very simple features such as edges and shapes but as the layers get deeper in the neural network, filters are able to identify more complicated objects such as a facial features or types of animals. These high level features are what the classifier uses for weighting the output predictions.
 \acrshort{NLP} tasks consist of text input sentences rather than images so rows within a matrix are word embedding vectors that are generated using models such as word2vec (\cite{mikolov_word2vec_2013}). 
 As each row in the matrix represents an entire word, filters span the full width of the row to match the width of the matrix input, with a height of between 2-5 words (\cite{lopez_deep_2017}).
+
+% Fully connected layers
+The fully connected layers take outputs from the convolution and flatten them into a single vector. The values of the vector represent the probabilities of features matching certain labels, subsequently used for classification. Every neuron has full connections to all of the activations from the previous layer, and activations are computed using matrix multiplication and a bias offset (\cite{stanford_cs231n_2019}).
 
 % Activation function
 The activation function of a neural network transforms the weighted input of a neuron into the activation of the output, determining whether a neuron fires or not. Unlike the sigmoid and hyperbolic tangent activation functions that suffer from the vanishing gradient problem, \acrfull{RELU} converges quickly and overcomes the vanishing gradient problem, making it the recommended activation function for modern \acrshort{CNN}s (\cite{nair_rectified_2010}).
@@ -113,7 +109,7 @@ Feature maps (the output activations for a given filter) are sensitive to the po
 
 \begin{figure}[ht!]
 \centering
-\includegraphics[width=0.5\textwidth]{media/literature/machine_learning/ml_pooling.png}
+\includegraphics[width=0.4\textwidth]{media/literature/machine_learning/ml_pooling.png}
 \caption[Diagram of CNN Max Pooling and Average Pooling ]{\acrshort{CNN} Max Pooling (MP) and Average Pooling (AP) (\cite{wang_pooling_2018})}
 \label{fig:cnn_pooling}
 \end{figure}
@@ -137,14 +133,16 @@ Dropout is a technique that helps address the problem of overfitting for \acrsho
 \end{figure}
 
 
+
+
 % TODO
 % - More information to introduce the CNN architecture
-% - Back-propagation (update weights) % REMOVE but mention
-% - Pooling layer (sub-sample input after convolutional layers)
+% - backpropagation (update weights) % REMOVE but mention
+% XXX - Pooling layer (sub-sample input after convolutional layers)
 % XXX - Activation function (decide if neuron fires or not) % mention briefly
-% - Batch normalisation (improve speed + performance, helps reduce overfitting)
+% OOO - Batch normalisation (improve speed + performance, helps reduce overfitting)
 % XXX - Dropout (ignore random set of neurons during training, helps reduce overfitting) 
-% - Fully connected layer
+% XXX - Fully connected layers
 %    
 %\end{itemize}
 
@@ -154,54 +152,73 @@ Dropout is a technique that helps address the problem of overfitting for \acrsho
 %\cite{jacovi_understanding_2018} conv nets for text classification: n-grams etc.
 
 
+% Talk about CNNs for Neural Machine Translation
 
-
-% why is it different from an MLP?
-
-%\subsubsection{Architecture}
-
-% Convolutional Layer
-
-
-
-% Pooling Layer
-% Activation Function
-% Batch normalisation (helps reduce overfitting)
-% Dropout
-% Fully Connected Layer
-
-% sections from example dissertation:
-% - activation functions
-% - training
-% -     - weight initialisation
-% - back propagation
-
-\clearpage
 \subsection{Recurrent Neural Networks}
 
+% Introduction
+Traditional neural networks struggle to retain previous information as they only map input vectors to output vectors \cite{graves_supervised_2012}. A \acrfull{RNN} is a type of neural network that performs the same function at every time step in a sequence, using the output of the previous step as the input to the current step.
+Similar to the objective traditional neural networks such as a CNN, the aim of an \acrshort{RNN}s is to reduce the loss value between input and output pair predictions using backpropagation to learn the network weights. 
+\acrshort{RNN}s are capable of mapping the entire history of previous inputs to each output, using internal hidden states to maintain a representation of the information that has been calculated previously and influence the network output.
+% What are they good at?
+This is particularly useful for natural language processing, where the prediction of a word will often depend on the context of what has been observed in the sentence so far. The short term memory also improves the handling of invariance for tasks such as image classification (\cite{mikolov_recurrent_slides_2010}), where the position, orientation, and size of an object may differ but the correct object is still identified. 
+
+% Stolen. Could be modified and added somewhere though:
+% \acrshort{RNN}s can handle much longer sequences than would be practical for networks without sequence-based specialisation \cite{\cite{goodfellow_deep_learning_2016}}
+
+
+
+
+% Vanilla RNN (Equation) - formula for calculating the current state at every time step
+
+The 'simple recurrent neural network' was first proposed by \cite{elman_original_rnn_1990} and consists of an input layer, a recurrent hidden layer, and an output layer. The recurrent hidden layer is essentially multiple copies of the same neural network that are connected sequentially and pass information forwards. This can be visualised below in Figure \ref{fig:rnn_unrolled}.
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.9\textwidth]{media/literature/machine_learning/ml_rnn_unrolled.png}
+\caption[Diagram of an unrolled Recurrent Neural Network]{Left side: A vanilla \acrlong{RNN}. Right side: An unrolled vanilla \acrlong{RNN} (\cite{colah_lstm_2019})}
+\label{fig:rnn_unrolled}
+\end{figure}
+
+To process a sequence of vectors and calculate a new state, a recurrence formula is applied at each time step using a function of the previous state and the current input vector. Regardless of the input or output sequence length, the same function (recurrence formula) is used at each time step. This is represented by the following equation, where $h_t$ is the new state, $f_w$ is a function with parameters W (weights), $h_{t-1}$ is the previous state, and $x_t$ is the input vector at a given time step: 
+
+\begin{equation}
+    h_{t} = f_{w} \left ( h_{t-1},x_{t} \right )
+\end{equation}
+
+The \acrshort{RNN} receives an input vector every single time step and modifies the internal state. The weights inside the \acrshort{RNN} are used to determine the behaviour of how a state evolves when it receives an input. 
+% =========================== Weights are updated using back propagation =========================== 
+In a conventional neural network, information travels forwards through the input and output of neurons in the network. The loss value is calculated and then the weights are updated using backpropagation.
+In an \acrshort{RNN}, the information output from previous time steps are used as input for future time steps and the loss value is calculated at each time step. In order to minimise the loss value, once the final loss function in the \acrshort{RNN} has been calculated, error signals need to be back-propagated using \acrfull{BPTT} through the entire network to update the weights of every neuron (\cite{salehinejad_recent_rnn_2018}).
+% =========================== Then talk about vanishing and exploding gradient problems =========================== 
+As outlined by \cite{bengio_learning_1994}, the further back an error signal is back-propagated, the harder it becomes for the network to update the weights. This is known as the vanishing gradient problem, where the gradient reduces such that the weights are essentially prevented from being updated, halting training progress.
+% =========================== Then talk about LSTM =========================== 
+
+\acrfull{LSTM} is an \acrshort{RNN} architecture proposed initially by \cite{hochreiter_long_1997} that was designed to help overcome the vanishing gradient problem present during backpropagation. They are significantly better than simple \acrshort{RNN}s at capturing long term dependencies because they use a gradient-based algorithm that enforces a consistent internal state error flow. This ensures that gradients will not become insignificant and halt the learning process.
+
+
 \begin{itemize}
-    \item [\textbf{To do:}]
-    \item Introduction
-    \item Comparison to CNN
-    \item Architecture
-    \item LSTM
+    \item This section is not finished
+    \item Explain LSTM here using Figure \ref{fig:rnn_lstm} (shown below) to help
 \end{itemize}
 
-%\subsubsection{Introduction}
-% what is an RNN?
 
-%\subsubsection{Why is it different than a CNN?}
-% what is it good for?
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=1\textwidth]{media/literature/machine_learning/ml_rnn_lstm.png}
+\caption[Diagram of Long Short Term Memory]{\acrlong{LSTM} diagram (\cite{colah_lstm_2019})}
+\label{fig:rnn_lstm}
+\end{figure}
 
-%\subsubsection{Architecture}
-% how does it work?
+% \cite{mikolov_recurrent_2010} paper (notes on notion) - learning long term dependencies by stochastic gradient descent difficult
 
-%\subsubsection{Lstm}
-% what is LSTM?
+% RNNs and LSTM
+%For standard \acrshort{RNN} architectures, the 
+%\cite{graves_supervised_2012}
 
-%\cite{mikolov_recurrent_2010} recurrent neural network slides
-
-%\cite{goodfellow_deep_learning_2016} book on machine learning
+% LSTM references:
+% %\cite{graves_supervised_2012} - page 43
+% \cite{goodfellow_deep_learning_2016} chapter 10 on neural networks
 
 % 
 
@@ -213,14 +230,8 @@ Dropout is a technique that helps address the problem of overfitting for \acrsho
 
 % =============== LSTM ===============
 
-%\acrfull{LSTM} is an \acrshort{RNN} architecture proposed by \cite{hochreiter_long_1997} that was designed to help overcome the vanishing gradient problem present during backpropagation, using a gradient-based algorithm that enforces a consistent internal state error flow. This ensures that gradients will not become insignificant and halt the learning process.
-
-%\subsubsection{Long Short Term Memory}
 
 
-
-
-%\subsection{Keras}
 
 \clearpage
 \section{Machine Translation}
@@ -598,13 +609,15 @@ Variations of BLEU such as \acrshort{BLEU}-2, and \acrshort{BLEU}-3, and \acrsho
 % There are a number of automatic translation evaluation algorithms that each benefit differently in various contexts.
 % \acrfull{METEOR} automatic translation evaluation technique that
 
-\acrfull{METEOR} is another automatic translation evaluation technique that  
+%\acrfull{METEOR} is another automatic translation evaluation technique that  
 
 
-Possible next part of this section:
+Although \acrshort{BLEU} is the most popular automatic evaluation metric, there are many others available that are also capable of evaluating the quality of machine translation output.
+
 \begin{itemize}
-    \item Explain METEOR translation evaluation technique (\cite{denkowski_meteor_2014})
-    \item Compare METEOR and BLEU. BLEU is better apparently (\cite{laith_comparative_2015})
+    \item This section is not finished:
+    \item Explain METEOR Universal translation evaluation technique (\cite{denkowski_meteor_2014})
+    \item Compare METEOR and BLEU (\cite{laith_comparative_2015}) % BLEU is better apparently
 \end{itemize}
 
 %\cite{denkowski_meteor_2014} Meteor translation technique. apparently better than BLEU..
@@ -891,3 +904,20 @@ Despite the primary focus of \acrshort{MAML} research relating to object recogni
 Research by \cite{gu_meta-learning_2018} is the first of its kind to use \acrshort{MAML} for \acrshort{NMT}. In comparison to the transfer based approach by \cite{zoph_transfer_2016}, results showed further improvements with a BLEU score of 22.04, despite training data for the low-resource language limited to 16,000 words (around 600 parallel sentences). As the corpus size of the low-resource language decreases, transfer learning approaches suffer significantly more than meta learning, which proves the effectiveness of \acrshort{MAML} for low-resource languages. However, as the corpus size increases, the differences in BLEU score between the two approaches are much less significant.
 
 \section{Conclusion}
+
+The purpose of this chapter was to review the literature surrounding neural networks and machine translation, leading to approaches for low-resource neural machine translation. 
+
+From the research covered in this review, it is clear that there have been many important developments in machine translation since its origin many years ago. Advancements in statistical machine translation and more recently the shift towards neural machine translation with convolutional neural networks and recurrent neural networks have led to significant improvements in translation quality.
+
+As confirmed by the literature, various low-resource \acrshort{NMT} techniques have shown to achieve significantly higher translation quality scores than baseline \acrshort{NMT} approaches on the same low-resource data corpus. Transfer learning has been the main focus of low-resource neural machine translation research, however, new research on meta learning has shown promising results with improvements over transfer learning. A variety of automatic evaluation metrics that can be used for evaluating the performance of translation models were identified in the research. \acrshort{BLEU} score will be the most beneficial metric to use during training and evaluation due to its high correlation to human translators and widespread adoption among virtually all other machine translation research.
+
+Limitations of the research primarily involves the scope of each implementation. There are a lot of different techniques and implementation decision choices that have shown to improve translation quality, however, the majority of the research goes into great detail about one particular choice. It makes sense for each individual paper to have a clear focus, but there is definitely a gap in the research regarding the impact of using a combination of the aforementioned techniques. Prior research shows that data augmentation techniques such as back-translation can improve \acrshort{NMT} quality on baseline \acrshort{NMT} approaches, so it is worth investigating what impact this will have when used in combination with low-resource \acrshort{NMT} approaches. There is also no existing research for Scottish Gaelic \acrshort{NMT} systems as prior research was limited to statistical machine translation due to the large quantity of training data required with generic \acrshort{NMT} approaches.
+
+
+
+
+% purpose of this chapter (lit review)
+% from research it is clear that (mention some important developments)
+% as confirmed by literature, <low resource translation techniques> have shown to be successful for other lr languages
+% any limitations of the research
+% finally i will investigate these approaches and analyse 
