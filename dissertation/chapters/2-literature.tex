@@ -196,16 +196,13 @@ As outlined by \cite{bengio_learning_1994}, the further back an error signal is 
 
 \acrfull{LSTM} is an \acrshort{RNN} architecture proposed initially by \cite{hochreiter_long_1997} that was designed to help overcome the vanishing gradient problem present during backpropagation. They are significantly better than simple \acrshort{RNN}s at capturing long term dependencies because they use a gradient-based algorithm that enforces a consistent internal state error flow. This ensures that gradients will not become insignificant and halt the learning process.
 
-
-\begin{itemize}
-    \item This section is not finished
-    \item Explain LSTM here using Figure \ref{fig:rnn_lstm} (shown below) to help
-\end{itemize}
+In the diagram shown below in Figure \ref{fig:rnn_lstm}, an entire vector is carried through each line from the output of one node to the input of other nodes. The vectors go through three sigmoid ($\sigma$) gates and one tanh gate (learned neural network layers) to decide what inputs pass through the network and what gets blocked. The symbol in a pink circle denotes the pointwise operation applied to the vectors (addition or multiplication).
+Predictions are made based on the vectors that pass through the gates and a copy is kept for the next time step. This means future predictions can be informed by memories that have yet to be forgotten. Referring back to previous time steps allows \acrshort{LSTM}s to better represent language specific grammar structures and transfer the meaning of a sequence to other languages.
 
 
 \begin{figure}[ht!]
 \centering
-\includegraphics[width=1\textwidth]{media/literature/machine_learning/ml_rnn_lstm.png}
+\includegraphics[width=0.89\textwidth]{media/literature/machine_learning/ml_rnn_lstm.png}
 \caption[Diagram of Long Short Term Memory]{\acrlong{LSTM} diagram (\cite{colah_lstm_2019})}
 \label{fig:rnn_lstm}
 \end{figure}
@@ -230,34 +227,16 @@ As outlined by \cite{bengio_learning_1994}, the further back an error signal is 
 
 % =============== LSTM ===============
 
+Typically, sequence to sequence problems are solved by stacking both the encoder and decoder with layers of an RNN with \acrshort{LSTM} (\cite{luong_effective_2015}). However, recent research by \cite{gehring_convolutional_2017} proposes the first fully connected \acrshort{CNN} for sequence to sequence learning that outperforms high performance \acrshort{LSTM} translation models by up to 1.9 \acrshort{BLEU}. This approach is able to discover more sequence compositional structure than \acrshort{RNN}s due to the hierarchical representations of sequences.
 
 
 
-\clearpage
 \section{Machine Translation}
 \label{Machine Translation}
-\subsection{Available Datasets}
 
-% Please add the following required packages to your document preamble:
-% \usepackage{graphicx}
-\begin{table}[!h]
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|l|l|l|}
-\hline
-\multicolumn{1}{|c|}{\textbf{Language(s)}} & \textbf{Data Type} & \multicolumn{1}{c|}{\textbf{Sentences}} & \multicolumn{1}{c|}{\textbf{Source}} \\ \hline
-\begin{tabular}[c]{@{}l@{}}Scottish Gaelic (GD)\\ English (EN)\end{tabular} & Bilingual & 57.5k & OPUS: GNOME v1 (\cite{tiedemann_opus_2012}) \\ \hline
-\begin{tabular}[c]{@{}l@{}}Scottish Gaelic (GD)\\ English (EN)\end{tabular} & Bilingual & 36.6k & OPUS: Ubuntu v14.10 (\cite{tiedemann_opus_2012}) \\ \hline
-\begin{tabular}[c]{@{}l@{}}Scottish Gaelic (GD)\\ English (EN)\end{tabular} & Bilingual & N/A & LearnGaelic PDF Materials (\cite{learn_gaelic_2019})\\ \hline
-%\begin{tabular}[c]{@{}l@{}}Scottish Gaelic (GD)\\ English (EN)\end{tabular} & Bilingual & N/A & Scottish Parliament Publications \\ \hline
-%Placeholder & Monolingual &  & Placeholder \\ \hline
-\end{tabular}%
-}
-\end{table}
-
-\clearpage
 \subsection{Techniques}
 
-\subsubsection{Statistical Machine Translation}
+%\subsubsection{Statistical Machine Translation}
 
 % every sentence in one language is a possible translation of any sentence in another
 % Assign every pair of sentences a probability
@@ -273,9 +252,7 @@ As outlined by \cite{bengio_learning_1994}, the further back an error signal is 
 \acrfull{SMT} is a statistical approach for machine translation first presented by \cite{brown_statistical_1990}. 
 \acrshort{SMT} assumes that all sentences in a source language have the possibility of being the correct translation of a sentence in a target language. 
 In other words, find the source sentence S that the translator used to produce the target sentence T by selecting the pair with the highest probability $Pr ( T | S )$.
-
-This is done using a language model, translation model, and decoder
-as shown below in Figure \ref{fig:smt_diagram}.
+This is done using a language model, translation model, and decoder as shown below in Figure \ref{fig:smt_diagram}.
 
 \begin{figure}[ht!]
 \centering
@@ -373,8 +350,7 @@ The translation model is an estimation of the source and target language vocabul
 
 %Explain the decoder
 
-During the runtime of an \acrshort{SMT} system, the decoder uses the translation and language models to find the best translation from the source input to the target language output.
-
+During the runtime of \acrshort{SMT} systems, the decoder uses the translation and language models to find the best translation from the source input to the target language output. 
 The decoder starts off with an empty hypothesis for the translation. The hypothesis is expanded incrementally by partial hypotheses using the translation and language models. As there is an exponential number of hypotheses in relation to the length of the source sentence, search optimisation techniques are required to find the most likely translation. A beam search is a very efficient decoding technique that can be used to confine the search space to a limited quantity of low cost hypotheses by comparing hypotheses with equal length translation output and removing those with a high cost and estimated future cost (\cite{koehn_pharaoh_2004}).
 
 % how to use translation and language models to find the best translation T for a sentence S?
@@ -409,7 +385,6 @@ The decoder starts off with an empty hypothesis for the translation. The hypothe
 % translation model in broken down into several components:
 % reordering model, phrase translation model, world translation model
 
-\clearpage
 \subsubsection{Neural Machine Translation}
 
 \acrfull{NMT} is a modern approach to machine translation that uses neural networks to generate statistical models capable of translating sentences from a source language into sentences in the target language.
@@ -612,16 +587,19 @@ Variations of BLEU such as \acrshort{BLEU}-2, and \acrshort{BLEU}-3, and \acrsho
 %\acrfull{METEOR} is another automatic translation evaluation technique that  
 
 
-Although \acrshort{BLEU} is the most popular automatic evaluation metric, there are many others available that are also capable of evaluating the quality of machine translation output.
+Although \acrshort{BLEU} is the most popular automatic evaluation metric, there are many others available that are capable of evaluating the quality of machine translation output. \acrfull{METEOR} is a metric proposed by \cite{banerjee_meteor_2005} that was designed to overcome some of the weaknesses of \acrshort{BLEU}. For example, \cite{banerjee_meteor_2005} states because \acrshort{BLEU} does not require word-to-word matching, n-gram counts of matches between the translation and reference translations can be incorrect. In contrast, \acrshort{METEOR} does evaluate n-gram counts based on explicit word-to-word matches. 
+%In a comparative case study of \acrshort{BLEU} and \acrshort{METEOR}, \cite{laith_comparative_2015} concluded that \acrshort{BLEU} has a higher correlation to human evaluation. (THE CASE STUDY FOCUS WAS ON ARABIC, METEOR HAD NOT FULLY SUPPORTED ARABIC YET...)
 
-\begin{itemize}
-    \item This section is not finished:
-    \item Explain METEOR Universal translation evaluation technique (\cite{denkowski_meteor_2014})
-    \item Compare METEOR and BLEU (\cite{laith_comparative_2015}) % BLEU is better apparently
-\end{itemize}
+%\cite{denkowski_meteor_2014} Meteor translation technique. apparently better than BLEU
 
-%\cite{denkowski_meteor_2014} Meteor translation technique. apparently better than BLEU..
-%\cite{laith_comparative_2015} comparison between BLEU and Meteor. BLEU wins
+%\begin{itemize}
+%    \item This section is not finished:
+%    \item Explain METEOR Universal translation evaluation technique (\cite{denkowski_meteor_2014})
+%    \item Compare METEOR and BLEU (\cite{laith_comparative_2015}) % BLEU is better apparently
+%\end{itemize}
+
+
+
 
 % ===================== REMOVED ===================== 
 
@@ -902,6 +880,24 @@ Despite the primary focus of \acrshort{MAML} research relating to object recogni
 
 % say how this paper uses meta agnostic model for translation
 Research by \cite{gu_meta-learning_2018} is the first of its kind to use \acrshort{MAML} for \acrshort{NMT}. In comparison to the transfer based approach by \cite{zoph_transfer_2016}, results showed further improvements with a BLEU score of 22.04, despite training data for the low-resource language limited to 16,000 words (around 600 parallel sentences). As the corpus size of the low-resource language decreases, transfer learning approaches suffer significantly more than meta learning, which proves the effectiveness of \acrshort{MAML} for low-resource languages. However, as the corpus size increases, the differences in BLEU score between the two approaches are much less significant.
+
+\subsection{Available Datasets}
+
+% Please add the following required packages to your document preamble:
+% \usepackage{graphicx}
+\begin{table}[!h]
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|l|l|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Language(s)}} & \textbf{Data Type} & \multicolumn{1}{c|}{\textbf{Sentences}} & \multicolumn{1}{c|}{\textbf{Source}} \\ \hline
+\begin{tabular}[c]{@{}l@{}}Scottish Gaelic (GD)\\ English (EN)\end{tabular} & Bilingual & 57.5k & OPUS: GNOME v1 (\cite{tiedemann_opus_2012}) \\ \hline
+\begin{tabular}[c]{@{}l@{}}Scottish Gaelic (GD)\\ English (EN)\end{tabular} & Bilingual & 36.6k & OPUS: Ubuntu v14.10 (\cite{tiedemann_opus_2012}) \\ \hline
+\begin{tabular}[c]{@{}l@{}}Scottish Gaelic (GD)\\ English (EN)\end{tabular} & Bilingual & N/A & LearnGaelic PDF Materials (\cite{learn_gaelic_2019})\\ \hline
+%\begin{tabular}[c]{@{}l@{}}Scottish Gaelic (GD)\\ English (EN)\end{tabular} & Bilingual & N/A & Scottish Parliament Publications \\ \hline
+%Placeholder & Monolingual &  & Placeholder \\ \hline
+\end{tabular}%
+}
+\end{table}
 
 \section{Conclusion}
 
