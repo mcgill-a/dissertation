@@ -242,154 +242,6 @@ An encoder is a network that maps an input to a feature vector and a decoder is 
 \section{Machine Translation}
 \label{Machine Translation}
 
-\subsection{Evaluation}
-
-%Say something about human translation evaluation, cite a reference and the state why it is not applicable to MT.
-%Although likely to provide a more accurate evaluation of translation quality, it is not possible for professional human translators to handle the high output rate of machine translation techniques during training.
-Although likely to provide a more accurate evaluation of translation quality, hiring professional human translators is costly and time consuming, making it incompatible with the high output rate of machine translation during training.
-Therefore, automatic evaluation plays a key role in the machine translation process, where it is important that translation models can be evaluated quickly and accurately to speed up the training process.
-
-\acrfull{BLEU} is an automatic machine translation algorithm that is widely regarded as the standard evaluation metric, originating from research by \cite{papineni_bleu_2001}. \acrshort{BLEU} score evaluations are calculated based on the difference between the machine translation output and the translation of a professional human translator. If they are very similar, a high \acrshort{BLEU} score will be awarded. Overall this approach works well, however, translations are scored lower regardless of context or meaning if different words are used. This makes it virtually impossible to achieve a perfect score, even for professional human translators, unless the exact same ordering of words are used. Despite this drawback, it remains the state-of-the-art automatic translation evaluation metric.
-
-% Multiple reference translations
-% As long as the translation is pretty close, it will get a high BLEU score
-% look at the machine generated output and see if it appears in at least one of the human generated references
-
-% unigram
-% precision: what fraction of the mt output appears in the reference translations
-% modified precision: out of 7 words, give it 2 credits for appearing a maximum 2
-% MAX ( count("the)) / count("the")
-% sum of the words that appear over the y output (mt output)
-% divided by sum of all unigrams in mt output 
-
-% bigrams to define BLEU score:
-% word pairs - count how many each of the pairs appears
-% give credit for the maximum number of times a pair appears
-% modified bigram precision = sum of count clips / total number of bigrams
-
-
-
-% count how many times each of the n-grams appear
-% define the clipped count:
-% taking all the counts and reducing them to be no more than the number of
-% times they appear in a single reference translation
-
-% sum of the count clips divided by the total number of bigrams
-
-The underlying metric of \acrshort{BLEU} is the 'precision measure', which is determined by the fraction of the translation output that appears in the reference translations. This is expanded upon in the 'modified precision measure' which involves the following three steps:
-\begin{itemize}
-    \item Count the occurrences of each n-gram in the reference translations
-    \item Clip (reduce) the counts to be equal to the maximum number of times the n-gram appears in a single reference
-    \item Divide the sum of all clipped counts by the total number of n-gram occurrences
-\end{itemize}
-%counting the maximum number of times a word occurs in any single reference translation
-%Next, one clips the total count of each candidate word by its maximum reference count, adds these
-%clipped counts up, and divides by the total (unclipped) number of candidate words.
-
-% Stolen -----------------------------------------
-%\acrshort{BLEU} score is calculated by taking the geometric mean of modified precision scores and then multiplying the result by an exponential brevity penalty factor.
-% Stolen -----------------------------------------
-\acrshort{BLEU} score is calculated using the geometric mean of the modified precision scores multiplied by an exponential brevity penalty.
-The brevity penalty ($BP$) that is designed to penalise translations that are too short. This adjustment factor helps ensure that a translation with a high \acrshort{BLEU} score not only matches in words and word ordering but in length as well.
-If the translation length is more than the reference output length then the brevity penalty is $1$. Otherwise, the brevity penalty is calculated using the following equation, where $r$ is the effective reference corpus length and $c$ is the candidate translation length:
-\begin{equation}
-    BP = e^{(1-r/c)}
-\end{equation}
-
-%\begin{equation}
-%    BP = \left \{ \begin{matrix}
-%    1 & if  c > r \\ 
-%    e^{(1-r/c)} & if  c \leq r
-%    \end{matrix}\right.
-%\end{equation}
-
-The full equation for BLEU score can be seen below, where $BP$ is the brevity penalty, $N$ is number of n-grams, $w_n$ is the positive weights that total $1$, and $p_n$ is the geometric mean of the modified precision measure:
-
-\begin{equation}
-    BLEU = BP \cdot exp\left (  \sum_{n=1}^{N} w_{n} \log  p_{n}\right )
-\end{equation}
-
-
-Variations of BLEU such as \acrshort{BLEU}-$2$, and \acrshort{BLEU}-$3$, and \acrshort{BLEU}-$4$ refer to the cumulative n-gram score. Cumulative n-gram scores are calculated at all orders from $1$ to $n$ and weighted using the geometric mean ($1/n$). For example, \acrshort{BLEU}-$2$ has a geometric mean of $1/2$ so the $1$-gram and $2$-gram score weights are $50$\%.
-
-
-%The \acrshort{BLEU}-2 weights are 1/2 ($1/n$) for all of the n-gram scores (1-gram, 2-gram). Using the weights to calculate the weighted geometric mean
-
-
-%and the cumulative n-gram score is derived from the weighted geometric mean from all orders 1 to $n$.
-
-%This is calculated using the individual n-gram scores at all orders from 1 to n and weighting them by calculating the weighted geometric mean.
-%The weights for BLEU-4 are 1/4 (25\%) or 0.25 for each of the 1-gram, 2-gram, 3-gram, and 4-gram scores.
-
-
-%The cumulative n-gram score is derived from the weighted geometric mean from orders 1 to n, where the weight of each 
-
-%The cumulative n-gram score derives from the weighted geometric mean of all orders from 1 to n.
-
-
-
-% if mt output is exactly the same as reference 1 or 2 then all of these values will be equal to 1.0
-
-% calculate p1, p2, p3, p4 and combine them together. average of n 1-4 p^n
-
-% BP = brevity penalty
-% an adjustment factor that penalises translation systems that outputs translation systems that are too short
-% if mt output_length > reference output length then 1
-% else exp(1 - mt_output_length / reference_output_length)
-
-
-\acrshort{BLEU} score has a range of $0$ and $1$, with $1$ being the highest translation score possible. A score of $1$ indicates that it is a direct copy of the reference translation, making it difficult to achieve for human translators, even if their translation is still valid. To improve the readability of translation performance results, \acrshort{BLEU} score is typically referenced as a percentage rather than a small number between $1$ and $0$. For example, $45$ \acrshort{BLEU} score represents $0.45$ \acrshort{BLEU}. In terms of \acrshort{BLEU} score translation interpretability, scores over $30$ are typically understandable and scores that are higher than $50$ indicate a fluent translation (\cite{lavie_evaluating_2010}).
-
-\cite{papineni_bleu_2001} conducted experiments for translations in a variety of languages where \acrshort{BLEU} scores were compared with the judgements of both monolingual native English speakers and bilingual English speakers in order to determine the accuracy of the automatic evaluation. Results showed a significantly high correlation between \acrshort{BLEU} score and human translation score evaluations.
-
-
-% There are a number of automatic translation evaluation algorithms that each benefit differently in various contexts.
-% \acrfull{METEOR} automatic translation evaluation technique that
-
-%\acrfull{METEOR} is another automatic translation evaluation technique that  
-
-
-Although \acrshort{BLEU} is the most popular automatic evaluation metric, there are alternatives that are also capable of machine translation evaluation. \acrfull{METEOR} is a metric proposed by \cite{banerjee_meteor_2005} that was designed to overcome some of the weaknesses of \acrshort{BLEU}. For example, \cite{banerjee_meteor_2005} states because \acrshort{BLEU} does not require word-to-word matching, n-gram counts of matches between the translation and reference translations can be incorrect. In contrast, \acrshort{METEOR} does evaluate n-gram counts based on explicit word-to-word matches. 
-%In a comparative case study of \acrshort{BLEU} and \acrshort{METEOR}, \cite{laith_comparative_2015} concluded that \acrshort{BLEU} has a higher correlation to human evaluation. (THE CASE STUDY FOCUS WAS ON ARABIC, METEOR HAD NOT FULLY SUPPORTED ARABIC YET...)
-
-%\cite{denkowski_meteor_2014} Meteor translation technique. apparently better than BLEU
-
-%\begin{itemize}
-%    \item This section is not finished:
-%    \item Explain METEOR Universal translation evaluation technique (\cite{denkowski_meteor_2014})
-%    \item Compare METEOR and BLEU (\cite{laith_comparative_2015}) % BLEU is better apparently
-%\end{itemize}
-
-
-
-
-% ===================== REMOVED ===================== 
-
-%Research by \cite{wolk_comparison_2017} compares \acrshort{BLEU}, EBLEU, NIST, and METEOR with 
-
-%the human translation evaluation model NER. % not true. its not human
-% comparison between BLEU and others. BLEU wins again. Most similar to human scores
-
-% measuring accuracy of the data has to take semantic meaning into account,
-% rather than just blindly performing simple word-to-word comparison
-
-% NER is a human translation evaluation method. commonly used in re-speaking
-% it is expensive and time-consuming [8]
-% human effort cant keep up with the growing demand for evaluation
-
-% BLEU is the most significant predictor of NER
-% NIST is significant
-% EBLEU is also significant
-
-% ===================== REMOVED ===================== 
-
-
-
-
-
-
-%\cite{callison_bleu_2006} BLEU maybe not so great
-
 \subsection{Techniques}
 
 %\subsubsection{Statistical Machine Translation}
@@ -636,6 +488,154 @@ Instead of encoding the entire sentence into one fixed-length vector, the input 
 % ========================== REMOVED ========================== 
 
 %\clearpage
+
+\subsection{Evaluation}
+
+%Say something about human translation evaluation, cite a reference and the state why it is not applicable to MT.
+%Although likely to provide a more accurate evaluation of translation quality, it is not possible for professional human translators to handle the high output rate of machine translation techniques during training.
+Although likely to provide a more accurate evaluation of translation quality, hiring professional human translators is costly and time consuming, making it incompatible with the high output rate of machine translation during training.
+Therefore, automatic evaluation plays a key role in the machine translation process, where it is important that translation models can be evaluated quickly and accurately to speed up the training process.
+
+\acrfull{BLEU} is an automatic machine translation algorithm that is widely regarded as the standard evaluation metric, originating from research by \cite{papineni_bleu_2001}. \acrshort{BLEU} score evaluations are calculated based on the difference between the machine translation output and the translation of a professional human translator. If they are very similar, a high \acrshort{BLEU} score will be awarded. Overall this approach works well, however, translations are scored lower regardless of context or meaning if different words are used. This makes it virtually impossible to achieve a perfect score, even for professional human translators, unless the exact same ordering of words are used. Despite this drawback, it remains the state-of-the-art automatic translation evaluation metric.
+
+% Multiple reference translations
+% As long as the translation is pretty close, it will get a high BLEU score
+% look at the machine generated output and see if it appears in at least one of the human generated references
+
+% unigram
+% precision: what fraction of the mt output appears in the reference translations
+% modified precision: out of 7 words, give it 2 credits for appearing a maximum 2
+% MAX ( count("the)) / count("the")
+% sum of the words that appear over the y output (mt output)
+% divided by sum of all unigrams in mt output 
+
+% bigrams to define BLEU score:
+% word pairs - count how many each of the pairs appears
+% give credit for the maximum number of times a pair appears
+% modified bigram precision = sum of count clips / total number of bigrams
+
+
+
+% count how many times each of the n-grams appear
+% define the clipped count:
+% taking all the counts and reducing them to be no more than the number of
+% times they appear in a single reference translation
+
+% sum of the count clips divided by the total number of bigrams
+
+The underlying metric of \acrshort{BLEU} is the 'precision measure', which is determined by the fraction of the translation output that appears in the reference translations. This is expanded upon in the 'modified precision measure' which involves the following three steps:
+\begin{itemize}
+    \item Count the occurrences of each n-gram in the reference translations
+    \item Clip (reduce) the counts to be equal to the maximum number of times the n-gram appears in a single reference
+    \item Divide the sum of all clipped counts by the total number of n-gram occurrences
+\end{itemize}
+%counting the maximum number of times a word occurs in any single reference translation
+%Next, one clips the total count of each candidate word by its maximum reference count, adds these
+%clipped counts up, and divides by the total (unclipped) number of candidate words.
+
+% Stolen -----------------------------------------
+%\acrshort{BLEU} score is calculated by taking the geometric mean of modified precision scores and then multiplying the result by an exponential brevity penalty factor.
+% Stolen -----------------------------------------
+\acrshort{BLEU} score is calculated using the geometric mean of the modified precision scores multiplied by an exponential brevity penalty.
+The brevity penalty ($BP$) that is designed to penalise translations that are too short. This adjustment factor helps ensure that a translation with a high \acrshort{BLEU} score not only matches in words and word ordering but in length as well.
+If the translation length is more than the reference output length then the brevity penalty is $1$. Otherwise, the brevity penalty is calculated using the following equation, where $r$ is the effective reference corpus length and $c$ is the candidate translation length:
+\begin{equation}
+    BP = e^{(1-r/c)}
+\end{equation}
+
+%\begin{equation}
+%    BP = \left \{ \begin{matrix}
+%    1 & if  c > r \\ 
+%    e^{(1-r/c)} & if  c \leq r
+%    \end{matrix}\right.
+%\end{equation}
+
+The full equation for BLEU score can be seen below, where $BP$ is the brevity penalty, $N$ is number of n-grams, $w_n$ is the positive weights that total $1$, and $p_n$ is the geometric mean of the modified precision measure:
+
+\begin{equation}
+    BLEU = BP \cdot exp\left (  \sum_{n=1}^{N} w_{n} \log  p_{n}\right )
+\end{equation}
+
+
+Variations of BLEU such as \acrshort{BLEU}-$2$, and \acrshort{BLEU}-$3$, and \acrshort{BLEU}-$4$ refer to the cumulative n-gram score. Cumulative n-gram scores are calculated at all orders from $1$ to $n$ and weighted using the geometric mean ($1/n$). For example, \acrshort{BLEU}-$2$ has a geometric mean of $1/2$ so the $1$-gram and $2$-gram score weights are $50$\%.
+
+
+%The \acrshort{BLEU}-2 weights are 1/2 ($1/n$) for all of the n-gram scores (1-gram, 2-gram). Using the weights to calculate the weighted geometric mean
+
+
+%and the cumulative n-gram score is derived from the weighted geometric mean from all orders 1 to $n$.
+
+%This is calculated using the individual n-gram scores at all orders from 1 to n and weighting them by calculating the weighted geometric mean.
+%The weights for BLEU-4 are 1/4 (25\%) or 0.25 for each of the 1-gram, 2-gram, 3-gram, and 4-gram scores.
+
+
+%The cumulative n-gram score is derived from the weighted geometric mean from orders 1 to n, where the weight of each 
+
+%The cumulative n-gram score derives from the weighted geometric mean of all orders from 1 to n.
+
+
+
+% if mt output is exactly the same as reference 1 or 2 then all of these values will be equal to 1.0
+
+% calculate p1, p2, p3, p4 and combine them together. average of n 1-4 p^n
+
+% BP = brevity penalty
+% an adjustment factor that penalises translation systems that outputs translation systems that are too short
+% if mt output_length > reference output length then 1
+% else exp(1 - mt_output_length / reference_output_length)
+
+
+\acrshort{BLEU} score has a range of $0$ and $1$, with $1$ being the highest translation score possible. A score of $1$ indicates that it is a direct copy of the reference translation, making it difficult to achieve for human translators, even if their translation is still valid. To improve the readability of translation performance results, \acrshort{BLEU} score is typically referenced as a percentage rather than a small number between $1$ and $0$. For example, $45$ \acrshort{BLEU} score represents $0.45$ \acrshort{BLEU}. In terms of \acrshort{BLEU} score translation interpretability, scores over $30$ are typically understandable and scores that are higher than $50$ indicate a fluent translation (\cite{lavie_evaluating_2010}).
+
+\cite{papineni_bleu_2001} conducted experiments for translations in a variety of languages where \acrshort{BLEU} scores were compared with the judgements of both monolingual native English speakers and bilingual English speakers in order to determine the accuracy of the automatic evaluation. Results showed a significantly high correlation between \acrshort{BLEU} score and human translation score evaluations.
+
+
+% There are a number of automatic translation evaluation algorithms that each benefit differently in various contexts.
+% \acrfull{METEOR} automatic translation evaluation technique that
+
+%\acrfull{METEOR} is another automatic translation evaluation technique that  
+
+
+Although \acrshort{BLEU} is the most popular automatic evaluation metric, there are alternatives that are also capable of machine translation evaluation. \acrfull{METEOR} is a metric proposed by \cite{banerjee_meteor_2005} that was designed to overcome some of the weaknesses of \acrshort{BLEU}. For example, \cite{banerjee_meteor_2005} states because \acrshort{BLEU} does not require word-to-word matching, n-gram counts of matches between the translation and reference translations can be incorrect. In contrast, \acrshort{METEOR} does evaluate n-gram counts based on explicit word-to-word matches. 
+%In a comparative case study of \acrshort{BLEU} and \acrshort{METEOR}, \cite{laith_comparative_2015} concluded that \acrshort{BLEU} has a higher correlation to human evaluation. (THE CASE STUDY FOCUS WAS ON ARABIC, METEOR HAD NOT FULLY SUPPORTED ARABIC YET...)
+
+%\cite{denkowski_meteor_2014} Meteor translation technique. apparently better than BLEU
+
+%\begin{itemize}
+%    \item This section is not finished:
+%    \item Explain METEOR Universal translation evaluation technique (\cite{denkowski_meteor_2014})
+%    \item Compare METEOR and BLEU (\cite{laith_comparative_2015}) % BLEU is better apparently
+%\end{itemize}
+
+
+
+
+% ===================== REMOVED ===================== 
+
+%Research by \cite{wolk_comparison_2017} compares \acrshort{BLEU}, EBLEU, NIST, and METEOR with 
+
+%the human translation evaluation model NER. % not true. its not human
+% comparison between BLEU and others. BLEU wins again. Most similar to human scores
+
+% measuring accuracy of the data has to take semantic meaning into account,
+% rather than just blindly performing simple word-to-word comparison
+
+% NER is a human translation evaluation method. commonly used in re-speaking
+% it is expensive and time-consuming [8]
+% human effort cant keep up with the growing demand for evaluation
+
+% BLEU is the most significant predictor of NER
+% NIST is significant
+% EBLEU is also significant
+
+% ===================== REMOVED ===================== 
+
+
+
+
+
+
+%\cite{callison_bleu_2006} BLEU maybe not so great
 
 
 %\clearpage
