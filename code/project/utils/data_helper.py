@@ -172,8 +172,8 @@ def to_pairs(list_one, list_two):
 
 
 # save a list of data to a file
-def save_data(sentences, filename):
-    dump(sentences, open(filename, 'wb'))
+def save_data(data, filename):
+    dump(data, open(filename, 'wb'))
     print("Saved: " + filename)
 
 

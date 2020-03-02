@@ -15,7 +15,7 @@ sys.path.insert(0, '..')
 ''' Local Imports '''
 from private.tokens import NEPTUNE_API_TOKEN
 from project.utils.parameters import params
-from project.core.model import define_model, save_models, restore_model
+from project.core.model import define_model, save_models, restore_model, restore_models
 from project.core.inference import infer_nmt
 from project.core.train import train
 from project.layers.attention import AttentionLayer
@@ -31,7 +31,7 @@ neptune.init('mcgill-a/translation', api_token=NEPTUNE_API_TOKEN)
 neptune.create_experiment(name='translate-transfer',
                           params=params)
 
-neptune.log_text('log', '[Stage] - Start')
+neptune.log_text('Runtime', '[Stage] - Start')
 #############################################################################################################################################
 
 DATA_SIZE = params['DATA_SIZE']
@@ -50,7 +50,7 @@ MIN_WORD_OCCURRENCE = params['MIN_WORD_OCCURRENCE']
 #############################################################################################################################################
 
 logger = get_logger("train", info.log_dir)
-neptune.log_text('log', '[Stage] - Processing Data')
+neptune.log_text('Runtime', '[Stage] - Processing Data')
 
 
 data_cleaned = True
@@ -104,7 +104,15 @@ full_model, encoder_model, decoder_model = define_model(
     source_vsize=source_vsize, target_vsize=target_vsize)
 
 plot_model(full_model, to_file=info.model_img_path, show_shapes=True)
+
 history = {'train_loss': [], 'val_loss': []}
+
+# If training is resuming, load the history and models:
+if info.models_exist():
+    history = load_data(info.model_history)
+    full_model, encoder_model, decoder_model = restore_models()
+    neptune.log_text('Runtime', '[Stage] - Restored existing trained models and history')
+
 train(N_EPOCHS, full_model, encoder_model, decoder_model, tr_source_seq,
       tr_target_seq, va_source_seq, va_target_seq, BATCH_SIZE, history, source_vsize, target_vsize, neptune)
 
@@ -157,33 +165,9 @@ def evaluate_model(test_samples):
 
 #############################################################################################################################################
 
-neptune.log_text('log', '[Stage] - Evaluating')
+neptune.log_text('Runtime', '[Stage] - Evaluating')
 print("Evaluating the test data...")
 evaluate_model(test_data)
-
-#############################################################################################################################################
-
-attention_layer_object = {'AttentionLayer': AttentionLayer}
-
-restored_model = tf.keras.models.load_model(
-    info.model_path, attention_layer_object)
-restored_encoder = restore_model(info.encoder_path, info.encoder_w_path)
-restored_decoder = restore_model(
-    info.decoder_path, info.decoder_w_path, attention_layer_object)
-
-restored_model.summary()
-
-#############################################################################################################################################
-
-pd.set_option('max_colwidth', None)
-layers = [(layer, layer.name, layer.trainable)
-          for layer in restored_model.layers]
-pd.DataFrame(layers, columns=['Layer Type', 'Layer Name', 'Layer Trainable'])
-
-#neptune.log_image('Charts', plt.gcf(),
-#                  image_name="Model Layers")
-
-plt.clf()
 
 #############################################################################################################################################
 
@@ -220,5 +204,5 @@ def test(test_source, test_target_actual, index=0):
 for i in range(0,5):
     test(ts_source_text[i], ts_target_text[i], i)
 
-neptune.log_text('log', '[Stage] - End')
+neptune.log_text('Runtime', '[Stage] - End')
 neptune.stop()

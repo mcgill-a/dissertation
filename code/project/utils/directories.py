@@ -1,6 +1,7 @@
 from datetime import date
 from pathlib import Path
 from project.utils.parameters import params
+import os
 
 
 class Info():
@@ -18,6 +19,7 @@ class Info():
     decoder_path   = model_dir + 'decoder.json'
     decoder_w_path = model_dir + 'decoder_weights.h5'
     model_img_path = model_dir + 'model_diagram.png'
+    model_history   = model_dir + 'history.pkl'
     
     data_output_path     = main_dir + "data_output/"
     source_language_name = params['SOURCE_LANGUAGE_NAME']
@@ -32,18 +34,12 @@ class Info():
     Path(data_output_path).mkdir(parents=True, exist_ok=True)
     Path(results_path).mkdir(parents=True, exist_ok=True)
 
-
-
-#source_language_name = "Gaelic"
-#target_language_name = "English"
-#data_input_path      = project_path + "data/gd-en/"
-#data_output_path     = main_dir + "data_output/"
-#source_language_txt  = data_input_path + "gd.txt"
-#target_language_txt  = data_input_path + "en.txt"
-
-#source_language_name = "Irish"
-#target_language_name = "English"
-#data_input_path = project_path + "data/ga-en/"
-#data_output_path = main_dir + "data_output/"
-#source_language_txt = data_input_path + "ga.txt"
-#target_language_txt = data_input_path + "en.txt"
+    @classmethod
+    def models_exist(self):
+        if not os.path.isfile(self.model_path): return False
+        if not os.path.isfile(self.encoder_path): return False
+        if not os.path.isfile(self.encoder_w_path): return False
+        if not os.path.isfile(self.decoder_path): return False
+        if not os.path.isfile(self.decoder_w_path): return False
+        if not os.path.isfile(self.model_history): return False
+        return True

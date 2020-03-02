@@ -100,3 +100,10 @@ def restore_model(model_filename, model_weights_filename, custom_objects=None):
             model = model_from_json(f.read())
     model.load_weights(model_weights_filename)
     return model
+
+
+def restore_models():
+    full_model = tf.keras.models.load_model(info.model_path, {'AttentionLayer': AttentionLayer})
+    encoder_model = restore_model(info.encoder_path, info.encoder_w_path)
+    decoder_model = restore_model(info.decoder_path, info.decoder_w_path, attention_layer_object)
+    return, full_model, encoder_model, decoder_model
