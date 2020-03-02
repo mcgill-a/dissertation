@@ -1,6 +1,6 @@
 from project.layers.attention import AttentionLayer
 from project.utils.directories import Info as info
-
+import tensorflow as tf
 from tensorflow.keras.layers import Input, GRU, Dense, Concatenate, TimeDistributed
 from tensorflow.keras.models import Model, load_model, model_from_json
 from tensorflow.keras.optimizers import Adam
@@ -103,7 +103,8 @@ def restore_model(model_filename, model_weights_filename, custom_objects=None):
 
 
 def restore_models():
-    full_model = tf.keras.models.load_model(info.model_path, {'AttentionLayer': AttentionLayer})
+    attention_layer_object = {'AttentionLayer': AttentionLayer}
+    full_model = tf.keras.models.load_model(info.model_path, attention_layer_object)
     encoder_model = restore_model(info.encoder_path, info.encoder_w_path)
     decoder_model = restore_model(info.decoder_path, info.decoder_w_path, attention_layer_object)
-    return, full_model, encoder_model, decoder_model
+    return full_model, encoder_model, decoder_model

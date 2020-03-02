@@ -6,11 +6,16 @@ from tqdm.auto import tqdm
 import numpy as np
 
 
-
 def train(epochs, full_model, encoder, decoder, tr_source_seq, tr_target_seq, va_source_seq, va_target_seq, BATCH_SIZE, history, source_vsize, target_vsize, neptune=None):
     prev_epochs = len(history['train_loss'])
     # save history to neptune
     for i in range(len(history['val_loss'])):
+
+        log_output = "[Epoch {}] train_loss: {} | val_loss: {}".format(
+            i + 1, history['train_loss'][i], history['val_loss'][i])
+        
+        neptune.log_text('Runtime', log_output)
+
         neptune.log_metric('train_loss', i+1, history['train_loss'][i])
         neptune.log_metric('val_loss', i+1, history['val_loss'][i])
 
@@ -75,7 +80,7 @@ def train(epochs, full_model, encoder, decoder, tr_source_seq, tr_target_seq, va
             neptune.log_text('Runtime', log_output)
             history['train_loss'].append(mean_train_loss)
             history['val_loss'].append(mean_val_loss)
-            save_data(history, info.model_history))
+            save_data(history, info.model_history)
 
             neptune.log_metric('train_loss', ep+1, mean_train_loss)
             neptune.log_metric('val_loss', ep+1, mean_val_loss)

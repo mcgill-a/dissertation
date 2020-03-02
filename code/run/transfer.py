@@ -111,7 +111,7 @@ history = {'train_loss': [], 'val_loss': []}
 if info.models_exist():
     history = load_data(info.model_history)
     full_model, encoder_model, decoder_model = restore_models()
-    neptune.log_text('Runtime', '[Stage] - Restored existing trained models and history')
+    neptune.log_text('Runtime', '[Stage] - Restoring existing trained models and history')
 
 train(N_EPOCHS, full_model, encoder_model, decoder_model, tr_source_seq,
       tr_target_seq, va_source_seq, va_target_seq, BATCH_SIZE, history, source_vsize, target_vsize, neptune)
@@ -166,7 +166,7 @@ def evaluate_model(test_samples):
 #############################################################################################################################################
 
 neptune.log_text('Runtime', '[Stage] - Evaluating')
-print("Evaluating the test data...")
+print("Evaluating translation quality on the test data...")
 evaluate_model(test_data)
 
 #############################################################################################################################################
@@ -184,7 +184,7 @@ def test(test_source, test_target_actual, index=0):
     test_source_seq = sents2sequences(
         source_tokenizer, [test_source], pad_length=source_timesteps)
     test_target, attn_weights = infer_nmt(
-        encoder_model=restored_encoder, decoder_model=restored_decoder,
+        encoder_model=encoder_model, decoder_model=decoder_model,
         test_source_seq=test_source_seq, source_vsize=source_vsize,
         target_vsize=target_vsize, target_tokenizer=target_tokenizer, target_index2word=target_index2word)
     logger.info('Input ({}): {}'.format(info.source_language_name, test_source))
