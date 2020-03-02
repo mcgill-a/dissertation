@@ -2,6 +2,7 @@
 import neptune
 import math
 import sys
+import random
 import pandas as pd
 import tensorflow as tf
 import matplotlib.pyplot as plt
@@ -28,7 +29,7 @@ from project.utils.data_helper import sents2sequences, get_data, split_train_val
 
 ''' Neptune Configuration '''
 neptune.init('mcgill-a/translation', api_token=NEPTUNE_API_TOKEN)
-neptune.create_experiment(name='translate-transfer',
+neptune.create_experiment(name='translate-evaluate',
                           params=params)
 
 neptune.log_text('Runtime', '[Stage] - Start')
@@ -58,11 +59,6 @@ data_cleaned = True
 # split the input text files into training + test
 tr_source_text, tr_target_text, ts_source_text, ts_target_text = get_data(
     train_size=DATA_SIZE, test_split=TEST_SPLIT, max_words=MAX_WORDS_PER_SENTENCE, min_word_occurrence=MIN_WORD_OCCURRENCE, cleaned=data_cleaned)
-# visualise the data
-data_vis = visualise_data(tr_source_text, tr_target_text,
-                          ts_source_text, ts_target_text)
-neptune.log_image('Charts', plt.gcf(), image_name="Data Distribution")
-plt.clf()
 
 # split training data into training + validation
 tr_source_text, tr_target_text, va_source_text, va_target_text = split_train_validation(
@@ -92,8 +88,6 @@ target_index2word = dict(
 
 train_data = to_pairs(tr_source_text, tr_target_text)
 test_data = to_pairs(ts_source_text, ts_target_text)
-save_data(train_data, info.data_output_path + 'train.pkl')
-save_data(test_data,  info.data_output_path + 'test.pkl')
 
 #############################################################################################################################################
 
@@ -112,23 +106,90 @@ if info.models_exist():
     history = load_data(info.model_history)
     full_model, encoder_model, decoder_model = restore_models()
     neptune.log_text('Runtime', '[Stage] - Restoring existing trained models and history')
+else:
+    logger.err("No model loaded")
 
-train(N_EPOCHS, full_model, encoder_model, decoder_model, tr_source_seq,
+# Train for 0 epochs (just using this to log the restored history)
+train(0, full_model, encoder_model, decoder_model, tr_source_seq,
       tr_target_seq, va_source_seq, va_target_seq, BATCH_SIZE, history, source_vsize, target_vsize, neptune)
 
 #############################################################################################################################################
 
-plt.plot(history['train_loss'])
-plt.plot(history['val_loss'])
-plt.title('Training & Validation Loss / Epoch')
-plt.ylabel('Loss')
-plt.xlabel('Epoch')
-plt.legend(['Train', 'Validation'], loc='upper right')
-neptune.log_image('Charts', plt.gcf(),
-                  image_name="Training and Validation Loss")
-plt.clf()
+
+def translate(test_source):
+    """ Inferring with trained model """
+    test_source_seq = sents2sequences(
+        source_tokenizer, [test_source], pad_length=source_timesteps)
+    test_target, attn_weights = infer_nmt(
+        encoder_model=encoder_model, decoder_model=decoder_model,
+        test_source_seq=test_source_seq, source_vsize=source_vsize,
+        target_vsize=target_vsize, target_tokenizer=target_tokenizer, target_index2word=target_index2word)
+    return test_target, attn_weights
+
+
+# evaluate the model
+def evaluate_model(test_samples):
+    actual, predicted = list(), list()
+    iterations = len(test_samples)
+    for i in tqdm(range(iterations)):
+        raw_src, raw_target = test_samples[i]
+        translation, _ = translate(raw_src)
+        actual.append([raw_target.split()])
+        predicted.append(translation.split())
+    # calculate the BLEU score
+    bleu_scores = {
+        1: corpus_bleu(actual, predicted, weights=(1.0, 0, 0, 0)),
+        2: corpus_bleu(actual, predicted, weights=(0.5, 0.5, 0, 0)),
+        3: corpus_bleu(actual, predicted, weights=(0.3, 0.3, 0.3, 0)),
+        4: corpus_bleu(actual, predicted, weights=(0.25, 0.25, 0.25, 0.25)),
+    }
+
+    for key in bleu_scores:
+        neptune.log_metric('BLEU Score', key, bleu_scores[key])
+        print('BLEU-', key, ': ', bleu_scores[key])
 
 #############################################################################################################################################
+
+neptune.log_text('Runtime', '[Stage] - Evaluating')
+print("Evaluating translation quality on the test data...")
+evaluate_model(test_data)
+
+#############################################################################################################################################
+
+
+def test(test_source, test_target_actual, index=0):
+    """ Index2word """
+    source_index2word = dict(
+        zip(source_tokenizer.word_index.values(), source_tokenizer.word_index.keys()))
+    target_index2word = dict(
+        zip(target_tokenizer.word_index.values(), target_tokenizer.word_index.keys()))
+
+    """ Inferring with trained model """
+
+    test_source_seq = sents2sequences(
+        source_tokenizer, [test_source], pad_length=source_timesteps)
+    test_target, attn_weights = infer_nmt(
+        encoder_model=encoder_model, decoder_model=decoder_model,
+        test_source_seq=test_source_seq, source_vsize=source_vsize,
+        target_vsize=target_vsize, target_tokenizer=target_tokenizer, target_index2word=target_index2word)
+    logger.info('Input ({}): {}'.format(info.source_language_name, test_source))
+    logger.info('Output ({}): {}'.format(
+        info.target_language_name, test_target_actual))
+    logger.info('Translation ({}): {}'.format(
+        info.target_language_name, test_target))
+
+    """ Attention plotting """
+    attention_img = plot_attention_weights(test_source_seq, attn_weights,
+                        source_index2word, target_index2word)
+    neptune.log_image('Attention Plots', attention_img,
+                    image_name="Attention Plot " + str(index) )
+
+
+# Create 5 attention plots
+for i in range(5):
+    random.seed(i) # get the same 5 random sentences every time
+    idx = random.randrange(len(ts_source_text))
+    test(ts_source_text[idx], ts_target_text[idx], i+1)
 
 neptune.log_text('Runtime', '[Stage] - End')
 neptune.stop()
