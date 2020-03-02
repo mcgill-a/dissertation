@@ -4,6 +4,7 @@ code/backups/
 code/.vscode/
 code/gru_attention/data/*
 code/gru_attention/models/*
+code/removed/*
 
 
 # Byte-compiled / optimized / DLL files

@@ -1,6 +1,20 @@
+''' Standard Imports '''
+import neptune
+import math
+import sys
+import pandas as pd
+import tensorflow as tf
+import matplotlib.pyplot as plt
+import tensorflow.keras as keras
+from tensorflow.keras.utils import plot_model
+from nltk.translate.bleu_score import corpus_bleu
+from tqdm.auto import tqdm
+
+sys.path.insert(0, '..')
+
 ''' Local Imports '''
 from private.tokens import NEPTUNE_API_TOKEN
-from project.parameters import params
+from project.utils.parameters import params
 from project.core.model import define_model, save_models, restore_model
 from project.core.inference import infer_nmt
 from project.core.train import train
@@ -10,18 +24,6 @@ from project.utils.directories import Info as info
 from project.utils.logger import get_logger
 from project.utils.vocab import to_vocab, trim_vocab, update_dataset
 from project.utils.data_helper import sents2sequences, get_data, split_train_validation, convert_data, visualise_data, to_pairs, save_data, load_data
-
-
-''' Standard Imports '''
-import neptune
-import math
-import pandas as pd
-import tensorflow as tf
-import matplotlib.pyplot as plt
-import tensorflow.keras as keras
-from tensorflow.keras.utils import plot_model
-from nltk.translate.bleu_score import corpus_bleu
-from tqdm.auto import tqdm
 
 
 ''' Neptune Configuration '''
@@ -173,38 +175,43 @@ layers = [(layer, layer.name, layer.trainable)
           for layer in restored_model.layers]
 pd.DataFrame(layers, columns=['Layer Type', 'Layer Name', 'Layer Trainable'])
 
-neptune.log_image('Charts', plt.gcf(),
-                  image_name="Model Layers")
+#neptune.log_image('Charts', plt.gcf(),
+#                  image_name="Model Layers")
 
 plt.clf()
 
 #############################################################################################################################################
 
-""" Index2word """
-source_index2word = dict(
-    zip(source_tokenizer.word_index.values(), source_tokenizer.word_index.keys()))
-target_index2word = dict(
-    zip(target_tokenizer.word_index.values(), target_tokenizer.word_index.keys()))
 
-""" Inferring with trained model """
-test_source = ts_source_text[0]
-test_target_actual = ts_target_text[0]
+def test(test_source, test_target_actual, index=0):
+    """ Index2word """
+    source_index2word = dict(
+        zip(source_tokenizer.word_index.values(), source_tokenizer.word_index.keys()))
+    target_index2word = dict(
+        zip(target_tokenizer.word_index.values(), target_tokenizer.word_index.keys()))
 
-test_source_seq = sents2sequences(
-    source_tokenizer, [test_source], pad_length=source_timesteps)
-test_target, attn_weights = infer_nmt(
-    encoder_model=restored_encoder, decoder_model=restored_decoder,
-    test_source_seq=test_source_seq, source_vsize=source_vsize,
-    target_vsize=target_vsize, target_tokenizer=target_tokenizer, target_index2word=target_index2word)
-logger.info('Input ({}): {}'.format(info.source_language_name, test_source))
-logger.info('Output ({}): {}'.format(
-    info.target_language_name, test_target_actual))
-logger.info('Translation ({}): {}'.format(
-    info.target_language_name, test_target))
+    """ Inferring with trained model """
 
-""" Attention plotting """
-plot_attention_weights(test_source_seq, attn_weights,
-                       source_index2word, target_index2word)
+    test_source_seq = sents2sequences(
+        source_tokenizer, [test_source], pad_length=source_timesteps)
+    test_target, attn_weights = infer_nmt(
+        encoder_model=restored_encoder, decoder_model=restored_decoder,
+        test_source_seq=test_source_seq, source_vsize=source_vsize,
+        target_vsize=target_vsize, target_tokenizer=target_tokenizer, target_index2word=target_index2word)
+    logger.info('Input ({}): {}'.format(info.source_language_name, test_source))
+    logger.info('Output ({}): {}'.format(
+        info.target_language_name, test_target_actual))
+    logger.info('Translation ({}): {}'.format(
+        info.target_language_name, test_target))
+
+    """ Attention plotting """
+    attention_img = plot_attention_weights(test_source_seq, attn_weights,
+                        source_index2word, target_index2word)
+    neptune.log_image('Attention Plots', attention_img,
+                    image_name="Attention Plot " + str(index) )
 
 
+# Create 5 attention plots
+for i in range(0,5):
+    test(ts_source_text[i], ts_target_text[i], i)
 neptune.stop()
