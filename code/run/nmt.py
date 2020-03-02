@@ -31,7 +31,7 @@ neptune.init('mcgill-a/translation', api_token=NEPTUNE_API_TOKEN)
 neptune.create_experiment(name='translate',
                           params=params)
 
-
+neptune.log_text('log', '[Stage] - Start')
 #############################################################################################################################################
 
 DATA_SIZE = params['DATA_SIZE']
@@ -50,6 +50,8 @@ MIN_WORD_OCCURRENCE = params['MIN_WORD_OCCURRENCE']
 #############################################################################################################################################
 
 logger = get_logger("train", info.log_dir)
+neptune.log_text('log', '[Stage] - Processing Data')
+
 # split the input text files into training + test
 tr_source_text, tr_target_text, ts_source_text, ts_target_text = get_data(
     train_size=DATA_SIZE, test_split=TEST_SPLIT, max_words=MAX_WORDS_PER_SENTENCE, min_word_occurrence=MIN_WORD_OCCURRENCE)
@@ -152,7 +154,7 @@ def evaluate_model(test_samples):
 
 #############################################################################################################################################
 
-
+neptune.log_text('log', '[Stage] - Evaluating')
 print("Evaluating the test data...")
 evaluate_model(test_data)
 
@@ -214,4 +216,6 @@ def test(test_source, test_target_actual, index=0):
 # Create 5 attention plots
 for i in range(0,5):
     test(ts_source_text[i], ts_target_text[i], i)
+
+neptune.log_text('log', '[Stage] - End')
 neptune.stop()

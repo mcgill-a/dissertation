@@ -1,16 +1,14 @@
 from project.core.model import save_models
 from project.utils.directories import Info as info
-from project.utils.logger import get_logger
 from tensorflow.python.keras.utils import to_categorical
 from tqdm.auto import tqdm
 import numpy as np
 
-logger = get_logger("train", info.log_dir)
-
 
 def train(epochs, full_model, encoder, decoder, tr_source_seq, tr_target_seq, va_source_seq, va_target_seq, BATCH_SIZE, history, source_vsize, target_vsize, neptune=None):
     # train the model
-    logger.info("Training Started (1/{})".format(epochs))
+    print("Training Started (1/{})".format(epochs))
+    neptune.log_text('log', '[Stage] - Training')
     best_val_loss = None
     for ep in range(epochs):
         train_loss = []
@@ -61,8 +59,12 @@ def train(epochs, full_model, encoder, decoder, tr_source_seq, tr_target_seq, va
         if (ep + 1) % 1 == 0:
             mean_train_loss = np.mean(train_loss)
             mean_val_loss = np.mean(val_loss)
-            logger.info("[Epoch {}] train_loss: {} | val_loss: {}".format(
-                ep + 1, mean_train_loss, mean_val_loss))
+
+            log_output = "[Epoch {}] train_loss: {} | val_loss: {}".format(
+                ep + 1, mean_train_loss, mean_val_loss)
+
+            print(log_output)
+            neptune.log_text('log', log_output)
             history['train_loss'].append(mean_train_loss)
             history['val_loss'].append(mean_val_loss)
 

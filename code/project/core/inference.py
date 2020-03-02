@@ -14,7 +14,8 @@ def infer_nmt(encoder_model, decoder_model, test_source_seq, source_vsize, targe
     :return:
     """
 
-    test_target_seq = sents2sequences(target_tokenizer, ['sos'], target_vsize)
+    test_target_seq = sents2sequences(
+        target_tokenizer, ['sos'], target_vsize)
     test_source_onehot_seq = to_categorical(
         test_source_seq, num_classes=source_vsize)
     test_target_onehot_seq = np.expand_dims(

@@ -1,5 +1,4 @@
 from project.utils.directories import Info as info
-from project.utils.logger import get_logger
 from project.utils.vocab import filter_data
 import os
 import unicodedata
@@ -10,7 +9,6 @@ import numpy as np
 import pandas as pd
 from pickle import load, dump
 
-logger = get_logger("train", info.log_dir)
 
 # Converts the unicode file to ascii
 
@@ -46,7 +44,7 @@ def clean_data(source_sentences, target_sentences, max_words=1):
             target_output.append(clean_target)
 
     invalid_samples = len(source_sentences)-len(source_output)
-    logger.info(
+    print(
         'Invalid training samples: {}/{}'.format(invalid_samples, len(source_sentences)))
     return source_output, target_output
 
@@ -118,8 +116,8 @@ def get_data(train_size, test_split, random_seed=100, max_words=None, min_word_o
     ts_source_text = [source_text[ti] for ti in test_inds]
     ts_target_text = [target_text[ti] for ti in test_inds]
 
-    logger.info('Training data size: {}'.format(len(tr_source_text)))
-    logger.info('Test data size: {}'.format(len(ts_source_text)))
+    print('Training data size: {}'.format(len(tr_source_text)))
+    print('Test data size: {}'.format(len(ts_source_text)))
     return tr_source_text, tr_target_text, ts_source_text, ts_target_text
 
 
@@ -144,13 +142,13 @@ def convert_data(source_tokenizer, target_tokenizer, source_text, target_text, s
                                  reverse=False, padding_type='pre', pad_length=source_timesteps)
     target_seq = sents2sequences(
         target_tokenizer, target_text, pad_length=target_timesteps)
-    logger.info('Vocabulary size ({}): {}'.format(
+    print('Vocabulary size ({}): {}'.format(
         info.source_language_name, np.max(source_seq)+1))
-    logger.info('Vocabulary size ({}): {}'.format(
+    print('Vocabulary size ({}): {}'.format(
         info.target_language_name, np.max(target_seq)+1))
-    logger.debug('{} text shape: {}'.format(
+    print('{} text shape: {}'.format(
         info.source_language_name, source_seq.shape))
-    logger.debug('{} text shape: {}'.format(
+    print('{} text shape: {}'.format(
         info.target_language_name, target_seq.shape))
     return source_seq, target_seq
 
