@@ -7,8 +7,7 @@ import os
 class Info():
     project_path  = params['PROJECT_PATH']
     model_version = params['VERSION']
-    current_date  = str(date.today())
-    main_dir      = project_path + 'models/' + current_date + '/' + model_version + '/'
+    main_dir      = project_path + 'models/' + '/' + model_version + '/'
     log_dir       = main_dir + 'logs/'
     results_path  = main_dir + 'results/'
     model_dir     = main_dir + 'model/'
