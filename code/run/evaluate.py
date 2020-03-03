@@ -10,6 +10,7 @@ import tensorflow.keras as keras
 from tensorflow.keras.utils import plot_model
 from nltk.translate.bleu_score import corpus_bleu
 from tqdm.auto import tqdm
+from datetime import datetime as dt
 
 sys.path.insert(0, '..')
 
@@ -32,7 +33,9 @@ neptune.init('mcgill-a/translation', api_token=NEPTUNE_API_TOKEN)
 neptune.create_experiment(name='translate-evaluate',
                           params=params)
 
-neptune.log_text('Runtime', '[Stage] - Start')
+log_output = dt.now().strftime("%Y-%m-%d %H:%M:%S") + ' | [Stage] - Start'
+print(log_output)
+neptune.log_text('Runtime', log_output)
 #############################################################################################################################################
 
 DATA_SIZE = params['DATA_SIZE']
@@ -51,7 +54,10 @@ MIN_WORD_OCCURRENCE = params['MIN_WORD_OCCURRENCE']
 #############################################################################################################################################
 
 logger = get_logger("train", info.log_dir)
-neptune.log_text('Runtime', '[Stage] - Processing Data')
+
+log_output = dt.now().strftime("%Y-%m-%d %H:%M:%S") + ' | [Stage] - Processing Data'
+print(log_output)
+neptune.log_text('Runtime', log_output)
 
 
 data_cleaned = True
@@ -105,9 +111,11 @@ history = {'train_loss': [], 'val_loss': []}
 if info.models_exist():
     history = load_data(info.model_history)
     full_model, encoder_model, decoder_model = restore_models()
-    neptune.log_text('Runtime', '[Stage] - Restoring existing trained models and history')
+    log_output = dt.now().strftime("%Y-%m-%d %H:%M:%S") + ' | [Stage] - Restoring existing trained models and history'
+    print(log_output)
+    neptune.log_text('Runtime', log_output)
 else:
-    logger.err("No model loaded")
+    logger.err("Failed to load model (not found)")
 
 # Train for 0 epochs (just using this to log the restored history)
 train(0, full_model, encoder_model, decoder_model, tr_source_seq,
@@ -150,8 +158,9 @@ def evaluate_model(test_samples):
 
 #############################################################################################################################################
 
-neptune.log_text('Runtime', '[Stage] - Evaluating')
-print("Evaluating translation quality on the test data...")
+log_output = dt.now().strftime("%Y-%m-%d %H:%M:%S") + ' | [Stage] - Evaluating'
+print(log_output)
+neptune.log_text('Runtime', log_output)
 evaluate_model(test_data)
 
 #############################################################################################################################################
@@ -191,5 +200,7 @@ for i in range(5):
     idx = random.randrange(len(ts_source_text))
     test(ts_source_text[idx], ts_target_text[idx], i+1)
 
-neptune.log_text('Runtime', '[Stage] - End')
+log_output = dt.now().strftime("%Y-%m-%d %H:%M:%S") + ' | [Stage] - End'
+print(log_output)
+neptune.log_text('Runtime', log_output)
 neptune.stop()
