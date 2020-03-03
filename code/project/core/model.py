@@ -80,17 +80,19 @@ def define_model(hidden_size, batch_size, learning_rate, source_timesteps, sourc
 def save_models(full_model, encoder, decoder):
     # Save full_model
     full_model.save(info.model_path)
+    print("Saved: " + info.model_path)
 
     # Save encoder_model
     with open(info.encoder_path, 'w+', encoding='utf8') as f:
         f.write(encoder.to_json())
     encoder.save_weights(info.encoder_w_path)
+    print("Saved: " + info.encoder_w_path)
 
     # Save decoder_model
     with open(info.decoder_path, 'w+', encoding='utf8') as f:
         f.write(decoder.to_json())
     decoder.save_weights(info.decoder_w_path)
-
+    print("Saved: " + info.decoder_w_path)
 
 def restore_model(model_filename, model_weights_filename, custom_objects=None):
     with open(model_filename, 'r', encoding='utf8') as f:
@@ -99,12 +101,15 @@ def restore_model(model_filename, model_weights_filename, custom_objects=None):
         else:
             model = model_from_json(f.read())
     model.load_weights(model_weights_filename)
+    print("Loaded: " + model_filename)
+    print("Loaded: " + model_weights_filename)
     return model
 
 
 def restore_models():
     attention_layer_object = {'AttentionLayer': AttentionLayer}
     full_model = tf.keras.models.load_model(info.model_path, attention_layer_object)
+    print("Loaded: " + info.model_path)
     encoder_model = restore_model(info.encoder_path, info.encoder_w_path)
     decoder_model = restore_model(info.decoder_path, info.decoder_w_path, attention_layer_object)
     return full_model, encoder_model, decoder_model

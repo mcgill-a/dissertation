@@ -11,9 +11,6 @@ from nltk.translate.bleu_score import corpus_bleu
 from tqdm.auto import tqdm
 from datetime import datetime as dt
 
-
-
-
 sys.path.insert(0, '..')
 
 ''' Local Imports '''

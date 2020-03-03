@@ -16,14 +16,12 @@ def train(epochs, full_model, encoder, decoder, tr_source_seq, tr_target_seq, va
         log_output = dt.now().strftime("%Y-%m-%d %H:%M:%S") + ' | ' + log_output
         print(log_output)
         neptune.log_text('Runtime', log_output)
-
         neptune.log_metric('train_loss', i+1, history['train_loss'][i])
         neptune.log_metric('val_loss', i+1, history['val_loss'][i])
 
     if epochs > 0:
 
         # train the model
-        
         log_output = dt.now().strftime("%Y-%m-%d %H:%M:%S") + ' | [Stage] - Training'
         print(log_output)
         neptune.log_text('Runtime', log_output)
