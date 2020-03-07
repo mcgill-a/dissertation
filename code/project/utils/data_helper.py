@@ -171,9 +171,20 @@ def to_pairs(list_one, list_two):
     return output
 
 
-# save a list of data to a file
+# save a list of data to a pkl file
 def save_data(data, filename):
     dump(data, open(filename, 'wb'))
+    print("Saved: " + filename)
+
+
+# save a list of data to a text file
+def save_data_text(data, filename, newline=False):    
+    with open(filename, 'w+', encoding='utf-8') as output:
+        for line in data:
+            if newline:
+                output.write(line)
+            else:
+                output.write(line + '\n')
     print("Saved: " + filename)
 
 
@@ -181,3 +192,13 @@ def save_data(data, filename):
 def load_data(filename):
     print("Loaded: " + filename)
     return load(open(filename, 'rb'))
+
+
+# split the data from tab delimited
+def split_data(data):
+    source, target = [], []
+    for i in tqdm(range(len(data))):
+        s, t = data[i].split('\t')
+        source.append(s)
+        target.append(t)
+    return source, target

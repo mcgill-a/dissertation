@@ -1,8 +1,8 @@
 params = {
     'SOURCE_LANGUAGE_NAME': 'Irish',
     'TARGET_LANGUAGE_NAME': 'English',
-    'SOURCE_LANGUAGE_TEXT': 'C:/Users/40276245/hp/repo/code/gru_attention/data/ga-en/ga.txt',
-    'TARGET_LANGUAGE_TEXT': 'C:/Users/40276245/hp/repo/code/gru_attention/data/ga-en/en.txt',
+    'SOURCE_LANGUAGE_TEXT': 'S:/_UNI/HP/MT/repo/code/gru_attention/data/ga-en/ga.txt',
+    'TARGET_LANGUAGE_TEXT': 'S:/_UNI/HP/MT/repo/code/gru_attention/data/ga-en/en.txt',
     'VERSION': "03",
     'DATA_SIZE': 500000,
     'N_EPOCHS': 2,
