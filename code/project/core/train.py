@@ -1,10 +1,11 @@
 from project.core.model import save_models
 from project.utils.directories import Info as info
 from project.utils.data_helper import save_data
+from project.utils.services import timestamp
 from tensorflow.python.keras.utils import to_categorical
 from tqdm.auto import tqdm
 import numpy as np
-from datetime import datetime as dt
+
 
 def train(epochs, full_model, encoder, decoder, tr_source_seq, tr_target_seq, va_source_seq, va_target_seq, BATCH_SIZE, history, source_vsize, target_vsize, neptune=None):
     prev_epochs = len(history['train_loss'])
@@ -13,7 +14,7 @@ def train(epochs, full_model, encoder, decoder, tr_source_seq, tr_target_seq, va
 
         log_output = "[Epoch {}] train_loss: {} | val_loss: {}".format(
             i + 1, history['train_loss'][i], history['val_loss'][i])
-        log_output = dt.now().strftime("%Y-%m-%d %H:%M:%S") + ' | ' + log_output
+        log_output = timestamp() + ' | ' + log_output
         print(log_output)
         neptune.log_text('Runtime', log_output)
         neptune.log_metric('train_loss', i+1, history['train_loss'][i])
@@ -22,7 +23,7 @@ def train(epochs, full_model, encoder, decoder, tr_source_seq, tr_target_seq, va
     if epochs > 0:
 
         # train the model
-        log_output = dt.now().strftime("%Y-%m-%d %H:%M:%S") + ' | [Stage] - Training'
+        log_output = timestamp() + ' | [Stage] - Training'
         print(log_output)
         neptune.log_text('Runtime', log_output)
         best_val_loss = None
@@ -78,7 +79,7 @@ def train(epochs, full_model, encoder, decoder, tr_source_seq, tr_target_seq, va
 
                 log_output = "[Epoch {}] train_loss: {} | val_loss: {}".format(
                     ep + 1, mean_train_loss, mean_val_loss)
-                log_output = dt.now().strftime("%Y-%m-%d %H:%M:%S") + ' | ' + log_output
+                log_output = timestamp() + ' | ' + log_output
                 print(log_output)
                 neptune.log_text('Runtime', log_output)
                 history['train_loss'].append(mean_train_loss)

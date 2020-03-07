@@ -10,7 +10,6 @@ import tensorflow.keras as keras
 from tensorflow.keras.utils import plot_model
 from nltk.translate.bleu_score import corpus_bleu
 from tqdm.auto import tqdm
-from datetime import datetime as dt
 
 sys.path.insert(0, '..')
 
@@ -21,6 +20,7 @@ from project.core.model import define_model, save_models, restore_model, restore
 from project.core.inference import infer_nmt
 from project.core.train import train
 from project.layers.attention import AttentionLayer
+from project.utils.services import timestamp
 from project.utils.visualise import plot_attention_weights
 from project.utils.directories import Info as info
 from project.utils.logger import get_logger
@@ -33,7 +33,7 @@ neptune.init('mcgill-a/translation', api_token=NEPTUNE_API_TOKEN)
 neptune.create_experiment(name='translate-evaluate',
                           params=params)
 
-log_output = dt.now().strftime("%Y-%m-%d %H:%M:%S") + ' | [Stage] - Start'
+log_output = timestamp() + ' | [Stage] - Start'
 print(log_output)
 neptune.log_text('Runtime', log_output)
 #############################################################################################################################################
@@ -55,7 +55,7 @@ MIN_WORD_OCCURRENCE = params['MIN_WORD_OCCURRENCE']
 
 logger = get_logger("train", info.log_dir)
 
-log_output = dt.now().strftime("%Y-%m-%d %H:%M:%S") + ' | [Stage] - Processing Data'
+log_output = timestamp() + ' | [Stage] - Processing Data'
 print(log_output)
 neptune.log_text('Runtime', log_output)
 
@@ -111,7 +111,7 @@ history = {'train_loss': [], 'val_loss': []}
 if info.models_exist():
     history = load_data(info.model_history)
     full_model, encoder_model, decoder_model = restore_models()
-    log_output = dt.now().strftime("%Y-%m-%d %H:%M:%S") + ' | [Stage] - Restoring existing trained models and history'
+    log_output = timestamp() + ' | [Stage] - Restoring existing trained models and history'
     print(log_output)
     neptune.log_text('Runtime', log_output)
 else:
@@ -158,7 +158,7 @@ def evaluate_model(test_samples):
 
 #############################################################################################################################################
 
-log_output = dt.now().strftime("%Y-%m-%d %H:%M:%S") + ' | [Stage] - Evaluating'
+log_output = timestamp() + ' | [Stage] - Evaluating'
 print(log_output)
 neptune.log_text('Runtime', log_output)
 evaluate_model(test_data)
@@ -205,7 +205,7 @@ for i in range(5):
     
     test(ts_source_text[idx], ts_target_text[idx], i+1)
 
-log_output = dt.now().strftime("%Y-%m-%d %H:%M:%S") + ' | [Stage] - End'
+log_output = timestamp() + ' | [Stage] - End'
 print(log_output)
 neptune.log_text('Runtime', log_output)
 neptune.stop()

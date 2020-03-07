@@ -5,7 +5,7 @@ from project.utils.directories import Info as info
 from project.utils.parameters import params
 
 # load the data from the input file
-input_file = read_data("S:/_UNI/HP/MT/repo/code/gru_attention/data/ga-en/tab/en-ga.txt")
+input_file = read_data("C:/Users/40276245/hp/repo/code/gru_attention/data/ga-en/tab/en-ga.txt")
 
 # split the data from tab delimited
 source, target = split_data(input_file)

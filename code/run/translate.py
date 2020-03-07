@@ -9,7 +9,7 @@ import tensorflow.keras as keras
 from tensorflow.keras.utils import plot_model
 from nltk.translate.bleu_score import corpus_bleu
 from tqdm.auto import tqdm
-from datetime import datetime as dt
+
 
 sys.path.insert(0, '..')
 
@@ -20,6 +20,7 @@ from project.core.model import define_model, save_models, restore_model, restore
 from project.core.inference import infer_nmt
 from project.core.train import train
 from project.layers.attention import AttentionLayer
+from project.utils.services import timestamp
 from project.utils.visualise import plot_attention_weights
 from project.utils.directories import Info as info
 from project.utils.logger import get_logger
@@ -32,7 +33,7 @@ neptune.init('mcgill-a/translation', api_token=NEPTUNE_API_TOKEN)
 neptune.create_experiment(name='translate-transfer',
                           params=params)
 
-log_output = dt.now().strftime("%Y-%m-%d %H:%M:%S") + ' | [Stage] - Start'
+log_output = timestamp() + ' | [Stage] - Start'
 print(log_output)
 neptune.log_text('Runtime', log_output)
 #############################################################################################################################################
@@ -48,22 +49,19 @@ TEST_SPLIT = params['TEST_SPLIT']
 VALIDATION_SPLIT = params['VALIDATION_SPLIT']
 MAX_WORDS_PER_SENTENCE = params['MAX_WORDS_PER_SENTENCE']
 MIN_WORD_OCCURRENCE = params['MIN_WORD_OCCURRENCE']
-
+DATA_CLEANED = params['DATA_CLEANED']
 
 #############################################################################################################################################
 
 logger = get_logger("train", info.log_dir)
 
-log_output = dt.now().strftime("%Y-%m-%d %H:%M:%S") + ' | [Stage] - Processing Data'
+log_output =  + ' | [Stage] - Processing Data'
 print(log_output)
 neptune.log_text('Runtime', log_output)
 
-
-data_cleaned = True
-
 # split the input text files into training + test
 tr_source_text, tr_target_text, ts_source_text, ts_target_text = get_data(
-    train_size=DATA_SIZE, test_split=TEST_SPLIT, max_words=MAX_WORDS_PER_SENTENCE, min_word_occurrence=MIN_WORD_OCCURRENCE, cleaned=data_cleaned)
+    train_size=DATA_SIZE, test_split=TEST_SPLIT, max_words=MAX_WORDS_PER_SENTENCE, min_word_occurrence=MIN_WORD_OCCURRENCE, cleaned=DATA_CLEANED)
 # visualise the data
 data_vis = visualise_data(tr_source_text, tr_target_text,
                           ts_source_text, ts_target_text)
@@ -118,7 +116,7 @@ if info.models_exist():
     history = load_data(info.model_history)
     full_model, encoder_model, decoder_model = restore_models()
     
-    log_output = dt.now().strftime("%Y-%m-%d %H:%M:%S") + ' | [Stage] - Restoring existing trained models and history'
+    log_output = timestamp() + ' | [Stage] - Restoring existing trained models and history'
     print(log_output)
     neptune.log_text('Runtime', log_output)
 
@@ -139,7 +137,7 @@ plt.clf()
 
 #############################################################################################################################################
 
-log_output = dt.now().strftime("%Y-%m-%d %H:%M:%S") + ' | [Stage] - End'
+log_output = timestamp() + ' | [Stage] - End'
 print(log_output)
 neptune.log_text('Runtime', log_output)
 
