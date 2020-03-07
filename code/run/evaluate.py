@@ -49,7 +49,7 @@ TEST_SPLIT = params['TEST_SPLIT']
 VALIDATION_SPLIT = params['VALIDATION_SPLIT']
 MAX_WORDS_PER_SENTENCE = params['MAX_WORDS_PER_SENTENCE']
 MIN_WORD_OCCURRENCE = params['MIN_WORD_OCCURRENCE']
-
+DATA_CLEANED = params['DATA_CLEANED']
 
 #############################################################################################################################################
 
@@ -60,11 +60,11 @@ print(log_output)
 neptune.log_text('Runtime', log_output)
 
 
-data_cleaned = True
+
 
 # split the input text files into training + test
 tr_source_text, tr_target_text, ts_source_text, ts_target_text = get_data(
-    train_size=DATA_SIZE, test_split=TEST_SPLIT, max_words=MAX_WORDS_PER_SENTENCE, min_word_occurrence=MIN_WORD_OCCURRENCE, cleaned=data_cleaned)
+    train_size=DATA_SIZE, test_split=TEST_SPLIT, max_words=MAX_WORDS_PER_SENTENCE, min_word_occurrence=MIN_WORD_OCCURRENCE, cleaned=DATA_CLEANED)
 
 # split training data into training + validation
 tr_source_text, tr_target_text, va_source_text, va_target_text = split_train_validation(

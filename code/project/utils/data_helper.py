@@ -153,6 +153,10 @@ def convert_data(source_tokenizer, target_tokenizer, source_text, target_text, s
                                  reverse=False, padding_type='pre', pad_length=source_timesteps)
     target_seq = sents2sequences(
         target_tokenizer, target_text, pad_length=target_timesteps)
+    return source_seq, target_seq
+
+
+def data_info(source_seq, target_seq):
     print('Vocabulary size ({}): {}'.format(
         info.source_language_name, np.max(source_seq)+1))
     print('Vocabulary size ({}): {}'.format(
@@ -161,7 +165,6 @@ def convert_data(source_tokenizer, target_tokenizer, source_text, target_text, s
         info.source_language_name, source_seq.shape))
     print('{} text shape: {}'.format(
         info.target_language_name, target_seq.shape))
-    return source_seq, target_seq
 
 
 def to_pairs(list_one, list_two):

@@ -55,7 +55,7 @@ DATA_CLEANED = params['DATA_CLEANED']
 
 logger = get_logger("train", info.log_dir)
 
-log_output =  + ' | [Stage] - Processing Data'
+log_output = timestamp() + ' | [Stage] - Processing Data'
 print(log_output)
 neptune.log_text('Runtime', log_output)
 
