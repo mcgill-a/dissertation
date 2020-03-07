@@ -1,4 +1,4 @@
-''' Standard Imports '''
+# standard imports
 import neptune
 import math
 import sys
@@ -10,22 +10,21 @@ from tensorflow.keras.utils import plot_model
 from nltk.translate.bleu_score import corpus_bleu
 from tqdm.auto import tqdm
 
-
 sys.path.insert(0, '..')
 
-''' Local Imports '''
-from private.tokens import NEPTUNE_API_TOKEN
-from project.utils.parameters import params
-from project.core.model import define_model, save_models, restore_model, restore_models
-from project.core.inference import infer_nmt
-from project.core.train import train
-from project.layers.attention import AttentionLayer
-from project.utils.services import timestamp
-from project.utils.visualise import plot_attention_weights
-from project.utils.directories import Info as info
-from project.utils.logger import get_logger
-from project.utils.vocab import to_vocab, trim_vocab, update_dataset
+# local imports
 from project.utils.data_helper import sents2sequences, get_data, split_train_validation, convert_data, visualise_data, to_pairs, save_data, load_data
+from project.utils.vocab import to_vocab, trim_vocab, update_dataset
+from project.utils.logger import get_logger
+from project.utils.directories import Info as info
+from project.utils.visualise import plot_attention_weights
+from project.utils.services import timestamp
+from project.layers.attention import AttentionLayer
+from project.core.train import train
+from project.core.inference import infer_nmt
+from project.core.model import define_model, save_models, restore_model, restore_models
+from project.utils.parameters import params
+from private.tokens import NEPTUNE_API_TOKEN
 
 
 ''' Neptune Configuration '''
@@ -115,8 +114,9 @@ history = {'train_loss': [], 'val_loss': []}
 if info.models_exist():
     history = load_data(info.model_history)
     full_model, encoder_model, decoder_model = restore_models()
-    
-    log_output = timestamp() + ' | [Stage] - Restoring existing trained models and history'
+
+    log_output = timestamp() + \
+        ' | [Stage] - Restoring existing trained models and history'
     print(log_output)
     neptune.log_text('Runtime', log_output)
 
