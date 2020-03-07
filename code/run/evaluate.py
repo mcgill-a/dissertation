@@ -125,7 +125,7 @@ train(0, full_model, encoder_model, decoder_model, tr_source_seq,
 
 
 def translate(test_source):
-    """ Inferring with trained model """
+    # inference using the trained encoder and decoder models
     test_source_seq = sents2sequences(
         source_tokenizer, [test_source], pad_length=source_timesteps)
     test_target, attn_weights = infer_nmt(
@@ -167,14 +167,12 @@ evaluate_model(test_data)
 
 
 def test(test_source, test_target_actual, index=0):
-    """ Index2word """
     source_index2word = dict(
         zip(source_tokenizer.word_index.values(), source_tokenizer.word_index.keys()))
     target_index2word = dict(
         zip(target_tokenizer.word_index.values(), target_tokenizer.word_index.keys()))
 
-    """ Inferring with trained model """
-
+    # inference using the trained encoder and decoder models
     test_source_seq = sents2sequences(
         source_tokenizer, [test_source], pad_length=source_timesteps)
     test_target, attn_weights = infer_nmt(
@@ -187,9 +185,10 @@ def test(test_source, test_target_actual, index=0):
     logger.info('Translation ({}): {}'.format(
         info.target_language_name, test_target))
 
-    """ Attention plotting """
+    # plot the attention
+    filename = "attention-" + str(index) + ".png"
     attention_img = plot_attention_weights(test_source_seq, attn_weights,
-                        source_index2word, target_index2word)
+                        source_index2word, target_index2word, filename=filename)
     neptune.log_image('Attention Plots', attention_img,
                     image_name="Attention Plot " + str(index) )
 
@@ -197,7 +196,13 @@ def test(test_source, test_target_actual, index=0):
 # Create 5 attention plots
 for i in range(5):
     random.seed(i) # get the same 5 random sentences every time
-    idx = random.randrange(len(ts_source_text))
+    # idx = random.randrange(len(ts_source_text))
+    
+    # Only choose from sentences within the first 100 lines.
+    # If data size was higher then it might choose
+    # an index too high for a smaller subset
+    idx = random.randrange(100)
+    
     test(ts_source_text[idx], ts_target_text[idx], i+1)
 
 log_output = dt.now().strftime("%Y-%m-%d %H:%M:%S") + ' | [Stage] - End'

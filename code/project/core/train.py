@@ -93,6 +93,6 @@ def train(epochs, full_model, encoder, decoder, tr_source_seq, tr_target_seq, va
                 best_val_loss = history['val_loss'][0]
                 save_models(full_model, encoder, decoder)
             else:
-                if best_val_loss > history['val_loss'][ep]:
+                if history['val_loss'][ep] < best_val_loss:
                     best_val_loss = history['val_loss'][ep]
                     save_models(full_model, encoder, decoder)
