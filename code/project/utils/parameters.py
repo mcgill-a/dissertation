@@ -5,7 +5,7 @@ params = {
     'TARGET_LANGUAGE_TEXT': 'C:/Users/40276245/hp/repo/code/gru_attention/data/ga-en/en.txt',
     'VERSION': "03",
     'DATA_SIZE': 250000,
-    'N_EPOCHS': 2,
+    'N_EPOCHS': 1,
     'BATCH_SIZE': 64,
     'HIDDEN_UNITS': 128,
     'LEARNING_RATE': 0.001,

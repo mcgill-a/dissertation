@@ -49,7 +49,7 @@ def train(epochs, full_model, encoder, decoder, tr_source_seq, tr_target_seq, va
                         [source_onehot_seq, target_onehot_seq[:, :-1, :]], target_onehot_seq[:, 1:, :])
                     # calculate the current training batch loss
                     t_loss = full_model.evaluate([source_onehot_seq, target_onehot_seq[:, :-1, :]], target_onehot_seq[:, 1:, :],
-                                                batch_size=BATCH_SIZE, verbose=0)
+                                                 batch_size=BATCH_SIZE, verbose=0)
                     # store the training loss
                     train_loss.append(t_loss)
 
@@ -68,7 +68,7 @@ def train(epochs, full_model, encoder, decoder, tr_source_seq, tr_target_seq, va
                         va_target_seq[bi:bi + BATCH_SIZE, :], num_classes=target_vsize)
                     # calculate the current validation batch loss
                     v_loss = full_model.evaluate([source_onehot_seq, target_onehot_seq[:, :-1, :]], target_onehot_seq[:, 1:, :],
-                                                batch_size=BATCH_SIZE, verbose=0)
+                                                 batch_size=BATCH_SIZE, verbose=0)
                     # store the validation loss
                     val_loss.append(v_loss)
 
