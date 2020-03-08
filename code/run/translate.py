@@ -14,7 +14,7 @@ sys.path.insert(0, '..')
 
 # local imports
 from project.utils.data_helper import sents2sequences, get_data, split_train_validation, convert_data, visualise_data, to_pairs, save_data, load_data
-from project.utils.vocab import to_vocab, trim_vocab, update_dataset
+from project.utils.vocab import to_vocab, update_dataset
 from project.utils.logger import get_logger
 from project.utils.directories import Info as info
 from project.utils.visualise import plot_attention_weights
@@ -67,27 +67,31 @@ data_vis = visualise_data(tr_source_text, tr_target_text,
 neptune.log_image('Charts', plt.gcf(), image_name="Data Distribution")
 plt.clf()
 
-# split training data into training + validation
-tr_source_text, tr_target_text, va_source_text, va_target_text = split_train_validation(
-    tr_source_text, tr_target_text, VALIDATION_SPLIT)
-
-""" Defining tokenizers """
+# define the tokenizers (using training data and validation data)
 source_tokenizer = keras.preprocessing.text.Tokenizer(oov_token='UNK')
 source_tokenizer.fit_on_texts(tr_source_text)
 
 target_tokenizer = keras.preprocessing.text.Tokenizer(oov_token='UNK')
 target_tokenizer.fit_on_texts(tr_target_text)
 
-""" Getting preprocessed data """
+source_vsize = max(source_tokenizer.index_word.keys()) + 1
+target_vsize = max(target_tokenizer.index_word.keys()) + 1
+
+# split training data into training + validation
+tr_source_text, tr_target_text, va_source_text, va_target_text = split_train_validation(
+    tr_source_text, tr_target_text, VALIDATION_SPLIT)
+
+
+
+# get the preprocessed data
 tr_source_seq, tr_target_seq = convert_data(
     source_tokenizer, target_tokenizer, tr_source_text, tr_target_text, source_timesteps, target_timesteps)
 va_source_seq, va_target_seq = convert_data(
     source_tokenizer, target_tokenizer, va_source_text, va_target_text, source_timesteps, target_timesteps)
 
-source_vsize = max(source_tokenizer.index_word.keys()) + 1
-target_vsize = max(target_tokenizer.index_word.keys()) + 1
 
-""" Index2word """
+
+# convert the words to indices
 source_index2word = dict(
     zip(source_tokenizer.word_index.values(), source_tokenizer.word_index.keys()))
 target_index2word = dict(
