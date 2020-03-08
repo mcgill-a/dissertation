@@ -24,7 +24,7 @@ from project.utils.services import timestamp
 from project.utils.visualise import plot_attention_weights
 from project.utils.directories import Info as info
 from project.utils.logger import get_logger
-from project.utils.vocab import to_vocab, update_dataset
+from project.utils.vocab import to_vocab
 from project.utils.data_helper import sents2sequences, get_data, split_train_validation, convert_data, visualise_data, to_pairs, save_data, load_data
 
 
