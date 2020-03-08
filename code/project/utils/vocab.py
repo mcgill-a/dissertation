@@ -17,23 +17,21 @@ def to_vocab(lines):
 def trim_vocab(vocab, min_occurrence, vocab_limit=None):
     tokens = [k for k, c in vocab.items() if c >= min_occurrence]
     # enforce the vocab size limit
-    if vocab_limit:
-        if len(tokens) > vocab_limit:
-            threshold = 0
-            while len(tokens) != vocab_limit:
-                tokens = []
-                threshold += 1
-                for k, count in vocab.items():
-                    if len(tokens) == vocab_limit:
-                        break
-                    else:
-                        if count >= threshold:
-                            tokens.append(k)
-    return set(tokens)
+    if vocab_limit and len(tokens) > vocab_limit:
+        threshold = min_occurrence - 1
+        while len(tokens) != vocab_limit:
+            tokens = []
+            threshold += 1
+            for k, count in vocab.items():
+                if len(tokens) == vocab_limit:
+                    break
+                else:
+                    if count >= threshold:
+                        tokens.append(k)
+    return tokens
+
 
 # mark all OOV with "unk" for all lines
-
-
 def update_dataset(lines, vocab):
     new_lines = list()
     for line in lines:
@@ -71,10 +69,11 @@ def filter_lines(name, sentences, min_word_occurrence=None, vocab_limit=None):
 
     # reduce vocabulary
     vocab = trim_vocab(vocab, min_word_occurrence, vocab_limit)
+    lines = update_dataset(lines, vocab)
     if vocab_limit:
         print('New ' + name + ' Vocabulary: %d' % len(vocab))
     # mark out of vocabulary words
-    lines = update_dataset(lines, vocab)
+    
 
     # spot check
     for i in range(3):
