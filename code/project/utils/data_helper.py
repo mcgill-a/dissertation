@@ -49,8 +49,8 @@ def clean_data(source_sentences, target_sentences, max_words=None):
 
     if max_words != None:
         invalid_samples = len(source_sentences)-len(source_output)
-        print(
-            'Sentences that were too long: {}/{}'.format(invalid_samples, len(source_sentences)))
+        print('Sentences that were too long: {}/{}'.format(invalid_samples, len(source_sentences)))
+        print('Output size: {}'.format(len(source_output)))
     return source_output, target_output
 
 def visualise_data(tr_source_text, tr_target_text, ts_source_text, ts_target_text):

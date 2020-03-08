@@ -2,6 +2,7 @@ from project.utils.directories import Info as info
 from project.utils.parameters import params
 from pickle import load, dump
 from collections import Counter
+import collections
 
 
 # create a frequency table for all words
@@ -15,19 +16,19 @@ def to_vocab(lines):
 
 # remove all words with a frequency below a threshold
 def trim_vocab(vocab, min_occurrence, vocab_limit=None):
-    tokens = [k for k, c in vocab.items() if c >= min_occurrence]
+    # sort the vocab from most frequent to least frequent
+    sorted_vocab = sorted(vocab.items(), key=lambda x: x[1], reverse=True)
+    tokens = [k for k, c in sorted_vocab if c >= min_occurrence]
+    
     # enforce the vocab size limit
     if vocab_limit and len(tokens) > vocab_limit:
-        threshold = min_occurrence - 1
-        while len(tokens) != vocab_limit:
-            tokens = []
-            threshold += 1
-            for k, count in vocab.items():
-                if len(tokens) == vocab_limit:
-                    break
-                else:
-                    if count >= threshold:
-                        tokens.append(k)
+        limited_tokens = []
+        for word in tokens:
+            if len(limited_tokens) == vocab_limit+1:
+                break
+            else:
+                limited_tokens.append(word)
+        return limited_tokens
     return tokens
 
 
