@@ -14,10 +14,9 @@ def to_vocab(lines):
 
 
 # remove all words with a frequency below a threshold
-# only set source limit OR target limit, NOT both
 def trim_vocab(vocab, min_occurrence, vocab_limit=None):
     tokens = [k for k, c in vocab.items() if c >= min_occurrence]
-    # keep reducing the vocab size until it matches
+    # enforce the vocab size limit
     if vocab_limit:
         if len(tokens) > vocab_limit:
             threshold = 0
@@ -30,7 +29,6 @@ def trim_vocab(vocab, min_occurrence, vocab_limit=None):
                     else:
                         if count >= threshold:
                             tokens.append(k)
-
     return set(tokens)
 
 # mark all OOV with "unk" for all lines
