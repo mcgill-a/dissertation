@@ -74,6 +74,7 @@ source_tokenizer.fit_on_texts(tr_source_text)
 target_tokenizer = keras.preprocessing.text.Tokenizer(oov_token='UNK')
 target_tokenizer.fit_on_texts(tr_target_text)
 
+# set the vocabulary size
 source_vsize = max(source_tokenizer.index_word.keys()) + 1
 target_vsize = max(target_tokenizer.index_word.keys()) + 1
 
@@ -82,13 +83,11 @@ tr_source_text, tr_target_text, va_source_text, va_target_text = split_train_val
     tr_source_text, tr_target_text, VALIDATION_SPLIT)
 
 
-
-# get the preprocessed data
+# preprocess the data
 tr_source_seq, tr_target_seq = convert_data(
     source_tokenizer, target_tokenizer, tr_source_text, tr_target_text, source_timesteps, target_timesteps)
 va_source_seq, va_target_seq = convert_data(
     source_tokenizer, target_tokenizer, va_source_text, va_target_text, source_timesteps, target_timesteps)
-
 
 
 # convert the words to indices

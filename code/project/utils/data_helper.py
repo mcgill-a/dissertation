@@ -106,9 +106,6 @@ def get_data(train_size, test_split, random_seed=100, max_words=None, min_word_o
 
     source_text, target_text = source_text[:train_size], target_text[:train_size]
     
-    # filter the data
-    source_text, target_text = filter_data(
-        source_text, target_text, min_word_occurrence)
     # add the start of string (sos) + end of string (eos) tags
     target_text = ['sos ' + sent[:-1] + 'eos .' if sent.endswith(
         '.') else 'sos ' + sent + ' eos .' for sent in target_text]
@@ -126,6 +123,15 @@ def get_data(train_size, test_split, random_seed=100, max_words=None, min_word_o
     # test data
     ts_source_text = [source_text[ti] for ti in test_inds]
     ts_target_text = [target_text[ti] for ti in test_inds]
+
+    # filter the data
+    tr_source_text, tr_target_text = filter_data(
+        tr_source_text, tr_target_text, min_word_occurrence, True)
+
+    # filter the data
+    ts_source_text, ts_target_text = filter_data(
+        ts_source_text, ts_target_text, min_word_occurrence)
+    
 
     print('Training data size: {}'.format(len(tr_source_text)))
     print('Test data size: {}'.format(len(ts_source_text)))

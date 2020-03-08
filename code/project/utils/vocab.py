@@ -50,11 +50,18 @@ def update_dataset(lines, vocab):
     return new_lines
 
 
-def filter_data(source_sentences, target_sentences, min_word_occurrence=None):
-    source = filter_lines(info.source_language_name, source_sentences,
-                       min_word_occurrence, params['FORCE_SOURCE_VOCAB_SIZE'])
-    target = filter_lines(info.target_language_name, target_sentences,
-                          min_word_occurrence, params['FORCE_TARGET_VOCAB_SIZE'])
+def filter_data(source_sentences, target_sentences, min_word_occurrence=None, limit=None):
+
+    if limit:
+        source = filter_lines(info.source_language_name, source_sentences,
+                              min_word_occurrence, params['FORCE_SOURCE_VOCAB_SIZE'])
+        target = filter_lines(info.target_language_name, target_sentences,
+                              min_word_occurrence, params['FORCE_TARGET_VOCAB_SIZE'])
+    else:
+        source = filter_lines(info.source_language_name, source_sentences,
+                              min_word_occurrence)
+        target = filter_lines(info.target_language_name, target_sentences,
+                              min_word_occurrence)
     return source, target
 
 
@@ -66,12 +73,11 @@ def filter_lines(name, sentences, min_word_occurrence=None, vocab_limit=None):
 
     # reduce vocabulary
     vocab = trim_vocab(vocab, min_word_occurrence, vocab_limit)
-    print('New ' + name + ' Vocabulary: %d' % len(vocab))
+    if vocab_limit:
+        print('New ' + name + ' Vocabulary: %d' % len(vocab))
     # mark out of vocabulary words
     lines = update_dataset(lines, vocab)
 
-    # save updated dataset
-    filename = info.data_output_path + name + '_filtered.pkl'
     # spot check
     for i in range(3):
         print(lines[i])

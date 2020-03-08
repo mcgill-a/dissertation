@@ -60,33 +60,30 @@ print(log_output)
 neptune.log_text('Runtime', log_output)
 
 
-
-
-# split the input text files into training + test
-tr_source_text, tr_target_text, ts_source_text, ts_target_text = get_data(
-    train_size=DATA_SIZE, test_split=TEST_SPLIT, max_words=MAX_WORDS_PER_SENTENCE, min_word_occurrence=MIN_WORD_OCCURRENCE, cleaned=DATA_CLEANED)
-
-# split training data into training + validation
-tr_source_text, tr_target_text, va_source_text, va_target_text = split_train_validation(
-    tr_source_text, tr_target_text, VALIDATION_SPLIT)
-
-""" Defining tokenizers """
+# define the tokenizers (using training data and validation data)
 source_tokenizer = keras.preprocessing.text.Tokenizer(oov_token='UNK')
 source_tokenizer.fit_on_texts(tr_source_text)
 
 target_tokenizer = keras.preprocessing.text.Tokenizer(oov_token='UNK')
 target_tokenizer.fit_on_texts(tr_target_text)
 
-""" Getting preprocessed data """
+# set the vocabulary size
+source_vsize = max(source_tokenizer.index_word.keys()) + 1
+target_vsize = max(target_tokenizer.index_word.keys()) + 1
+
+# split training data into training + validation
+tr_source_text, tr_target_text, va_source_text, va_target_text = split_train_validation(
+    tr_source_text, tr_target_text, VALIDATION_SPLIT)
+
+
+# preprocess the data
 tr_source_seq, tr_target_seq = convert_data(
     source_tokenizer, target_tokenizer, tr_source_text, tr_target_text, source_timesteps, target_timesteps)
 va_source_seq, va_target_seq = convert_data(
     source_tokenizer, target_tokenizer, va_source_text, va_target_text, source_timesteps, target_timesteps)
 
-source_vsize = max(source_tokenizer.index_word.keys()) + 1
-target_vsize = max(target_tokenizer.index_word.keys()) + 1
 
-""" Index2word """
+# convert the words to indices
 source_index2word = dict(
     zip(source_tokenizer.word_index.values(), source_tokenizer.word_index.keys()))
 target_index2word = dict(
