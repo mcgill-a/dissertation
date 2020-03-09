@@ -6,7 +6,7 @@ params = {
     'VERSION': "00",
     'DESCRIPTION': "Baseline Gaelic Model with backtranslated data",
     'DATA_SIZE': None,
-    'N_EPOCHS': 2,
+    'N_EPOCHS': 5,
     'BATCH_SIZE': 64,
     'HIDDEN_UNITS': 128,
     'LEARNING_RATE': 0.001,
