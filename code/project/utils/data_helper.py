@@ -104,7 +104,8 @@ def get_data(train_size, test_split, random_seed=100, max_words=None, min_word_o
         # clean the data
         source_text, target_text = clean_data(source_text, target_text, max_words=max_words)
 
-    source_text, target_text = source_text[:train_size], target_text[:train_size]
+    if train_size:
+        source_text, target_text = source_text[:train_size], target_text[:train_size]
     
     # add the start of string (sos) + end of string (eos) tags
     target_text = ['sos ' + sent[:-1] + 'eos .' if sent.endswith(
