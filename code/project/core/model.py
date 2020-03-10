@@ -6,7 +6,7 @@ from tensorflow.keras.models import Model, load_model, model_from_json
 from tensorflow.keras.optimizers import Adam
 
 
-def define_model(hidden_size, batch_size, learning_rate, source_timesteps, source_vsize, target_timesteps, target_vsize):
+def define_model(hidden_size, dropout_w, dropout_u, batch_size, learning_rate, source_timesteps, source_vsize, target_timesteps, target_vsize):
     # Define an input sequence and process it.
     encoder_inputs = Input(batch_shape=(
         batch_size, source_timesteps, source_vsize), name='encoder_inputs')
@@ -14,12 +14,12 @@ def define_model(hidden_size, batch_size, learning_rate, source_timesteps, sourc
         batch_size, target_timesteps - 1, target_vsize), name='decoder_inputs')
 
     # Encoder GRU
-    encoder_gru = GRU(hidden_size, return_sequences=True,
+    encoder_gru = GRU(hidden_size, dropout=dropout_w, recurrent_dropout=dropout_u, return_sequences=True,
                       return_state=True, name='encoder_gru')
     encoder_out, encoder_state = encoder_gru(encoder_inputs)
 
     # Set up the decoder GRU, using `encoder_states` as initial state.
-    decoder_gru = GRU(hidden_size, return_sequences=True,
+    decoder_gru = GRU(hidden_size, dropout=dropout_w, recurrent_dropout=dropout_u, return_sequences=True,
                       return_state=True, name='decoder_gru')
     decoder_out, decoder_state = decoder_gru(
         decoder_inputs, initial_state=encoder_state)

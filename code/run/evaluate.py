@@ -43,6 +43,8 @@ N_EPOCHS = params['N_EPOCHS']
 BATCH_SIZE = params['BATCH_SIZE']
 hidden_size = params['HIDDEN_UNITS']
 LEARNING_RATE = params['LEARNING_RATE']
+DROPOUT_W = params['DROPOUT_W']
+DROPOUT_U = params['DROPOUT_U']
 source_timesteps = params['SOURCE_TIMESTEPS']
 target_timesteps = params['SOURCE_TIMESTEPS']
 TEST_SPLIT = params['TEST_SPLIT']
@@ -100,7 +102,7 @@ test_data = to_pairs(ts_source_text, ts_target_text)
 
 """ Defining the full model """
 full_model, encoder_model, decoder_model = define_model(
-    hidden_size=hidden_size, batch_size=BATCH_SIZE, learning_rate=LEARNING_RATE,
+    hidden_size=hidden_size, dropout_w=DROPOUT_W, dropout_u=DROPOUT_U, batch_size=BATCH_SIZE, learning_rate=LEARNING_RATE,
     source_timesteps=source_timesteps, target_timesteps=target_timesteps,
     source_vsize=source_vsize, target_vsize=target_vsize)
 
