@@ -91,7 +91,7 @@ def train(epochs, full_model, encoder, decoder, tr_source_seq, tr_target_seq, va
 
             # save the models if the validation loss has improved
             if best_val_loss == None:
-                best_val_loss = history['val_loss'][0]
+                best_val_loss = history['val_loss'][ep]
                 save_models(full_model, encoder, decoder)
             else:
                 if history['val_loss'][ep] < best_val_loss:
