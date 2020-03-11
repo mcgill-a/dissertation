@@ -37,8 +37,8 @@ def preprocess_sentence(sentence):
 def clean_data(source_sentences, target_sentences, max_words=None):
     source_output, target_output = [], []
     for i in tqdm(range(len(source_sentences))):
-        clean_source, clean_target = preprocess_sentence(
-            source_sentences[i]), preprocess_sentence(target_sentences[i])
+        clean_source = preprocess_sentence(source_sentences[i])
+        clean_target = preprocess_sentence(target_sentences[i])
         if max_words != None and max_words > 0:
             if len(clean_source.split()) <= max_words and len(clean_target.split()) <= max_words:
                 source_output.append(clean_source)
@@ -90,7 +90,7 @@ def sents2sequences(tokenizer, sentences, reverse=False, pad_length=None, paddin
     return preproc_text
 
 
-def get_data(train_size, test_split, random_seed=100, max_words=None, min_word_occurrence=None, cleaned=False):
+def get_data(data_size, test_split, random_seed=100, max_words=None, min_word_occurrence=None, cleaned=False):
 
     source_text, target_text = None, None
 
@@ -104,8 +104,8 @@ def get_data(train_size, test_split, random_seed=100, max_words=None, min_word_o
         # clean the data
         source_text, target_text = clean_data(source_text, target_text, max_words=max_words)
 
-    if train_size:
-        source_text, target_text = source_text[:train_size], target_text[:train_size]
+    if data_size:
+        source_text, target_text = source_text[:data_size], target_text[:data_size]
     
     # add the start of string (sos) + end of string (eos) tags
     target_text = ['sos ' + sent[:-1] + 'eos .' if sent.endswith(

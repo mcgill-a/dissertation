@@ -64,7 +64,7 @@ neptune.log_text('Runtime', log_output)
 
 # split the input text files into training + test
 tr_source_text, tr_target_text, ts_source_text, ts_target_text = get_data(
-    train_size=DATA_SIZE, test_split=TEST_SPLIT, max_words=MAX_WORDS_PER_SENTENCE, min_word_occurrence=MIN_WORD_OCCURRENCE, cleaned=DATA_CLEANED)
+    data_size=DATA_SIZE, test_split=TEST_SPLIT, max_words=MAX_WORDS_PER_SENTENCE, min_word_occurrence=MIN_WORD_OCCURRENCE, cleaned=DATA_CLEANED)
 
 # define the tokenizers (using training data and validation data)
 source_tokenizer = keras.preprocessing.text.Tokenizer(oov_token='UNK')
