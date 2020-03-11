@@ -39,29 +39,93 @@ GD-EN                                    & 1,300                                
 
 \end{table}
 
+
+\subsection{Data Analysis}
+
 The data identified in table \ref{tab:available-data} quantifies the difference between the high-resource languages such as French and Irish versus low-resource languages such as Scottish Gaelic. 
 
-While searching for different sources of data it became clear that parliamentary data is a popular source of parallel data due to the established guidelines of governments and the European Union where proceedings and legislation are required to be transcribed and translated into specific languages. As a result of this, there is an abundance of Irish Gaelic data in this format.
+While searching for different sources of data it became clear that parliamentary data is a popular source of parallel data due to the established guidelines of governments and the European Union where proceedings and legislation are required to be transcribed and translated into specific languages. As a result of this there is an abundance of Irish Gaelic data in this format.
 In contrast, there is little high quality parallel Scottish Gaelic data readily available. A large percentage of the Scottish Gaelic data is technical information which contains a lot of software specific keywords and technical jargon. This is not ideal reference material for \acrshort{NMT} training data but will likely prove beneficial given that the dataset would be very small without it.
 
 The LearnGaelic data was extracted from learning materials on the \cite{learn_gaelic_2019} website. PDFs are provided on a static template with the English text on one side and the Gaelic version of the same text on the other. Converting these PDFs into the HTML format allowed the data to be categorised and extracted into individual text files while retaining the original alignment of sentences between English and Gaelic.
 Despite the low quantity of data from the LearnGaelic source, this data could be considered the highest quality as it is consists of a diverse set of conversations that are quite informal and natural. In contrast, the majority of the parliamentary data does not follow the natural flow of a conversation and consists of a lot of legal terminology.
 
-\subsection{Data Analysis}
-
+\newpage
 \subsection{Data Pre-processing}
 
+A series of data cleaning and processing is required to ensure the consistency of the data structure throughout the dataset. Subsequently, tokenization will convert the data into sequences of word indices that can be understood by the \acrshort{NMT} models. This includes the following steps:
 
+Data Cleaning:
+\begin{itemize}
+    \item Convert all characters to lowercase and from Unicode to ASCII. % Why ASCII???
+    \item Replace all characters outwith [a-z, ".", "?", "!", ","]
+    \item Insert a space between words and punctuation
+    \item Truncate consecutive character spacing
+    \item Exclude sentence pairs that exceed the maximum word limit
+\end{itemize}
+
+Data Processing:
+\begin{itemize}
+    \item Add <start> and <end> string delimiters to target sentences
+    \item Enforce the vocabulary limit, prioritising most frequent words
+    \item Word replacement for out of vocabulary or below minimum occurrence threshold
+    \item Tokenize the source and target sentences using their vocabularies
+\end{itemize}
 
 \newpage
-\section{Models}
+\section{Translation}
 
-\subsection{Model}
+\subsection{Parameters}
+
+% reference about importance of parameter tuning
+Parameter tuning can have a big impact on the quality of translation model efficiency, speed, and quality so it is essential that a wide variety of parameters are easily accessible and modifiable. The parameters for this project are stored in a separate parameters file that is linked to the runtime of experiments to store the relevant state of the parameters file per experiment. The key parameters that are available for tuning is shown in table \ref{tab:model-parameters}.
+
+%\begin{table}[!ht]
+%\centering
+
+
+\begin{table}[!ht]
+\centering
+\small
+\begin{tabular}{|l|p{6.6cm}|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Parameter}} & \multicolumn{1}{c|}{\textbf{Description}}                                       & \textbf{Example} \\ \hline
+BATCH\_SIZE                & Batch size of the model                            & 64    \\ \hline
+HIDDEN\_UNITS              & Number of hidden units in the GRU                  & 128   \\ \hline
+LEARNING\_RATE             & Learning rate of the optimiser                     & 0.001 \\ \hline
+DROPOUT\_W                 & Dropout rate                                       & 0.2   \\ \hline
+DROPOUT\_U                 & Recurrent dropout rate                             & 0.2   \\ \hline
+SOURCE\_TIMESTEPS          & Number of timesteps for the source language        & 20    \\ \hline
+TARGET\_TIMESTEPS          & Number of timesteps for the target language        & 20    \\ \hline
+TEST\_SPLIT                & Training / test data split                         & 0.2   \\ \hline
+VALIDATION\_SPLIT          & Training / validation data split                   & 0.2   \\ \hline
+MAX\_WORDS\_PER\_SENTENCE  & Maximum number of words in a sentence              & 20    \\ \hline
+MIN\_WORD\_OCCURRENCE      & Minimum number of occurrences to be included in vocabulary & 5 \\ \hline
+FORCE\_SOURCE\_VOCAB\_SIZE & Source language vocabulary size limit              & 10000 \\ \hline
+FORCE\_TARGET\_VOCAB\_SIZE & Target language vocabulary size limit              & 10000 \\ \hline
+\end{tabular}
+\caption{Model Parameters}
+\label{tab:model-parameters}
+\end{table}
+
+\subsection{Models}
+
+% add reference for Tensorflow and Keras
+The models are built using the Python libraries Tensorflow and Keras.
+
+
+The full model consists of a source input layer, encoder \acrshort{GRU}, attention layer, target input layer, decoder \acrshort{GRU}, concatenate layer, and time distributed dense layer.
+
+
+Dropout and recurrent dropout for the encoder \acrshort{GRU} and decoder \acrshort{GRU} can be tuned through the parameters to help preventing overfitting during early epochs and improve generalisation of the models.
+
 
 \subsection{Inference}
 
+
+
 \subsection{Training}
 
-\subsection{Evaluating}
+\subsection{Evaluation}
 
 
