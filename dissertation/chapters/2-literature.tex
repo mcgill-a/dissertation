@@ -5,22 +5,7 @@
 
 \chapter{Literature Review}
 \label{literature}
-%\newthought{Lorem ipsum dolor sit amet}, consectetur adipiscing elit. Nunc neque massa, eleifend malesuada enim eu, efficitur imperdiet nulla. Aliquam augue est, lobortis eget scelerisque at, pretium vel lorem. Etiam faucibus nulla quam, nec tristique elit ullamcorper quis. Phasellus vel tincidunt nisl. Mauris at lacus sit amet mi auctor feugiat. Donec vel maximus erat. Suspendisse feugiat augue lacus, non egestas libero auctor sit amet. Nunc eros ante, posuere quis justo id, congue ultrices sapien.
-
-
-
-
-%\section{Machine Learning}
-
-%\subsection{Types of machine learning?}
-
-%\begin{itemize}
-%    \item Backpropagation + vanishing gradient problem
-%    \item Convolutional Neural Networks (CNN)
-%    \item Recurrent Neural Networks (RNN)
-%    \item Long Short Term Memory (LSTM)
-%    \item Transformer model
-%\end{itemize}
+This chapter will present the background information and approaches for Deep Learning (Chapter 2.1) and discuss the most prevalent techniques and evaluation methods in Machine Translation (Chapter 2.2). It will then investigate data augmentation in Low Resource Machine Translation (Chapter 2.3) and Low-Resource Machine Translation Approaches (Chapter 2.4). Finally, the findings will be concluded in the Literature Review Conclusion (Chapter 2.5).
 
 
 \clearpage
@@ -33,8 +18,8 @@
 
 
 % What is deep learning?
-Deep learning is a subset of machine learning inspired by the human brain that uses artificial neural networks with many hidden layers to extract features from inputs while training with large data amounts of data. %The deep neural networks that are trained on a large parallel corpus are the 
-Deep learning neural networks such as a \acrfull{CNN} are inspired by feedforward neural networks such as the perceptron. A single-layer perceptron is the most basic form of neural network that is used for binary classification, with a single layer of output nodes that are connected directly to weighted inputs through an activation function. A multi-layer perceptron expands the single-layer perceptron with the addition of hidden layers, where all nodes in one layer are connected to all the nodes in the next layer, as shown below in Figure \ref{fig:perceptron_multi}. The additional layers allow the perceptron to solve nonlinear classification problems (\cite{driss_comparison_2017}).
+Deep learning is a subset of machine learning inspired by the human brain that uses artificial neural networks with many hidden layers to extract features from inputs while training with large amounts of data. %The deep neural networks that are trained on a large parallel corpus are the 
+Deep learning neural networks such as a \acrfull{CNN} expand upon the concept of feedforward neural networks like the perceptron. A single-layer perceptron is the most basic form of neural network that is used for binary classification, with a single layer of output nodes that are connected directly to weighted inputs through an activation function. A multi-layer perceptron expands the single-layer perceptron with the addition of hidden layers, where all nodes in one layer are connected to all the nodes in the next layer, as shown below in Figure \ref{fig:perceptron_multi}. The additional layers allow the perceptron to solve nonlinear classification problems (\cite{driss_comparison_2017}).
 
 \begin{figure}[ht!]
 \centering
@@ -47,7 +32,9 @@ Deep learning neural networks such as a \acrfull{CNN} are inspired by feedforwar
 
 Extracting simple features from the lower levels of representation helps to identify the abstract features present in the higher representation levels that lead to the output classification of data (\cite{bengio_deep_2011}).
 %
-The intricacies of a data structure are identified using backpropagation to determine how the neural network should update the weights that are responsible for calculating the representation in each layer, based on the representation of the previous layer. (\cite{lecun_deep_2015}).
+The intricacies of a data structure are identified using backpropagation to determine how the neural network should update the weights that are responsible for calculating the representation in each layer, based on the representation of the previous layer. (\cite{lecun_deep_2015}). The proceeding chapters explore the literature surrounding deep learning neural networks, specifically the \acrfull{CNN} and \acrfull{RNN}.
+
+
 
 % What are they good at doing?
 % They are good at speech recognition, image recognition, natural language processing, facial detection, self driving, machine translation
@@ -162,8 +149,8 @@ Dropout is a technique that helps address the problem of overfitting for \acrsho
 \subsection{Recurrent Neural Networks}
 
 % Introduction
-Traditional neural networks struggle to retain previous information as they only map input vectors to output vectors \cite{graves_supervised_2012}. A \acrfull{RNN} is a type of neural network that performs the same function at every time step in a sequence, using the output of the previous step as the input to the current step.
-Similar to the objective traditional neural networks such as a CNN, the aim of an \acrshort{RNN}s is to reduce the loss value between input and output pair predictions using backpropagation to learn the network weights. 
+Traditional neural networks struggle to retain previous information as they only map input vectors to output vectors (\cite{graves_supervised_2012}). A \acrfull{RNN} is a type of neural network that performs the same function at every time step in a sequence, using the output of the previous step as the input to the current step.
+Similar to the objectives of traditional neural networks such as a \acrshort{CNN}, the aim of an \acrshort{RNN} is to reduce the loss value between input and output pair predictions using backpropagation to learn the network weights. 
 \acrshort{RNN}s are capable of mapping the entire history of previous inputs to each output, using internal hidden states to maintain a representation of the information that has been calculated previously and influence the network output.
 % What are they good at?
 This is particularly useful for \acrshort{NLP}, where the prediction of a word often depends on the context of what has been observed in the sentence so far. Short term memory also improves the handling of invariance for tasks such as image classification (\cite{mikolov_recurrent_slides_2010}), where the position, orientation, and size of an object may differ but the correct object is still identified. 
@@ -196,23 +183,35 @@ The \acrshort{RNN} receives an input vector every single time step and modifies 
 In a conventional neural network, information travels forwards through the input and output of neurons in the network. The loss value is calculated and then the weights are updated using backpropagation.
 In an \acrshort{RNN}, the information output from previous time steps are used as input for future time steps and the loss value is calculated at each time step. In order to minimise the loss value, once the final loss function in the \acrshort{RNN} has been calculated, error signals need to be back-propagated using \acrfull{BPTT} through the entire network to update the weights of every neuron (\cite{salehinejad_recent_rnn_2018}).
 % =========================== Then talk about vanishing and exploding gradient problems =========================== 
-As outlined by \cite{bengio_learning_1994}, the further back an error signal is back-propagated, the harder it becomes for the network to update the weights. This is known as the vanishing gradient problem, where the gradient reduces such that the weights are essentially prevented from being updated, halting training progress.
+As outlined by \cite{bengio_learning_1994}, the further back an error signal is back-propagated, the harder it becomes for the network to update the weights. This is known as the vanishing gradient problem, where the gradient reduces such that the weights are essentially prevented from being updated, halting the training progress.
 % =========================== Then talk about LSTM =========================== 
 
 \acrfull{LSTM} is an \acrshort{RNN} architecture proposed initially by \cite{hochreiter_long_1997} that was designed to help overcome the vanishing gradient problem present during backpropagation. They are significantly better than simple \acrshort{RNN}s at capturing long term dependencies because they use a gradient-based algorithm that enforces a consistent internal state error flow. This ensures that gradients will not become insignificant and halt the learning process.
 
-In the diagram shown below in Figure \ref{fig:rnn_lstm}, an entire vector is carried through each line from the output of one node to the input of other nodes. The vectors go through three sigmoid ($\sigma$) gates and one tanh gate (learned neural network layers) to decide what inputs pass through the network and what gets blocked. The symbol in a pink circle denotes the pointwise operation applied to the vectors (addition or multiplication).
+In the diagram shown in Figure \ref{fig:rnn_lstm}, an entire vector is carried through each line from the output of one node to the input of other nodes. The vectors go through three sigmoid ($\sigma$) gates and one tanh gate (learned neural network layers) to decide what inputs pass through the network and what gets blocked. The symbol in a pink circle denotes the pointwise operation applied to the vectors (addition or multiplication).
 
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.89\textwidth]{media/literature/machine_learning/ml_rnn_lstm.png}
-\caption[Diagram of Long Short Term Memory]{\acrlong{LSTM} diagram (\cite{colah_lstm_2019})}
+\caption[Diagram of Long Short Term Memory]{\acrfull{LSTM} diagram (\cite{colah_lstm_2019})}
 \label{fig:rnn_lstm}
 \end{figure}
 
 Predictions are based on the vectors that pass through the gates and a copy is kept for the next time step, meaning future predictions can be informed by memories that haven't forgotten. Referring back to previous time steps allows \acrshort{LSTM}s to better represent language specific grammar structures and transfer the meaning of sequences to other languages.
 
 
+One of the issues of using \acrshort{LSTM}s comes from the bandwidth and memory resource constraints that are encountered in the architecture as a result of the high number of tensor operations required. A simpler architecture may be more computationally efficient at the risk of being less accurate for specific deep learning tasks.
+% probably need to get a source for this
+
+% What are the issues with LSTMs?
+
+% hardware memory and bandwidth constraints - uses a lot of resources. Although this seems to be true for RNNs in general not just LSTMs. LSTMs might be worse though.
+
+% same as LSTMs in that it was created as a solution to short term memory
+% internal mechanisms called gates that can regulate the flow of info
+
+% the gates learn which data in a sequence is important to keep or throw away
+% pass relevant info down the chain of sequences to make predictions
 
 
 % \cite{mikolov_recurrent_2010} paper (notes on notion) - learning long term dependencies by stochastic gradient descent difficult
@@ -233,14 +232,37 @@ Predictions are based on the vectors that pass through the gates and a copy is k
 % first layer is formed the same way as it is in the feed-forward network.  Product of the sum of the weights and features
 % however, subsequent layers, the recurrent neural network process begins
 
-% =============== LSTM ===============
+% =============== CNN vs LSTM for sequence to sequence ===============
 
 An encoder is a network that maps an input to a feature vector and a decoder is a network that transforms the encoder output into a sequence in the target language. Typically, sequence to sequence problems are solved by stacking both the encoder and decoder with layers of an RNN with \acrshort{LSTM} (\cite{luong_effective_2015}). However, \cite{gehring_convolutional_2017} proposes the first fully connected \acrshort{CNN} for sequence to sequence learning that outperforms high performance \acrshort{LSTM} translation models by up to $1.9$ \acrshort{BLEU}. This approach discovers more compositional structure than \acrshort{RNN}s due to the hierarchical representations of sequences.
 
+% =============== GRU ===============
+
+% Write about GRUs
+% How is it different to an LSTM?
+% What are the benefits of GRUs?
+% What are the drawbacks of GRUs?
+
+\acrfull{GRU} is an architecture proposed by \cite{cho_properties_2014} that consists of an update gate, reset gate, and hidden state. Similar to an \acrshort{LSTM}, the aim of a \acrshort{GRU} is to help overcome the issue of short term memory in \acrshort{RNN}s.
+The internal cell state in an \acrshort{LSTM} is not present in a \acrshort{GRU}. Instead, the information is represented in the hidden state vector which is passed onto subsequent \acrshort{GRU}s.
+The update gate combines the input and forget gates and is used to determine what information should be learned and discarding the rest, whereas the reset gate decides which information to remove from memory (\cite{gao_gru_2016}).
+A diagram of the described architecture can be visualised in more detail in Figure \ref{fig:rnn_gru}.
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=0.89\textwidth]{media/literature/machine_learning/ml_rnn_gru.png}
+\caption[Diagram of Gated Recurrent Unit]{\acrfull{GRU} diagram (\cite{colah_lstm_2019})}
+\label{fig:rnn_gru}
+\end{figure}
+
+
+As a result of these differences, \acrshort{GRU}s include fewer tensor operations which can lead to efficient computation and therefore a reduction in training time (\cite{chung_gru_2014}).
+The performance of \acrshort{GRU} models favour short sentences without unknown words, degrading significantly as the length of the sentence and unknown word count increases (\cite{cho_properties_2014}).
 
 
 \section{Machine Translation}
 \label{Machine Translation}
+
+This section will introduce machine translation in a review of two of the most prevalent techniques and a review of the literature surrounding metrics for automatic translation evaluations. Subsequent sections will focus on low-resource approaches to \acrshort{NMT} in relation to data augmentation and model architectures.
 
 \subsection{Techniques}
 
@@ -451,7 +473,7 @@ When analysing the properties of \acrshort{NMT} encoder-decoder approaches, \cit
 
 %looks to overcome issues outlined by Cho
 It is possible to reduce the likelihood of poor translation quality for long sentences in an encoder-decoder framework by aligning a sequence of vectors with the positions that have highest concentration of relevant information (\cite{bahdanau_neural_2016}). 
-Instead of encoding the entire sentence into one fixed-length vector, the input sentence is encoded multiple vectors. A subset of these vectors are automatically selected during decoding based on previous words and the positions of the relevant information, determining the prediction of the output sequence. This known as an attention mechanism, due to the ability of the decoder to select which sections of the source sentence to pay attention to during each part of the output sequence. Results of encoder-decoder attention model show significant improvement over conventional \acrshort{NMT} encoder-decoder models, particularly for long sentences.
+Instead of encoding the entire sentence into one fixed-length vector, each sentence is encoded into a series of vectors. A subset of these vectors are automatically selected during decoding based on previous words and the positions of the relevant information, determining the prediction of the output sequence. This known as an attention mechanism, due to the ability of the decoder to select which sections of the source sentence to pay attention to during each part of the output sequence. Results of encoder-decoder attention model show significant improvement over conventional \acrshort{NMT} encoder-decoder models, particularly for long sentences (\cite{luong_effective_2015}). Therefore, the implementation of the translation models used for experimentation of different transfer learning methods in Chapter 3 will include an attention layer.
 
 
 % most research uses the encoder decoder approach with fixed-length vectors
@@ -634,14 +656,11 @@ Although \acrshort{BLEU} is the most popular automatic evaluation metric, there 
 
 
 
-
-%\cite{callison_bleu_2006} BLEU maybe not so great
-
-
 %\clearpage
 
-% Should this be under machine translation section?
-\section{Corpus Augmentation}
+
+%\section{Corpus Augmentation}
+\section{Low-Resource Machine Translation}
 
 \subsection{Back-Translation}
 %Back-translation makes it possible to generate synthetic parallel data by pairing monolingual data with a back-translated version of the data.
@@ -736,7 +755,7 @@ Results of their sentence segmentation implementation demonstrate that the incre
     \item \textbf{Random Deletion:} Randomly delete each word with probability $p$
 \end{itemize}
 
-\cite{wei_eda:_2019} found that \acrshort{EDA} increased performance for both recurrent and convolutional neural networks and improvements are most significant when the data was restricted to simulate a low-resource scenario. The additional training data generated and noise from the variety of swaps contribute towards reduced overfitting. In a text classification task, \acrshort{EDA} can achieve the same level of accuracy as the baseline performance of the entire training corpus despite only using only $50$\% of the training corpus. However, \acrshort{EDA} experiments have focussed exclusively on its application to text classification rather than \acrshort{NMT}.
+\cite{wei_eda:_2019} found that \acrshort{EDA} increased performance for both recurrent and convolutional neural networks and improvements are most significant when the data was restricted to simulate a low-resource scenario. The additional training data generated and noise from the variety of swaps contribute towards reduced overfitting. In a text classification task, \acrshort{EDA} can achieve the same level of accuracy as the baseline performance of the entire training corpus despite only using only $50$\% of the training corpus. However, \acrshort{EDA} experiments have focussed exclusively on its application to text classification. Although it may be useful for generating additional monolingual data, \acrshort{EDA} cannot be applied to a parallel data set consisting of two different languages due to the replacement that occurs without the use of a language model.
 
 % say something about overfitting and how the context remains similar
 
@@ -764,9 +783,9 @@ Results of their sentence segmentation implementation demonstrate that the incre
 
 Contextual data augmentation is a type of data augmentation where words are replaced at random using predictions from a language model, based on the context of the word within the sentence. As with other augmentation techniques, the primary aim is to reduce overfitting and improve generalisation of the models that train on the augmented data. 
 
-Although capable of retaining contextual information, contextual data augmentation research is primarily focussed on text classification tasks rather than \acrshort{NMT}. Research by \cite{wu_conditional_2018} and \cite{kobayashi_contextual_2018} are good examples of this, where the augmented data is can be fairly similar to the original data making it significantly less beneficial for \acrshort{NMT} training despite remaining useful in \acrshort{NLP} classifiers. This is difficult to overcome due to limitations in the usage of vocabulary without repeating the augmentation process many times for each sentence while maintaining grammatically correct output.
+Although capable of retaining contextual information, contextual data augmentation research is primarily focussed on text classification tasks rather than \acrshort{NMT}. Research by \cite{wu_conditional_2018} and \cite{kobayashi_contextual_2018} are good examples of this, where the augmented data can be fairly similar to the original data making it significantly less beneficial for \acrshort{NMT} training despite remaining useful in \acrshort{NLP} classifiers. This is difficult to overcome due to limitations in the usage of vocabulary without repeating the augmentation process many times for each sentence while maintaining grammatically correct output.
 
-\acrfull{SCDA} is a method of data augmentation proposed by \cite{zhu_soft_2019}, specifically designed for use in \acrshort{NMT} systems. The \acrshort{SCDA} uses a language model that is trained on the same training corpus as the \acrshort{NMT} model, as shown below in Figure \ref{fig:scda}.
+\acrfull{SCDA} is a method of data augmentation proposed by \cite{zhu_soft_2019}, specifically designed for use in \acrshort{NMT} systems. The \acrshort{SCDA} uses a language model that is trained on the same training corpus as the \acrshort{NMT} model, as shown in Figure \ref{fig:scda}.
 
 \begin{figure}[ht!]
 \centering
@@ -822,11 +841,11 @@ Research by \cite{dowling_leveraging_2019} takes advantage of the increased data
 \end{figure}
 
 
-The \acrshort{SMT} model saw improvements in performance over baseline when combining the synthetic training data with the original training data. The reason stated for not using \acrshort{NMT} in this research was due to the limited corpus size. As \acrshort{NMT} translation quality suffers significantly when models are trained with a low quantity of data, and as demonstrated in research by \cite{dowling_smt_2018}, a well tailored \acrshort{SMT} model achieves much better translation quality in comparison to an "out-of-the-box" \acrshort{NMT} model for Irish translation. Therefore, the research and implementation of low-resource neural machine translation approaches for Scottish Gaelic may contribute towards solving this problem.
+The \acrshort{SMT} model saw improvements in performance over baseline when combining the synthetic training data with the original training data. The reason stated for not using \acrshort{NMT} in this research was due to the limited corpus size. As \acrshort{NMT} translation quality suffers significantly when models are trained with a low quantity of data, and as demonstrated in research by \cite{dowling_smt_2018}, a well tailored \acrshort{SMT} model achieves much better translation quality in comparison to an "out-of-the-box" \acrshort{NMT} model for Irish translation. Therefore, the research of low-resource neural machine translation for Scottish Gaelic may contribute towards solving this problem. This project aims to expand upon the existing research and explore the application of \acrshort{NMT} to Scottish Gaelic through the implementation of transfer learning techniques.
 
 \subsection{Transfer Learning}
 
-As outlined by \cite{torrey_transfer_2009}, transfer learning uses the knowledge gained from a previous task in order to improve model performance in a related task. This concept is illustrated below in Figure \ref{fig:transfer}, where knowledge gained from the source domain Model $A$ is used to help inform the target domain Model $B$.
+As outlined by \cite{torrey_transfer_2009}, transfer learning uses the knowledge gained from a previous task in order to improve model performance in a related task. This concept is illustrated in Figure \ref{fig:transfer}, where knowledge gained from the source domain $A$ is used to help inform the target domain $B$.
 
 \begin{figure}[ht!]
 \centering
@@ -893,35 +912,19 @@ Despite the primary focus of \acrshort{MAML} research relating to object recogni
 % say how this paper uses meta agnostic model for translation
 Research by \cite{gu_meta-learning_2018} is the first of its kind to use \acrshort{MAML} for \acrshort{NMT}. In comparison to the transfer based approach by \cite{zoph_transfer_2016}, results showed further improvements with a BLEU score of $22.04$, despite training data for the low-resource language limited to $16,000$ words (around $600$ parallel sentences). As the corpus size of the low-resource language decreases, transfer learning approaches suffer significantly more than meta learning, which proves the effectiveness of \acrshort{MAML} for low-resource languages. However, as the corpus size increases, the differences in BLEU score between the two approaches are much less significant.
 
-\subsection{Available Datasets}
+\section{Literature Review Conclusion}
 
-% Please add the following required packages to your document preamble:
-% \usepackage{graphicx}
-\begin{table}[!h]
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|l|l|l|}
-\hline
-\multicolumn{1}{|c|}{\textbf{Language(s)}} & \textbf{Data Type} & \multicolumn{1}{c|}{\textbf{Sentences}} & \multicolumn{1}{c|}{\textbf{Source}} \\ \hline
-\begin{tabular}[c]{@{}l@{}}Scottish Gaelic (GD)\\ English (EN)\end{tabular} & Bilingual & $57.5$k & OPUS: GNOME v1 (\cite{tiedemann_opus_2012}) \\ \hline
-\begin{tabular}[c]{@{}l@{}}Scottish Gaelic (GD)\\ English (EN)\end{tabular} & Bilingual & $36.6$k & OPUS: Ubuntu v14.10 (\cite{tiedemann_opus_2012}) \\ \hline
-\begin{tabular}[c]{@{}l@{}}Scottish Gaelic (GD)\\ English (EN)\end{tabular} & Bilingual & N/A & LearnGaelic PDF Materials (\cite{learn_gaelic_2019})\\ \hline
-%\begin{tabular}[c]{@{}l@{}}Scottish Gaelic (GD)\\ English (EN)\end{tabular} & Bilingual & N/A & Scottish Parliament Publications \\ \hline
-%Placeholder & Monolingual &  & Placeholder \\ \hline
-\end{tabular}%
-}
-\end{table}
-
-\section{Conclusion}
-
-The purpose of this chapter was to review the literature surrounding neural networks and machine translation, leading to approaches for low-resource neural machine translation. 
+This chapter reviewed the literature surrounding neural networks and machine translation, leading to approaches for low-resource neural machine translation. 
 
 From the research covered in this review, it is clear that there have been many important developments in machine translation since its origin many years ago. Advancements in statistical machine translation and more recently the shift towards neural machine translation with convolutional neural networks and recurrent neural networks have led to significant improvements in translation quality.
 
 As confirmed by the literature, various low-resource \acrshort{NMT} techniques have shown to achieve significantly higher translation quality scores than baseline \acrshort{NMT} approaches on the same low-resource data corpus. Transfer learning has been the main focus of low-resource neural machine translation research, however, new research on meta learning has shown promising results with improvements over transfer learning. A variety of automatic evaluation metrics that can be used for evaluating the performance of translation models were identified in the research. \acrshort{BLEU} score will be the most beneficial metric to use during training and evaluation due to its high correlation to human translators and widespread adoption among virtually all other machine translation research.
 
-Limitations of the research primarily involves the scope of each implementation. There are many techniques and implementation decisions that have shown to improve translation quality, however, the majority of the research goes into great detail about one particular choice. It makes sense for each individual paper to have a clear focus, but there is definitely a gap in the research regarding the impact of using a combination of the aforementioned techniques. Data augmentation techniques such as back-translation have shown to improve \acrshort{NMT} quality on baseline \acrshort{NMT} approaches, so it is worth investigating what the impact when used with low-resource \acrshort{NMT} approaches. There is also no existing research for Scottish Gaelic \acrshort{NMT} systems as prior research was limited to statistical machine translation due to the large quantity of training data required with generic \acrshort{NMT} approaches.
+Limitations of the research primarily involves the scope of each implementation. There are many techniques and implementation decisions that have shown to improve translation quality, however, the majority of the research goes into great detail about one particular choice. Understandably, individual papers have a clear focus, but there is an identifiable gap in the research regarding the impact of using a combination of the aforementioned techniques. Data augmentation techniques such as back-translation have shown to improve \acrshort{NMT} quality on baseline \acrshort{NMT} approaches, so it is worth investigating what the impact when used with low-resource \acrshort{NMT} approaches. There is also no existing research for Scottish Gaelic \acrshort{NMT} systems as prior research was limited to statistical machine translation due to the large quantity of training data required with generic \acrshort{NMT} approaches.
 
+% Expand on why you used the approaches you used and what are their benefits.
 
+Based on the review of literature, the low-resource \acrshort{NMT} techniques that this project implements are trivial transfer learning and hierarchical transfer learning. The initialisation of a neural network with the weights of a previously trained neural network in a similar domain helps to aid the translation quality, particularly in a low-resource context. Experimentation in regards to the relatedness of the language pair, particularly Irish Gaelic which also has a very similar sentence structure, will identify whether either the quantity or relatedness of data is of a higher importance for Scottish Gaelic.
 
 
 % purpose of this chapter (lit review)

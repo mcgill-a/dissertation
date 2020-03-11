@@ -1,0 +1,67 @@
+%!TEX root = ../dissertation.tex
+%\begin{savequote}[75mm]
+%Nulla facilisi. In vel sem. Morbi id urna in diam dignissim feugiat. Proin molestie tortor eu velit. Aliquam erat volutpat. Nullam ultrices, diam tempus vulputate egestas, eros pede varius leo.
+%\qauthor{Quoteauthor Lastname}
+%\end{savequote}
+%\label{Data}
+\chapter{Methodology}
+
+\section{Data}
+
+\subsection{Available Datasets}
+
+%Add some text here to talk about the data
+
+The datasets that have been retrieved for use in the translation models have been split into three broad categories to reflect the type of vocabulary and sentence structure that can be expected from each dataset. They are described as follows:
+
+\begin{itemize}
+    \item Parliament - Publications of official parliamentary proceedings
+    \item Technical - Technical software localisation files
+    \item Informal - Informal conversation transcripts
+\end{itemize}
+
+
+\begin{table}[!ht]
+\centering
+\begin{tabular}{|l|l|l|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Languages}} & \multicolumn{1}{c|}{\textbf{Sentences}} & \textbf{Description} & \multicolumn{1}{c|}{\textbf{Source}}                        \\ \hline
+FR-EN                                    & 2,000,000                                   & Parliament           & Europarl (\cite{french_corpus_2005})                        \\ \hline
+GA-EN                                    & 521,000                                     & Parliament           & ParaCrawl Corpus (\cite{irish_paracrawl_2020}) \\ \hline
+GA-EN                                    & 98,000                                     & Parliament           & Irish Legislation (\cite{irish_corpus_2017}) \\ \hline
+GD-EN                                    & 57,500                                   & Technical            & OPUS: GNOME v1 (\cite{tiedemann_opus_2012})                 \\ \hline
+GD-EN                                    & 36,600                                 & Technical            & OPUS: Ubuntu v14.10 (\cite{tiedemann_opus_2012})            \\ \hline
+GD-EN                                    & 1,800                                   & Informal             & LearnGaelic PDF Materials (\cite{learn_gaelic_2019})        \\ \hline
+GD-EN                                    & 1,300                                 & Informal             & OPUS: Bible (\cite{bible_corpus_2015})                      \\ \hline
+
+\end{tabular}
+\caption{\label{tab:available-data} Data Sources}
+
+\end{table}
+
+The data identified in table \ref{tab:available-data} quantifies the difference between the high-resource languages such as French and Irish versus low-resource languages such as Scottish Gaelic. 
+
+While searching for different sources of data it became clear that parliamentary data is a popular source of parallel data due to the established guidelines of governments and the European Union where proceedings and legislation are required to be transcribed and translated into specific languages. As a result of this, there is an abundance of Irish Gaelic data in this format.
+In contrast, there is little high quality parallel Scottish Gaelic data readily available. A large percentage of the Scottish Gaelic data is technical information which contains a lot of software specific keywords and technical jargon. This is not ideal reference material for \acrshort{NMT} training data but will likely prove beneficial given that the dataset would be very small without it.
+
+The LearnGaelic data was extracted from learning materials on the \cite{learn_gaelic_2019} website. PDFs are provided on a static template with the English text on one side and the Gaelic version of the same text on the other. Converting these PDFs into the HTML format allowed the data to be categorised and extracted into individual text files while retaining the original alignment of sentences between English and Gaelic.
+Despite the low quantity of data from the LearnGaelic source, this data could be considered the highest quality as it is consists of a diverse set of conversations that are quite informal and natural. In contrast, the majority of the parliamentary data does not follow the natural flow of a conversation and consists of a lot of legal terminology.
+
+\subsection{Data Analysis}
+
+\subsection{Data Pre-processing}
+
+
+
+\newpage
+\section{Models}
+
+\subsection{Model}
+
+\subsection{Inference}
+
+\subsection{Training}
+
+\subsection{Evaluating}
+
+

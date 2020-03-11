@@ -4,7 +4,7 @@ params = {
     'SOURCE_LANGUAGE_TEXT': 'C:/Users/40276245/hp/repo/code/gru_attention/data/gd-en/gd.txt',
     'TARGET_LANGUAGE_TEXT': 'C:/Users/40276245/hp/repo/code/gru_attention/data/gd-en/en.txt',
     'VERSION': "100",
-    'DESCRIPTION': "Baseline Gaelic Model with backtranslated data",
+    'DESCRIPTION': "Baseline Gaelic Model with back-translated data",
     'DATA_SIZE': None,
     'N_EPOCHS': 4,
     'BATCH_SIZE': 64,
