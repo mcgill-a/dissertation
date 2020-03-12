@@ -46,17 +46,17 @@ def define_model(hidden_size, dropout_w, dropout_u, batch_size, learning_rate, s
 
     full_model.summary()
 
-    """ Inference model """
+    # Inference model
     batch_size = 1
 
-    """ Encoder (Inference) model """
+    # Encoder (Inference) model
     encoder_inf_inputs = Input(batch_shape=(
         batch_size, source_timesteps, source_vsize), name='encoder_inf_inputs')
     encoder_inf_out, encoder_inf_state = encoder_gru(encoder_inf_inputs)
     encoder_model = Model(inputs=encoder_inf_inputs, outputs=[
                           encoder_inf_out, encoder_inf_state])
 
-    """ Decoder (Inference) model """
+    # Decoder (Inference) model
     decoder_inf_inputs = Input(batch_shape=(
         batch_size, 1, target_vsize), name='decoder_word_inputs')
     encoder_inf_states = Input(batch_shape=(

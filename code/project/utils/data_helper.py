@@ -49,9 +49,11 @@ def clean_data(source_sentences, target_sentences, max_words=None):
 
     if max_words != None:
         invalid_samples = len(source_sentences)-len(source_output)
-        print('Sentences that were too long: {}/{}'.format(invalid_samples, len(source_sentences)))
+        print('Sentences that were too long: {}/{}'.format(invalid_samples,
+                                                           len(source_sentences)))
         print('Output size: {}'.format(len(source_output)))
     return source_output, target_output
+
 
 def visualise_data(tr_source_text, tr_target_text, ts_source_text, ts_target_text):
     source_l, target_l = [], []
@@ -102,11 +104,13 @@ def get_data(data_size, test_split, random_seed=100, max_words=None, min_word_oc
         source_text = read_data(info.source_language_txt)
         target_text = read_data(info.target_language_txt)
         # clean the data
-        source_text, target_text = clean_data(source_text, target_text, max_words=max_words)
+        source_text, target_text = clean_data(
+            source_text, target_text, max_words=max_words)
 
     if data_size:
-        source_text, target_text = source_text[:data_size], target_text[:data_size]
-    
+        source_text, target_text = source_text[:
+                                               data_size], target_text[:data_size]
+
     # add the start of string (sos) + end of string (eos) tags
     target_text = ['sos ' + sent[:-1] + 'eos .' if sent.endswith(
         '.') else 'sos ' + sent + ' eos .' for sent in target_text]
@@ -115,8 +119,13 @@ def get_data(data_size, test_split, random_seed=100, max_words=None, min_word_oc
     np.random.seed(random_seed)
     inds = np.arange(len(source_text))
     np.random.shuffle(inds)
-    train_inds, test_inds = train_test_split(
-        inds, test_size=test_split, random_state=20)
+    train_inds, test_inds = [], []
+
+    if test_split != None:
+        train_inds, test_inds = train_test_split(
+            inds, test_size=test_split, random_state=20)
+    else:
+        train_inds = inds
 
     # training data
     tr_source_text = [source_text[ti] for ti in train_inds]
@@ -130,9 +139,10 @@ def get_data(data_size, test_split, random_seed=100, max_words=None, min_word_oc
         tr_source_text, tr_target_text, min_word_occurrence, True)
 
     # filter the data
-    ts_source_text, ts_target_text = filter_data(
-        ts_source_text, ts_target_text, min_word_occurrence)
-    
+    ts_source_text, ts_target_text = [], []
+    if test_split != None:
+        ts_source_text, ts_target_text = filter_data(
+            ts_source_text, ts_target_text, min_word_occurrence)
 
     print('Training data size: {}'.format(len(tr_source_text)))
     print('Test data size: {}'.format(len(ts_source_text)))
@@ -188,7 +198,7 @@ def save_data(data, filename):
 
 
 # save a list of data to a text file
-def save_data_text(data, filename, newline=False):    
+def save_data_text(data, filename, newline=False):
     with open(filename, 'w+', encoding='utf-8') as output:
         for line in data:
             if newline:
