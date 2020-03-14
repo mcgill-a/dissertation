@@ -139,7 +139,6 @@ def get_data(data_size, test_split, random_seed=100, max_words=None, min_word_oc
         tr_source_text, tr_target_text, min_word_occurrence, True)
 
     # filter the data
-    ts_source_text, ts_target_text = [], []
     if test_split != None:
         ts_source_text, ts_target_text = filter_data(
             ts_source_text, ts_target_text, min_word_occurrence)
