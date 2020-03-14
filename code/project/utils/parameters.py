@@ -6,7 +6,7 @@ params = {
     'VERSION': "200",
     'DESCRIPTION': "Gaelic child model (from Irish parent @ 5 epochs)",
     'DATA_SIZE': None,
-    'N_EPOCHS': 1,
+    'N_EPOCHS': 2,
     'BATCH_SIZE': 64,
     'HIDDEN_UNITS': 128,
     'LEARNING_RATE': 0.001,
