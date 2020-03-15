@@ -58,6 +58,14 @@ target_tokenizer.fit_on_texts(tr_target_text)
 source_vsize = max(source_tokenizer.index_word.keys()) + 1
 target_vsize = max(target_tokenizer.index_word.keys()) + 1
 
+if params['FORCE_SOURCE_VOCAB_SIZE']:
+    if source_vsize < params['FORCE_SOURCE_VOCAB_SIZE']:
+        source_vsize = params['FORCE_SOURCE_VOCAB_SIZE']
+
+if params['FORCE_TARGET_VOCAB_SIZE']:
+    if target_vsize < params['FORCE_TARGET_VOCAB_SIZE']:
+        target_vsize = params['FORCE_TARGET_VOCAB_SIZE']
+
 # split training data into training + validation
 tr_source_text, tr_target_text, va_source_text, va_target_text = split_train_validation(
     tr_source_text, tr_target_text, VALIDATION_SPLIT)
