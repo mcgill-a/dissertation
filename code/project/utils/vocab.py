@@ -16,8 +16,13 @@ def to_vocab(lines):
 
 # remove all words with a frequency below a threshold
 def trim_vocab(vocab, min_occurrence, vocab_limit=None):
-    # sort the vocab from most frequent to least frequent
-    sorted_vocab = sorted(vocab.items(), key=lambda x: x[1], reverse=True)
+    if min_occurrence == None:
+        min_occurrence = 1
+    sorted_vocab = vocab.items()
+    if vocab_limit:
+        # sort the vocab from most frequent to least frequent
+        sorted_vocab = sorted(vocab.items(), key=lambda x: x[1], reverse=True)
+    
     tokens = [k for k, c in sorted_vocab if c >= min_occurrence]
     
     # enforce the vocab size limit

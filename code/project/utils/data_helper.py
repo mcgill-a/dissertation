@@ -35,6 +35,9 @@ def preprocess_sentence(sentence):
 
 
 def clean_data(source_sentences, target_sentences, max_words=None):
+    if len(source_sentences) != len(target_sentences):
+        print("[Error] Input files are different sizes")
+        exit(0)
     source_output, target_output = [], []
     for i in tqdm(range(len(source_sentences))):
         clean_source = preprocess_sentence(source_sentences[i])
