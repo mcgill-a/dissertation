@@ -2,9 +2,26 @@
 %\label{Conclusion and Future Work}
 
 \chapter{Conclusion}
-
+\newpage
 \section{Critical Evaluation}
 
+\begin{enumerate}
+    \item Took too long trying to get a baseline model with LSTM. Should've switched to GRU sooner.
+    \item The data I originally collected was rubbish for NMT. Should've thought about this before.
+    \item The models couldn't use all the data I had available because of available computing power. Ideally would've used a better GPU
+    \item Models still work quite well but I think this is due to the limited variety of the datasets. Would've been good to use the same data as other papers to have a direct comparison.
+\end{enumerate}
+
+
 \section{Future Work}
+
+\begin{itemize}
+    \item Try with LSTM instead of GRU
+    \item Use Luong \cite{luong_effective_2015} attention instead of Bahdanau \cite{bahdanau_neural_2016} attention
+    \item Try more data with larger vocab sizes
+    \item Adjust learning rate over time with each epoch
+    \item Link the models to an interactive web interface like Google Translate
+\end{itemize}
+
 
 \section{Conclusion}

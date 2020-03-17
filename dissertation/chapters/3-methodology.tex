@@ -36,12 +36,12 @@ The datasets that have been retrieved for use in the translation models have bee
 \multicolumn{1}{|c|}{\textbf{Languages}} & \multicolumn{1}{c|}{\textbf{Sentences}} & \textbf{Description} & \multicolumn{1}{c|}{\textbf{Source}} \\ \hline
 EN-FR   & 2,000,000     & Parliament    & Europarl (\cite{french_corpus_2005}) \\ \hline
 EN-GA   & 521,000       & Parliament    & ParaCrawl Corpus (\cite{irish_paracrawl_2020}) \\ \hline
-EN-ITA  & 336,000       & Informal      & Tatoeba Italian (\cite{tatoeba_data_2020}) \\ \hline
-EN-FR   & 175,000       & Informal      & Tatoeba French (\cite{tatoeba_data_2020}) \\ \hline
+EN-FR   & 170,000       & Informal      & Tatoeba French (\cite{tatoeba_data_2020}) \\ \hline
 EN-FR   & 137,500       & Informal      & Udacity Language Translation Dataset (\cite{udacity_data_2020}) \\ \hline
-EN-DEU  & 114,000       & Informal      & Tatoeba German (\cite{tatoeba_data_2020}) \\ \hline
+EN-DEU  & 115,000       & Informal      & Tatoeba German (\cite{tatoeba_data_2020}) \\ \hline
 EN-GA   & 98,000        & Parliament    & Irish Legislation (\cite{irish_corpus_2017}) \\ \hline
-EN-SPA  & 85,000        & Informal      & Tatoeba Spanish (\cite{tatoeba_data_2020}) \\ \hline
+EN-ITA  & 90,000        & Informal      & Tatoeba Italian (\cite{tatoeba_data_2020}) \\ \hline
+EN-SPA  & 80,000        & Informal      & Tatoeba Spanish (\cite{tatoeba_data_2020}) \\ \hline
 EN-GD   & 57,500        & Technical     & OPUS: GNOME v1 (\cite{tiedemann_opus_2012}) \\ \hline
 EN-GD   & 36,500        & Technical     & OPUS: Ubuntu v14.10 (\cite{tiedemann_opus_2012}) \\ \hline
 EN-FIN  & 33,000        & Informal      & Tatoeba Finnish (\cite{tatoeba_data_2020}) \\ \hline
@@ -81,11 +81,11 @@ Original English           & The lion is the king of the jungle.      \\ \hline
 Original Irish Gaelic      & Is é an leon rí na dufaire.              \\ \hline
 Translated Scottish Gaelic & Tha an leòmhann a tha an rìgh an Jungle. \\ \hline
 Translated English         & The lion is the king of the Jungle.      \\ \hline
-\multicolumn{2}{|l|}{\textbf{Example 3}}                              \\ \hline
-Original English           & The fact is, he broke the window.        \\ \hline
-Original Irish Gaelic      & Is amhlaidh a bhris sé an fhuinneog.     \\ \hline
-Translated Scottish Gaelic & Gu dearbh, bhrist e an uinneig.          \\ \hline
-Translated English         & Indeed, he broke the window.             \\ \hline
+%\multicolumn{2}{|l|}{\textbf{Example 3}}                              \\ \hline
+%Original English           & The fact is, he broke the window.        \\ \hline
+%Original Irish Gaelic      & Is amhlaidh a bhris sé an fhuinneog.     \\ \hline
+%Translated Scottish Gaelic & Gu dearbh, bhrist e an uinneig.          \\ \hline
+%Translated English         & Indeed, he broke the window.             \\ \hline
 \end{tabular}
 \captionsetup{justification=centering,font=Large}
 \caption{Back-translated data augmentation}
@@ -107,14 +107,14 @@ The data identified in table \ref{tab:available-data} quantifies the difference 
 Although the size of a dataset may be large, limitations in the maximum length of a sentence mean that the number of sentences that actually meet the criteria for use in the neural network is often a significantly lower amount. The RNN accepts variable length sequences using zero-padding to make them all the same length, meaning that all sentences match the length of the longest sentence. This may lead to issues where excessive padding on shorter sentences overwhelms the input sequence signal, making it difficult for the network to understand accurately decode an output sequence. To prevent this from occurring, the maximum sentence limit has been set to 20.
 
 While searching for different sources of data it became clear that parliamentary data is a popular source of parallel data due to the established guidelines of governments and the European Union where proceedings and legislation are required to be transcribed and translated into specific languages. As a result of this there is an abundance of Irish Gaelic data in this format. Despite the abundance of data, it was discovered that the parliamentary data is not of the same high quality nature of alternative datasets. The parliamentary data consists of very long sentences that often consist of a lot of legal terminology relating to a specific piece of legislation regarding a place, organisation, references, and dates. 
-As such, the vocabulary size is very large and the majority of the sentences exceed any reasonable threshold for sentence length as set the parameters of the neural network. For example, despite having 2 million sentences in the \cite{french_corpus_2005} dataset, 1.38 million sentences exceed the maximum sentence length, drastically reducing the quantity of usable data. The sentence length distribution can be seen in Figure \ref{fig:sentence_length}.
+As such, the vocabulary size is very large and the majority of the sentences exceed any reasonable threshold for sentence length as set the parameters of the neural network. For example, despite having 2 million sentences in the \cite{french_corpus_2005} dataset, 1.38 million sentences exceed the maximum sentence length, drastically reducing the quantity of usable data. The sentence length distribution can be seen in Figure \ref{fig:sentence_length-french_legal}.
 
 \begin{figure}[ht!]
 \centering
-\includegraphics[width=1\textwidth]{media/methodology/sentence-length-chart.png}
+\includegraphics[width=0.9\textwidth]{media/methodology/sentence_length_french.png}
 \captionsetup{justification=centering,font=Large}
 \caption[Diagram of the Europarl dataset sentence length distribution]{Sentence length distribution - Europarl English \& French dataset (\cite{french_corpus_2005}) \\ \textbf{**** ADD X AND Y LABELS TO THE CHART ****}}
-\label{fig:sentence_length}
+\label{fig:sentence_length-french_legal}
 \end{figure}
 
 In contrast, there is very little high quality parallel Scottish Gaelic data readily available. A large percentage of the original Scottish Gaelic data is technical information which contains a lot of software specific keywords, links and technical jargon. This is not ideal reference material for \acrshort{NMT} training data as it leads to a huge vocabulary size where the majority of words appear very few times and do not form coherent sentences, rather short descriptors of the field they represent in the respective localisation file. 
@@ -123,24 +123,34 @@ The LearnGaelic data was extracted from learning materials on the \cite{learn_ga
 Despite the low quantity of data from the LearnGaelic source, this data could be considered the highest quality as it is consists of a diverse set of conversations that are quite informal and natural. Similarly, the original Tatoeba datasets consist of concise, natural sentences that have been manually translated and aligned by an online community of translators.
 
 The composition of the data corpus can have a significant impact on the results of the translation quality evaluation. Should the entire training corpus be of a similar context, structure, and limited vocabulary, evaluations on the test set can be inflated due to their similarity with the training set.
-To create a varied data corpus in the low-resource context, a subset of samples that do not exceed the maximum sentence length from the multiple datasets totalling 160,000 have been selected to construct the core dataset for the \acrshort{NMT} models. The sources selected for this dataset can be seen in table \ref{tab:low_resource-data}.
+To create a varied data corpus in the low-resource context, a subset of 145,000 samples that do not exceed the maximum sentence length from the multiple datasets have been selected to construct the core dataset for the \acrshort{NMT} models. The sources selected for this dataset can be seen in table \ref{tab:low_resource-data}.
 
 \begin{table}[!ht]
 \centering
 \begin{tabular}{|l|l|}
 \hline
 \multicolumn{1}{|c|}{\textbf{Quantity}} & \multicolumn{1}{|c|}{\textbf{Source}} \\ \hline
-62,000  & Tatoeba German (\cite{tatoeba_data_2020}) \\ \hline % 113,500
-62,000  & Udacity French (\cite{udacity_data_2020}) \\ \hline % 104,000
+109,000  & Tatoeba German (\cite{tatoeba_data_2020}) \\ \hline % 113,500
+%50,000  & Udacity French (\cite{udacity_data_2020}) \\ \hline % 104,000
 32,500  & Tatoeba Finnish (\cite{udacity_data_2020}) \\ \hline % 32,950
 1,800   & Tatoeba Irish (\cite{tatoeba_data_2020}) \\ \hline
-800     & LearnGaelic (\cite{learn_gaelic_2019}) \\ \hline
 900     & Tatoeba Gaelic (\cite{tatoeba_data_2020}) \\ \hline
+800     & LearnGaelic (\cite{learn_gaelic_2019}) \\ \hline
 \end{tabular}
 \captionsetup{justification=centering,font=Large}
 \caption{Back-translated data augmentation}
 \label{tab:low_resource-data}
 \end{table}
+
+The sentence length distribution of the final Scottish Gaelic dataset is shown in Figure \ref{fig:sentence_length-gaelic}.
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=1\textwidth]{media/methodology/sentence_length_gaelic.png}
+\captionsetup{justification=centering,font=Large}
+\caption[Diagram of the Scottish Gaelic dataset sentence length distribution]{Sentence length distribution - English \& Gaelic dataset \\ \textbf{**** ADD X AND Y LABELS TO THE CHART ****}}
+\label{fig:sentence_length-gaelic}
+\end{figure}
+
 
 \subsection{Pre-processing}
 
@@ -163,7 +173,10 @@ Data Processing:
     \item Tokenize the source and target sentences using their vocabularies
 \end{itemize}
 
-\section{Frameworks}
+\section{Model}
+\label{sec:3-model}
+
+\subsection{Frameworks}
 \label{sec:3-frameworks}
 % Keras
 % create models, one hot encoding, tokenizer, padding
@@ -171,63 +184,17 @@ Data Processing:
 
 Tensorflow (\cite{tensorflow_2015}) is an open source library for machine learning that provides the framework for the development of neural networks in Python.
 Keras (\cite{keras_2015}) is a high-level API for Tensorflow that encapsulates the complexities through a simplified interface.
-For this project, Keras has been used for a variety of essential machine learning steps such as padding variable length sequences, one-hot encoding, model implementation and the training and inference methods described in Section \ref{sec:3-model}.
+For this project, Keras has been used for a variety of essential machine learning steps such as padding variable length sequences, one-hot encoding, model implementation and the training and inference methods described in subsequent sections.
 
-% Numpy / pandas
-% manipulate data (reshape etc).
-
-%\section{Architectures Considered}
-%\ref{sec:3-architectures}
-
-%\subsection{Long Short-Term Memory}
-
-%\subsection{Gated Recurrent Unit}
-
-
-
-\section{Model}
-\label{sec:3-model}
-\subsection{Parameters}
-
-% reference about importance of parameter tuning
-Parameter tuning can have a big impact on the quality of translation model efficiency, speed, and quality so it is essential that a wide variety of parameters are available. The parameters for this project are stored in a separate parameters file that is linked to the runtime of experiments to store the relevant state of the parameters per experiment. The key parameters that are available for tuning are shown in table \ref{tab:model-parameters} along with a description of their purpose.
-
-%\begin{table}[!ht]
-%\centering
-
-
-\begin{table}[!ht]
-\centering
-\small
-\begin{tabular}{|l|p{6.6cm}|l|}
-\hline
-\multicolumn{1}{|c|}{\textbf{Parameter}} & \multicolumn{1}{c|}{\textbf{Description}}                                       & \textbf{Example} \\ \hline
-BATCH\_SIZE                & Batch size of the \acrshort{GRU} inputs            & 64    \\ \hline
-HIDDEN\_UNITS              & Number of hidden units in the \acrshort{GRU}       & 128   \\ \hline
-LEARNING\_RATE             & Learning rate of the optimiser                     & 0.001 \\ \hline
-DROPOUT\_W                 & Dropout rate                                       & 0.2   \\ \hline
-DROPOUT\_U                 & Recurrent dropout rate                             & 0.2   \\ \hline
-SOURCE\_TIMESTEPS          & Number of timesteps for the source language        & 20    \\ \hline
-TARGET\_TIMESTEPS          & Number of timesteps for the target language        & 20    \\ \hline
-TEST\_SPLIT                & Training / test data split                         & 0.2   \\ \hline
-VALIDATION\_SPLIT          & Training / validation data split                   & 0.2   \\ \hline
-MAX\_WORDS\_PER\_SENTENCE  & Maximum number of words in a sentence              & 20    \\ \hline
-MIN\_WORD\_OCCURRENCE      & Minimum number of occurrences to be included in vocabulary & 5 \\ \hline
-FORCE\_SOURCE\_VOCAB\_SIZE & Source language vocabulary size limit              & 2500 \\ \hline
-FORCE\_TARGET\_VOCAB\_SIZE & Target language vocabulary size limit              & 2500 \\ \hline
-\end{tabular}
-\captionsetup{justification=centering,font=Large}
-\caption{Model Parameters}
-\label{tab:model-parameters}
-\end{table}
 
 \subsection{Architecture}
 
 % back up this with an image of the architecture
 The full model consists of a source input layer, encoder \acrshort{GRU}, attention layer, target input layer, decoder \acrshort{GRU}, concatenate layer, and time distributed dense layer.
 
-The model uses a Bahdanau attention layer (\cite{bahdanau_neural_2016}), where the encoder and decoder hidden states are searched for the most relevant information.
+The model uses a Bahdanau attention layer (\cite{bahdanau_neural_2016}), where the encoder and decoder hidden states are searched for the most relevant information. The difference between an implementation using Bahdanau and Luong \cite{luong_effective_2015} is that the Luong attention layer output tensor is used as an additional input to the decoder \acrshort{GRU}, whereas Bahdanau attention receives output tensors from both the encoder \acrshort{GRU} and decoder \acrshort{GRU}.
 The concatenate layer receives input in the form of tensors from the decoder \acrshort{GRU} and attention layer, concatenating them and outputting a single tensor. Finally, the time distributed dense layer applies the fully connected dense layer to every timestep in the \acrshort{GRU}.
+The full model architecture is shown in Figure \ref{fig:model_diagram}.
 
 
 
@@ -239,6 +206,38 @@ The concatenate layer receives input in the form of tensors from the decoder \ac
 \label{fig:model_diagram}
 \end{figure}
 
+% reference about importance of parameter tuning
+The internal structure of the model is dependent on a set of parameters that are set during the model initialisation. 
+Tuning of these parameters can have a big impact on the quality of translation model efficiency, speed, and quality so it is essential that a wide variety of parameters are available. The parameters for this project are stored in a separate parameters file that is linked to the runtime of experiments to store the relevant state of the parameters per experiment. The key parameters that are available for tuning are shown in table \ref{tab:model-parameters} along with a description of their purpose and their default value.
+
+%\begin{table}[!ht]
+%\centering
+
+
+\begin{table}[!ht]
+\centering
+\small
+\begin{tabular}{|l|p{6.6cm}|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Parameter}} & \multicolumn{1}{c|}{\textbf{Description}}                                       & \textbf{Default} \\ \hline
+BATCH\_SIZE                & Batch size of the \acrshort{GRU} inputs            & 64    \\ \hline
+HIDDEN\_UNITS              & Number of hidden units in the \acrshort{GRU}       & 128   \\ \hline
+LEARNING\_RATE             & Learning rate of the optimiser                     & 0.001 \\ \hline
+DROPOUT\_W                 & Dropout rate                                       & 0.2   \\ \hline
+DROPOUT\_U                 & Recurrent dropout rate                             & 0.2   \\ \hline
+SOURCE\_TIMESTEPS          & Number of timesteps for the source language        & 20    \\ \hline
+TARGET\_TIMESTEPS          & Number of timesteps for the target language        & 20    \\ \hline
+TEST\_SPLIT                & Training / test data split                         & 0.2   \\ \hline
+VALIDATION\_SPLIT          & Training / validation data split                   & 0.2   \\ \hline
+MAX\_WORDS\_PER\_SENTENCE  & Maximum number of words in a sentence              & 20    \\ \hline
+MIN\_WORD\_OCCURRENCE      & Minimum number of occurrences to be included in vocabulary & 5 \\ \hline
+FORCE\_SOURCE\_VOCAB\_SIZE & Source language vocabulary size limit              & 4000 \\ \hline
+FORCE\_TARGET\_VOCAB\_SIZE & Target language vocabulary size limit              & 4000 \\ \hline
+\end{tabular}
+\captionsetup{justification=centering,font=Large}
+\caption{Model Parameters}
+\label{tab:model-parameters}
+\end{table}
 
 
 \subsection{Training}
@@ -246,7 +245,7 @@ The concatenate layer receives input in the form of tensors from the decoder \ac
 Training neural networks on Tensorflow is possible on both a GPU and a CPU. Due to fundamental hardware differences between the two such as memory bandwidth and memory access latency, using a GPU can accelerate the training of models with a large datasets. To take advantage of the increased computational efficiency and reduction in training time, all of the training conducted during experimentation was done using Tensorflow GPU.
 % can add a reference for GPU speed training
 
-Given the hardware constraints of a GTX 1070 8GB graphics card, the model has a batch size of 64 and has 128 hidden units. This ensures that the video memory resources will not be exhausted and interrupt training. Had more resources been available, the parameters identified in the transfer learning literature would be replicated (256 batch size and 1000 hidden units). This would significantly increase the number of trainable parameters which means that the network has more flexibility in representing the desired mapping.
+Given the hardware constraints of a GTX 980 4GB graphics card, the model has a batch size of 64 and has 128 hidden units. This ensures that the video memory resources will not be exhausted and interrupt training. Had more resources been available, the parameters identified in the transfer learning literature would be replicated (256 batch size and 1000 hidden units). This would significantly increase the number of trainable parameters which means that the network has more flexibility in representing the desired mapping.
 
 The models are trained using the Adam optimizer (\cite{adam_optimizer_2014}) with a learning rate of 0.001 and the categorical cross-entropy loss function. To help prevent overfitting during early epochs and improve generalisation of the models, dropout and recurrent dropout has been applied to the encoder \acrshort{GRU} and decoder \acrshort{GRU} with a value of $0.2$.
 
@@ -261,13 +260,15 @@ Along with the full model, an inference encoder and decoder model are defined du
 The experiments investigate the use of both trivial transfer learning and hierarchical transfer learning to take advantage of the knowledge gained on a high-resource language, initialising the low-resource language in an effort to improve translation quality as identified in the literature review (Section \ref{sec:2-transfer_learning}).
 
 % Talk about size of parent dataset
-The high-resource languages that have been selected for use in transfer learning are French, Italian, and Irish Gaelic. In theory, Irish Gaelic as an intermediary language for hierarchical transfer learning should help transform the French word embeddings closer to a representation that better fits the syntactic structure of the low-resource language Scottish Gaelic. However in practise, it is unclear whether the relatedness of Irish Gaelic and Scottish Gaelic may exceed the performance of a Tatoeba dataset as an intermediary or parent language for transfer-learning due to the higher quality of the dataset.
+The high-resource languages that have been selected for use in transfer learning are French and Irish Gaelic. In theory, the use of Irish Gaelic as an intermediary language for hierarchical transfer learning should help transform the French word embeddings closer to a representation that better fits the syntactic structure of Scottish Gaelic.
 
+
+%
 % Talk about vocabulary size, minimum word replacement
-When a model is defined, the vocabulary size of the source language and the target language is used as a parameter to define the shape of encoder and decoder \acrshort{GRU}. High-resource languages will typically have a much higher vocabulary size by default given there are many more training examples. A vocabulary size limit is required for transfer learning as the input shape that is passed to the encoder and decoder must be the same as the initial declaration. The limitation means that these vocabulary sizes remain consistent between different languages and datasets.
+When a model is defined, the vocabulary size of the source language and the target language is used as a parameter to define the shape of encoder and decoder \acrshort{GRU}. High-resource languages will typically have a much higher vocabulary size by default given that there are many more training examples where unique words are likely to occur. A vocabulary size limit is required for transfer learning as the input shape that is passed to the encoder and decoder must be the same as the initial declaration. The restriction on vocabulary means that these sizes remain consistent between different languages and datasets.
 
-The vocabulary size has been restricted to 10,000 for all languages used in the experiments, replacing words outside of this limit with the out of vocabulary unknown word token "UNK". The implementation of this restriction prioritises the most frequently occurring words by sorting them by frequency in descending order and adding up to 10,000 words to the vocabulary dictionary.
-In addition to the vocabulary size limit, a minimum word replacement can be specified with the purpose of removing words that only occur in a very small subset of training samples. Given the limited vocabulary size present in the low-resource language training dataset, this value remains at 2 for the duration of the experiments that use the Scottish Gaelic data. Had this been increased, the vocabulary size would not reach the aforementioned vocabulary size enforcement value of 10,000. For the high-resource languages, despite a minimum word replacement value of 2, as a result of the limited vocabulary size, most if not all of the training samples will significantly exceed this value.
+The vocabulary size has been restricted to 4,000 for all languages used in the experiments, replacing words outside of this limit with the out of vocabulary unknown word token "UNK". The implementation of this restriction prioritises the most frequently occurring words by sorting them by frequency in descending order and adding up to 4,000 words to the vocabulary dictionary.
+In addition to the vocabulary size limit, a minimum word replacement can be specified with the purpose of removing words that only occur in a very small subset of training samples. Given the limited vocabulary size present in the low-resource language training dataset, this value remains at 2 for the duration of the experiments that use the Scottish Gaelic data. Despite a minimum word replacement value of 2 for the high-resource languages, most if not all of the training samples will significantly exceed this value as a result of the limited vocabulary size and prioritisation of more important words.
 
 % Make a graphic representing the vocabulary count occurrences for each language (french, irish, gaelic). Will be interesting to see what the distribution of the counts are given the minimum word occurrence set to 2.
 

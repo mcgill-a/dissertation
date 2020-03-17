@@ -384,3 +384,6 @@
 
 
 \usepackage{caption}
+
+\usepackage{booktabs}
+\usepackage{longtable}
