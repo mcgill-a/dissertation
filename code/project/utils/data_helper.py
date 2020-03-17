@@ -34,14 +34,17 @@ def preprocess_sentence(sentence):
     return sentence
 
 
-def clean_data(source_sentences, target_sentences, max_words=None):
+def clean_data(source_sentences, target_sentences, max_words=None, preprocess=True):
     if len(source_sentences) != len(target_sentences):
         print("[Error] Input files are different sizes")
         exit(0)
     source_output, target_output = [], []
     for i in tqdm(range(len(source_sentences))):
-        clean_source = preprocess_sentence(source_sentences[i])
-        clean_target = preprocess_sentence(target_sentences[i])
+        clean_source = source_sentences[i]
+        clean_target = target_sentences[i]
+        if preprocess:
+            clean_source = preprocess_sentence(source_sentences[i])
+            clean_target = preprocess_sentence(target_sentences[i])
         if max_words != None and max_words > 0:
             if len(clean_source.split()) <= max_words and len(clean_target.split()) <= max_words:
                 source_output.append(clean_source)

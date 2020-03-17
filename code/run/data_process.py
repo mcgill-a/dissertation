@@ -12,5 +12,5 @@ target_text = read_data(info.target_language_txt)
 source_text, target_text = clean_data(source_text, target_text, max_words=params['MAX_WORDS_PER_SENTENCE'])
 
 # save the data
-save_data(source_text, info.data_output_path + "source.pkl")
-save_data(target_text, info.data_output_path + "target.pkl")
+save_data(source_text, info.data_output_path + "source.txt")
+save_data(target_text, info.data_output_path + "target.txt")
