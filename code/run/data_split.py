@@ -5,7 +5,7 @@ from project.utils.directories import Info as info
 from project.utils.parameters import params
 
 # load the data from the input file
-input_file = read_data("S:/_UNI/HP/MT/repo/code/gru_attention/data/fin-eng/fin.txt")
+input_file = read_data("S:/_UNI/HP/MT/repo/code/gru_attention/data/ita-en/source/ita.txt")
 
 # split the data from tab delimited
 source, target = split_data(input_file)
@@ -25,7 +25,7 @@ for line in source:
 ##############################################
 
 #output_path = info.data_output_path
-output_path = "S:/_UNI/HP/MT/repo/code/gru_attention/data/fin-eng/"
+output_path = "S:/_UNI/HP/MT/repo/code/gru_attention/data/ita-en/source/"
 
 # save the data
 save_data_text(filtered_source, output_path + "split-source.txt")
