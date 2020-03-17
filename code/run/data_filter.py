@@ -6,21 +6,21 @@ from project.utils.parameters import params
 import numpy as np
 
 
-in_path = "S:/_UNI/HP/MT/repo/code/gru_attention/data/_low-resource/gd-en/sources/back-translated/"
+in_path = "S:/_UNI/HP/MT/repo/code/gru_attention/data/gd-en/sources/original/raw/"
 out_path = in_path + 'output/'
 files = []
 
-files.append("irish_tatoeba-english.txt")
-files.append("irish_tatoeba-gaelic.txt")
+files.append("tatoeba-english.txt")
+files.append("tatoeba-gaelic.txt")
 
-SIZE = 1801
+SIZE = 905
 
 # load data from the input files
 source_text = read_data(in_path + files[0])
 target_text = read_data(in_path + files[1])
 
 # clean the data
-source_text, target_text = clean_data(source_text, target_text, max_words=params['MAX_WORDS_PER_SENTENCE'], preprocess=False)
+source_text, target_text = clean_data(source_text, target_text, max_words=params['MAX_WORDS_PER_SENTENCE'], preprocess=True)
 
 s_t = [source_text, target_text]
 
@@ -35,5 +35,5 @@ out_source = out_source[:SIZE]
 out_target = out_target[:SIZE]
 
 # save the data
-save_data_text(out_source, out_path + files[0], True)
-save_data_text(out_target, out_path + files[1], True)
+save_data_text(out_source, out_path + files[0], False)
+save_data_text(out_target, out_path + files[1], False)
