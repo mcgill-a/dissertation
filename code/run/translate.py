@@ -29,7 +29,7 @@ from private.tokens import NEPTUNE_API_TOKEN
 
 ''' Neptune Configuration '''
 neptune.init('mcgill-a/translation', api_token=NEPTUNE_API_TOKEN)
-neptune.create_experiment(name='translate-transfer',
+neptune.create_experiment(name='translate-train',
                           params=params)
 
 log_output = timestamp() + ' | [Stage] - Start'
