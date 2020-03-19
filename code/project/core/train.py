@@ -9,9 +9,9 @@ import numpy as np
 
 def train(epochs, full_model, encoder, decoder, tr_source_seq, tr_target_seq, va_source_seq, va_target_seq, BATCH_SIZE, history, source_vsize, target_vsize, neptune=None):
     prev_epochs = len(history['train_loss'])
+    best_val_loss = None
     # save history to neptune
     for i in range(len(history['val_loss'])):
-
         log_output = "[Epoch {}] train_loss: {} | val_loss: {}".format(
             i + 1, history['train_loss'][i], history['val_loss'][i])
         log_output = timestamp() + ' | ' + log_output
@@ -20,13 +20,19 @@ def train(epochs, full_model, encoder, decoder, tr_source_seq, tr_target_seq, va
         neptune.log_metric('train_loss', i+1, history['train_loss'][i])
         neptune.log_metric('val_loss', i+1, history['val_loss'][i])
 
-    if epochs > 0:
+        # save the models if the validation loss has improved
+        if best_val_loss == None:
+            best_val_loss = history['val_loss'][i]
+        else:
+            if history['val_loss'][i] < best_val_loss:
+                best_val_loss = history['val_loss'][i]
 
+    if epochs > 0:
         # train the model
         log_output = timestamp() + ' | [Stage] - Training'
         print(log_output)
         neptune.log_text('Runtime', log_output)
-        best_val_loss = None
+        
         for ep in range(prev_epochs, prev_epochs + epochs):
             train_loss = []
             val_loss = []
