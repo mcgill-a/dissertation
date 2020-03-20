@@ -1,0 +1,76 @@
+%!TEX root = ../dissertation.tex
+%\begin{savequote}[75mm]
+%Nulla facilisi. In vel sem. Morbi id urna in diam dignissim feugiat. Proin molestie tortor eu velit. Aliquam erat volutpat. Nullam ultrices, diam tempus vulputate egestas, eros pede varius leo.
+%\qauthor{Quoteauthor Lastname}
+%\end{savequote}
+
+\chapter{Evaluation and Results}
+This chapter will explain the configuration of experiments for a Baseline model (Section \ref{sec:4-baseline}), Trivial Transfer Learning model (Section \ref{sec:4-trivial}), and Hierarchical Transfer Learning model (Section \ref{sec:4-hierarchical}). The findings of these experiments will be outlined within the pertaining section.
+\newpage
+
+\section{Experiments}
+
+\subsection{Baseline}
+\label{sec:4-baseline}
+Stats:
+\begin{enumerate}
+    \item 145k sentences
+    \item 4k vocab limit for source and target language
+    \item Mix of original Gaelic and back-translated Gaelic
+    \item Can't do a baseline without the back-translated because the model performs too poorly (basically 0 BLEU score)
+    \item Trained for 20 epochs
+\end{enumerate}
+
+
+
+
+\subsection{Trivial Transfer Learning}
+\label{sec:4-trivial}
+
+If I have time I could maybe use the same amount of data for Irish and French as the parent language and then compare the results of them? This would identify whether the relatedness of the language pair had an impact on the translation quality
+
+Stats:
+\begin{enumerate}
+    \item Parent dataset: French - 170k sentences, 4k vocab
+    \item Child dataset: Gaelic + back-translated Gaelic - 145k sentences, 4k vocab
+    \item Trained on parent for 5 epochs
+    \item Trained on child for 20 epochs
+\end{enumerate}
+
+
+
+\subsection{Hierarchical Transfer Learning}
+\label{sec:4-hierarchical}
+Stats:
+\begin{enumerate}
+    \item Parent dataset: French - 170k sentences, 4k vocab
+    \item Intermediary dataset: Irish - 170k sentences, 4k vocab
+    \item Child dataset: Gaelic + back-translated Gaelic - 145k sentences, 4k vocab
+    \item Trained on parent for 5 epochs
+    \item Trained on intermediary for 5 epochs
+    \item Trained on child for 20 epochs
+\end{enumerate}
+
+
+\section{Results}
+
+Results 1:
+\begin{enumerate}
+    \item 1-BLEU: X, 2-BLEU: X, 3-BLEU: X, 4-BLEU: X
+    \item Sentence output table
+    \item Attention plot
+\end{enumerate}
+
+Results 2:
+\begin{enumerate}
+    \item 1-BLEU: X, 2-BLEU: X, 3-BLEU: X, 4-BLEU: X
+    \item Sentence output table
+    \item Attention plot
+\end{enumerate}
+
+Results 3:
+\begin{enumerate}
+    \item 1-BLEU: X, 2-BLEU: X, 3-BLEU: X, 4-BLEU: X
+    \item Sentence output table
+    \item Attention plot
+\end{enumerate}
