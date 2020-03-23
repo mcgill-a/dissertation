@@ -103,8 +103,9 @@
 \newfontfamily{\smallcaps}[RawFeature={+c2sc,+scmp}]{EB Garamond}
 \setsansfont[Scale=MatchLowercase, BoldFont={Lato Bold}]{Lato Regular}
 % \setmonofont[Scale=MatchLowercase]{Source Code Pro}
-\RequirePackage[labelfont={bf,sf,footnotesize,singlespacing},
-                textfont={sf,footnotesize,singlespacing},
+%Alex, change the "normalize" below for both the label and the textfont. Options here: https://www.javatpoint.com/latex-fonts-size-and-styles
+\RequirePackage[labelfont={bf,sf,normalsize,singlespacing},
+                textfont={sf,normalsize,singlespacing},
                 justification={justified,RaggedRight},
                 singlelinecheck=false,
                 margin=0pt,
@@ -384,6 +385,6 @@
 
 
 \usepackage{caption}
-
+\usepackage{textcomp}
 \usepackage{booktabs}
 \usepackage{longtable}

@@ -7,7 +7,7 @@
 \chapter{Methodology}
 % Add a paragraph introducing this section
 
-This chapter will provide an overview of the data collection, augmentation, and pre-processing steps (Section \ref{sec:3-data}), followed by the primary implementation frameworks used (Section \ref{sec:3-frameworks}). It will cover details of the \acrshort{NMT} architecture and training methodology (Section \ref{sec:3-model}), before explaining the transfer learning implementation (Section \ref{sec:3-transfer_learning}) and translation evaluation metrics (Section \ref{sec:3-evaluating}).
+This chapter will provide an overview of the data collection, augmentation, and pre-processing steps (Section \ref{sec:3-data}). It will cover details of the \acrshort{NMT} architecture and training methodology (Section \ref{sec:3-model}), before explaining the transfer learning implementation (Section \ref{sec:3-transfer_learning}) and translation evaluation metrics (Section \ref{sec:3-evaluating}).
 
 
 %, followed by the architectures considered for the model design in \ref{sec:3-architectures}
@@ -28,30 +28,34 @@ The datasets that have been retrieved for use in the translation models have bee
     \item Informal - Informal conversation excerpts and natural sentences
 \end{itemize}
 
+A description of each dataset is shown in Table \ref{tab:available-data}, where English = EN, Irish Gaelic = GA, Scottish Gaelic = GD, French = FR, German = DEU, Italian = ITA, and Spanish = SPA.
+
+
+%A description of the datasets is shown in Table \ref{tab:available-data}, where EN = English, GA = Irish Gaelic, GD = Scottish Gaelic, FR = French, DEU = German, ITA = Italian, and SPA = Spanish.
 
 \begin{table}[!ht]
 \centering
 \begin{tabular}{|l|l|l|l|}
 \hline
-\multicolumn{1}{|c|}{\textbf{Languages}} & \multicolumn{1}{c|}{\textbf{Sentences}} & \textbf{Description} & \multicolumn{1}{c|}{\textbf{Source}} \\ \hline
-EN-FR   & 2,000,000     & Parliament    & Europarl (\cite{french_corpus_2005}) \\ \hline
-EN-GA   & 521,000       & Parliament    & ParaCrawl Corpus (\cite{irish_paracrawl_2020}) \\ \hline
-EN-FR   & 170,000       & Informal      & Tatoeba French (\cite{tatoeba_data_2020}) \\ \hline
-EN-FR   & 137,500       & Informal      & Udacity Language Translation Dataset (\cite{udacity_data_2020}) \\ \hline
-EN-DEU  & 115,000       & Informal      & Tatoeba German (\cite{tatoeba_data_2020}) \\ \hline
-EN-GA   & 98,000        & Parliament    & Irish Legislation (\cite{irish_corpus_2017}) \\ \hline
-EN-ITA  & 90,000        & Informal      & Tatoeba Italian (\cite{tatoeba_data_2020}) \\ \hline
-EN-SPA  & 80,000        & Informal      & Tatoeba Spanish (\cite{tatoeba_data_2020}) \\ \hline
-EN-GD   & 57,500        & Technical     & OPUS: GNOME v1 (\cite{tiedemann_opus_2012}) \\ \hline
-EN-GD   & 36,500        & Technical     & OPUS: Ubuntu v14.10 (\cite{tiedemann_opus_2012}) \\ \hline
-EN-FIN  & 33,000        & Informal      & Tatoeba Finnish (\cite{tatoeba_data_2020}) \\ \hline
-EN-GA   & 1,900         & Informal      & Tatoeba Irish (\cite{tatoeba_data_2020}) \\ \hline
-EN-GD   & 1,800         & Informal      & LearnGaelic PDF Materials (\cite{learn_gaelic_2019}) \\ \hline
-%EN-GD   & 1,300         & Informal      & OPUS: Bible (\cite{bible_corpus_2015}) \\ \hline
-EN-GA   & 900           & Informal      & Tatoeba Gaelic (\cite{tatoeba_data_2020}) \\ \hline
+\multicolumn{1}{|c|}{\textbf{Languages}} & \multicolumn{1}{c|}{\textbf{Sentences}} & \textbf{Category} & \multicolumn{1}{c|}{\textbf{Source}} \\ \hline
+EN\textrightarrow FR   & 2,000,000     & Parliament    & Europarl (\cite{french_corpus_2005}) \\ \hline
+EN\textrightarrow GA   & 521,000       & Parliament    & ParaCrawl Corpus (\cite{irish_paracrawl_2020}) \\ \hline
+EN\textrightarrow FR   & 170,000       & Informal      & Tatoeba French (\cite{tatoeba_data_2020}) \\ \hline
+%EN \textrightarrow FR   & 137,500       & Informal      & Udacity Language Translation Dataset (\cite{udacity_data_2020}) \\ \hline
+EN\textrightarrow DEU  & 115,000       & Informal      & Tatoeba German (\cite{tatoeba_data_2020}) \\ \hline
+EN\textrightarrow GA   & 98,000        & Parliament    & Irish Legislation (\cite{irish_corpus_2017}) \\ \hline
+EN\textrightarrow ITA  & 90,000        & Informal      & Tatoeba Italian (\cite{tatoeba_data_2020}) \\ \hline
+EN\textrightarrow SPA  & 80,000        & Informal      & Tatoeba Spanish (\cite{tatoeba_data_2020}) \\ \hline
+EN\textrightarrow GD   & 57,500        & Technical     & OPUS: GNOME v1 (\cite{tiedemann_opus_2012}) \\ \hline
+EN\textrightarrow GD   & 36,500        & Technical     & OPUS: Ubuntu v14.10 (\cite{tiedemann_opus_2012}) \\ \hline
+EN\textrightarrow FIN  & 33,000        & Informal      & Tatoeba Finnish (\cite{tatoeba_data_2020}) \\ \hline
+EN\textrightarrow GA   & 1,900         & Informal      & Tatoeba Irish (\cite{tatoeba_data_2020}) \\ \hline
+EN\textrightarrow GD   & 1,800         & Informal      & LearnGaelic PDF Materials (\cite{learn_gaelic_2019}) \\ \hline
+%EN \textrightarrow GD   & 1,300         & Informal      & OPUS: Bible (\cite{bible_corpus_2015}) \\ \hline
+EN\textrightarrow GA   & 900           & Informal      & Tatoeba Gaelic (\cite{tatoeba_data_2020}) \\ \hline
 \end{tabular}
 \captionsetup{justification=centering,font=Large}
-\caption{\label{tab:available-data} Data Sources}
+\caption{\label{tab:available-data} Description of available data}
 \end{table}
 
 \subsection{Augmentation}
@@ -61,9 +65,9 @@ EN-GA   & 900           & Informal      & Tatoeba Gaelic (\cite{tatoeba_data_202
 The back-translation data augmentation technique identified in the literature in Section \ref{sec:2-low_resource_mt} has been used to generate additional Scottish Gaelic training data. The similarities between Irish Gaelic and Scottish Gaelic make it an ideal candidate for back-translation. Using the Irish Legislation corpus (\cite{irish_corpus_2017}) and Tatoeba Irish (\cite{tiedemann_opus_2012}) as reference material, an additional 100,000 Scottish Gaelic parallel training samples were generated. This was achieved by importing the parallel dataset into Google Sheets (\cite{google_sheets_2020}) and using the formula integration with Google Translate to bulk translate the entire dataset.
 
 
-
+%Alex, I replaced " with ``
 % show a sample of the original data and the back-translated data
-Sentence samples from table \ref{tab:back_translated-data} show that despite minor differences in word choice and ordering, the back-translated data retains the meaning of the original sentence. The "Gaelic Translated" field is the original Irish Gaelic data translated into Scottish Gaelic. The "English Translated" field can be used to compare the English sentences as it represents the Gaelic translation translated again back into English. It is worth noting that the supplementary English translation is unlikely to retain the same level of quality in comparison to the Gaelic translation, given the relatedness of the language pair and anticipated degradation through a translation of a translation.
+Sentence samples from table \ref{tab:back_translated-data} show that despite minor differences in word choice and ordering, the back-translated data retains the meaning of the original sentence. The ``Gaelic Translated" field is the original Irish Gaelic data translated into Scottish Gaelic. The ``English Translated" field can be used to compare the English sentences as it represents the Gaelic translation translated again back into English. It is worth noting that the supplementary English translation is unlikely to retain the same level of quality in comparison to the Gaelic translation, given the relatedness of the language pair and anticipated degradation through a translation of a translation.
 
 % maybe wider and maybe colour
 \begin{table}[!ht]
@@ -92,21 +96,21 @@ Translated English         & The lion is the king of the Jungle.      \\ \hline
 \label{tab:back_translated-data}
 \end{table}
 
-An minor variation of this technique has been replicated on multiple Tatoeba datasets, extracting the English data from a parallel corpus to create a monolingual corpus and using the Google Translate API to generate additional parallel data in Scottish Gaelic. Although this technique is unable to retain 100\% accuracy for the majority of cases, the impact that the additional data has on the quality of the \acrshort{NMT} translation in comparison to a very limited dataset is significant. These changes should not affect the BLEU score evaluation metrics as the output translation is compared with the original English sentence and not the augmented sentence.
+A minor variation of this technique has been replicated on multiple Tatoeba datasets, extracting the English data from a parallel corpus to create a monolingual corpus and using the Google Translate API to generate additional parallel data in Scottish Gaelic. Although this technique is unable to retain 100\% accuracy for the majority of cases, the impact that the additional data has on the quality of the \acrshort{NMT} translation in comparison to a very limited dataset is significant. These changes should not affect the BLEU score evaluation metrics as the output translation is compared with the original English sentence and not the augmented sentence.
 
 
 \subsection{Analysis}
 
-The data identified in table \ref{tab:available-data} quantifies the difference between the high-resource languages such as French and Irish versus low-resource languages such as Scottish Gaelic. 
+The data identified in Table \ref{tab:available-data} quantifies the difference between the high-resource languages such as French and Irish versus low-resource languages such as Scottish Gaelic. 
 
 
 % Talk about the length of the sentences in the dataset
 % and how this cuts the dataset numbers drastically.
 % longer sentences don't work well for this architecture so had to be removed
 
-Although the size of a dataset may be large, limitations in the maximum length of a sentence mean that the number of sentences that actually meet the criteria for use in the neural network is often a significantly lower amount. The RNN accepts variable length sequences using zero-padding to make them all the same length, meaning that all sentences match the length of the longest sentence. This may lead to issues where excessive padding on shorter sentences overwhelms the input sequence signal, making it difficult for the network to understand accurately decode an output sequence. To prevent this from occurring, the maximum sentence limit has been set to 20.
+Although the size of a dataset may be large, limitations in the maximum length of a sentence mean that the number of sentences that actually meet the criteria for use in the neural network is often a significantly lower amount. The RNN accepts variable length sequences using zero-padding to make them all the same length, meaning that all sentences match the length of the longest sentence. This may lead to issues where excessive padding on shorter sentences overwhelms the input sequence signal, making it difficult for the network to accurately decode an output sequence. To prevent this from occurring, the maximum sentence limit has been set to 20.
 
-While searching for different sources of data it became clear that parliamentary data is a popular source of parallel data due to the established guidelines of governments and the European Union where proceedings and legislation are required to be transcribed and translated into specific languages. As a result of this there is an abundance of Irish Gaelic data in this format. Despite the abundance of data, it was discovered that the parliamentary data is not of the same high quality nature of alternative datasets. The parliamentary data consists of very long sentences that often consist of a lot of legal terminology relating to a specific piece of legislation regarding a place, organisation, references, and dates. 
+While searching for different sources of data it became clear that parliamentary data is a popular source of parallel data due to the established guidelines of governments and the European Union where proceedings and legislation are required to be transcribed and translated into specific languages. As a result of this, there is an abundance of Irish Gaelic data in this format. Despite the abundance of data, it was discovered that while parliamentary data may be useful for translation of other parliamentary transcripts, alternative datasets prove more beneficial for more general purpose contexts. The parliamentary data consists of very long sentences that often consist of a lot of legal terminology relating to a specific piece of legislation regarding a place, organisation, references, and dates. 
 As such, the vocabulary size is very large and the majority of the sentences exceed any reasonable threshold for sentence length as set the parameters of the neural network. For example, despite having 2 million sentences in the \cite{french_corpus_2005} dataset, 1.38 million sentences exceed the maximum sentence length, drastically reducing the quantity of usable data. The sentence length distribution can be seen in Figure \ref{fig:sentence_length-french_legal}.
 
 \begin{figure}[ht!]
@@ -120,10 +124,10 @@ As such, the vocabulary size is very large and the majority of the sentences exc
 In contrast, there is very little high quality parallel Scottish Gaelic data readily available. A large percentage of the original Scottish Gaelic data is technical information which contains a lot of software specific keywords, links and technical jargon. This is not ideal reference material for \acrshort{NMT} training data as it leads to a huge vocabulary size where the majority of words appear very few times and do not form coherent sentences, rather short descriptors of the field they represent in the respective localisation file. 
 
 The LearnGaelic data was extracted from learning materials on the \cite{learn_gaelic_2019} website. PDFs are provided on a static template with the English text on one side and the Gaelic version of the same text on the other. Converting these PDFs into the HTML format allowed the data to be categorised and extracted into individual text files while retaining the original alignment of sentences between English and Gaelic.
-Despite the low quantity of data from the LearnGaelic source, this data could be considered the highest quality as it is consists of a diverse set of conversations that are quite informal and natural. Similarly, the original Tatoeba datasets consist of concise, natural sentences that have been manually translated and aligned by an online community of translators.
+Despite the low quantity of data from the LearnGaelic source, this data could be considered the highest quality as it consists of a diverse set of conversations that are quite informal and natural. Similarly, the original Tatoeba datasets consist of concise, natural sentences that have been manually translated and aligned by an online community of translators.
 
 The composition of the data corpus can have a significant impact on the results of the translation quality evaluation. Should the entire training corpus be of a similar context, structure, and limited vocabulary, evaluations on the test set can be inflated due to their similarity with the training set.
-To create a varied data corpus in the low-resource context, a subset of 145,000 samples that do not exceed the maximum sentence length from the multiple datasets have been selected to construct the core dataset for the \acrshort{NMT} models. The sources selected for this dataset can be seen in table \ref{tab:low_resource-data}.
+To create a varied data corpus in the low-resource context, a subset of 145,000 samples that do not exceed the maximum sentence length from the multiple datasets have been selected to construct the core dataset for the \acrshort{NMT} models. The sources selected for this dataset can be seen in Table \ref{tab:low_resource-data}.
 
 \begin{table}[!ht]
 \centering
@@ -132,7 +136,7 @@ To create a varied data corpus in the low-resource context, a subset of 145,000 
 \multicolumn{1}{|c|}{\textbf{Quantity}} & \multicolumn{1}{|c|}{\textbf{Source}} \\ \hline
 109,000  & Tatoeba German (\cite{tatoeba_data_2020}) \\ \hline % 113,500
 %50,000  & Udacity French (\cite{udacity_data_2020}) \\ \hline % 104,000
-32,500  & Tatoeba Finnish (\cite{udacity_data_2020}) \\ \hline % 32,950
+32,500  & Tatoeba Finnish (\cite{tatoeba_data_2020}) \\ \hline % 32,950
 1,800   & Tatoeba Irish (\cite{tatoeba_data_2020}) \\ \hline
 900     & Tatoeba Gaelic (\cite{tatoeba_data_2020}) \\ \hline
 800     & LearnGaelic (\cite{learn_gaelic_2019}) \\ \hline
@@ -176,39 +180,39 @@ Data Processing:
 \section{Model}
 \label{sec:3-model}
 
-\subsection{Frameworks}
-\label{sec:3-frameworks}
+%\subsection{Frameworks}
+%\label{sec:3-frameworks}
 % Keras
 % create models, one hot encoding, tokenizer, padding
 % add reference for Tensorflow and Keras
 
-Tensorflow (\cite{tensorflow_2015}) is an open source library for machine learning that provides the framework for the development of neural networks in Python.
-Keras (\cite{keras_2015}) is a high-level API for Tensorflow that encapsulates the complexities through a simplified interface.
-For this project, Keras has been used for a variety of essential machine learning steps such as padding variable length sequences, one-hot encoding, model implementation and the training and inference methods described in subsequent sections.
+%Tensorflow (\cite{tensorflow_2015}) is an open source library for machine learning that provides the framework for the development of neural networks in Python.
+%Keras (\cite{keras_2015}) is a high-level API for Tensorflow that encapsulates the complexities through a simplified interface.
+%For this project, Keras has been used for a variety of essential machine learning steps such as padding variable length sequences, one-hot encoding, model implementation and the training and inference methods described in subsequent sections.
+
 
 
 \subsection{Architecture}
-
-% back up this with an image of the architecture
 The full model consists of a source input layer, encoder \acrshort{GRU}, attention layer, target input layer, decoder \acrshort{GRU}, concatenate layer, and time distributed dense layer.
-
-The model uses a Bahdanau attention layer (\cite{bahdanau_neural_2016}), where the encoder and decoder hidden states are searched for the most relevant information. The difference between an implementation using Bahdanau and Luong \cite{luong_effective_2015} is that the Luong attention layer output tensor is used as an additional input to the decoder \acrshort{GRU}, whereas Bahdanau attention receives output tensors from both the encoder \acrshort{GRU} and decoder \acrshort{GRU}.
-The concatenate layer receives input in the form of tensors from the decoder \acrshort{GRU} and attention layer, concatenating them and outputting a single tensor. Finally, the time distributed dense layer applies the fully connected dense layer to every timestep in the \acrshort{GRU}.
-The full model architecture is shown in Figure \ref{fig:model_diagram}.
+The model uses a Bahdanau attention layer, where the encoder and decoder hidden states are searched for the most relevant information. The difference between an attention layer architecture implementation using \cite{bahdanau_neural_2016} and \cite{luong_effective_2015} is that the output tensor from Luong attention is used as an additional input to the decoder \acrshort{GRU}, whereas Bahdanau attention receives output tensors from both the encoder \acrshort{GRU} and decoder \acrshort{GRU}.
+The concatenate layer receives input in the form of tensors from the decoder \acrshort{GRU} and attention layer, concatenating them and outputting a single tensor. Finally, the time distributed dense layer applies the fully connected dense layer to every timestep in the \acrshort{GRU}. The full model architecture is shown in Figure \ref{fig:model_diagram}.
 
 
 
 \begin{figure}[ht!]
 \centering
-\includegraphics[width=1\textwidth]{media/methodology/model_diagram.png}
+\includegraphics[width=0.6\textwidth]{media/methodology/model_architecture.jpeg}
 \captionsetup{justification=centering,font=Large}
-\caption[Diagram of the model architecture]{Model Architecture \\ \textbf{**** Temporary model diagram - replace with a nice diagram ****}}
+\caption[Diagram of the model architecture]{Model architecture}
 \label{fig:model_diagram}
 \end{figure}
 
-% reference about importance of parameter tuning
+Keras (\cite{keras_2015}) was used to implement the proposed model architecture along with a variety of other machine learning specific tasks such as padding variable length sequences, one-hot encoding, and the training and inference methods described in subsequent sections.
+
+
+% reference about importance of parameter tuning?
 The internal structure of the model is dependent on a set of parameters that are set during the model initialisation. 
-Tuning of these parameters can have a big impact on the quality of translation model efficiency, speed, and quality so it is essential that a wide variety of parameters are available. The parameters for this project are stored in a separate parameters file that is linked to the runtime of experiments to store the relevant state of the parameters per experiment. The key parameters that are available for tuning are shown in table \ref{tab:model-parameters} along with a description of their purpose and their default value.
+Tuning of these parameters can have a big impact on the quality of translation model efficiency, speed, and quality so it is essential that a wide variety of parameters are available. The parameters for this project are stored in a separate parameters file that is linked to the runtime of experiments to store the relevant state of the parameters per experiment. The key parameters that are available for tuning are shown in Table \ref{tab:model-parameters} along with a description of their purpose and their default value.
 
 %\begin{table}[!ht]
 %\centering
@@ -235,7 +239,7 @@ FORCE\_SOURCE\_VOCAB\_SIZE & Source language vocabulary size limit              
 FORCE\_TARGET\_VOCAB\_SIZE & Target language vocabulary size limit              & 4000 \\ \hline
 \end{tabular}
 \captionsetup{justification=centering,font=Large}
-\caption{Model Parameters}
+\caption{Model parameters}
 \label{tab:model-parameters}
 \end{table}
 
@@ -267,8 +271,8 @@ The high-resource languages that have been selected for use in transfer learning
 % Talk about vocabulary size, minimum word replacement
 When a model is defined, the vocabulary size of the source language and the target language is used as a parameter to define the shape of encoder and decoder \acrshort{GRU}. High-resource languages will typically have a much higher vocabulary size by default given that there are many more training examples where unique words are likely to occur. A vocabulary size limit is required for transfer learning as the input shape that is passed to the encoder and decoder must be the same as the initial declaration. The restriction on vocabulary means that these sizes remain consistent between different languages and datasets.
 
-The vocabulary size has been restricted to 4,000 for all languages used in the experiments, replacing words outside of this limit with the out of vocabulary unknown word token "UNK". The implementation of this restriction prioritises the most frequently occurring words by sorting them by frequency in descending order and adding up to 4,000 words to the vocabulary dictionary.
-In addition to the vocabulary size limit, a minimum word replacement can be specified with the purpose of removing words that only occur in a very small subset of training samples. Given the limited vocabulary size present in the low-resource language training dataset, this value remains at 2 for the duration of the experiments that use the Scottish Gaelic data. Despite a minimum word replacement value of 2 for the high-resource languages, most if not all of the training samples will significantly exceed this value as a result of the limited vocabulary size and prioritisation of more important words.
+The vocabulary size has been restricted to 4,000 for all languages used in the experiments, replacing words outside of this limit with the out of vocabulary unknown word token ``UNK". The implementation of this restriction prioritises the most frequently occurring words by sorting them by frequency in descending order and adding up to 4,000 words to the vocabulary dictionary.
+In addition to the vocabulary size limit, a minimum word replacement can be specified with the purpose of removing words that only occur in a very small subset of training samples. Given the limited vocabulary size present in the low-resource language training dataset, this value remains at 2 for the duration of the experiments that use the Scottish Gaelic data. Despite a minimum word replacement value of 2 for the high-resource languages, most of the training samples will significantly exceed this value as a result of the limited vocabulary size and prioritisation of more important words.
 
 % Make a graphic representing the vocabulary count occurrences for each language (french, irish, gaelic). Will be interesting to see what the distribution of the counts are given the minimum word occurrence set to 2.
 
@@ -276,7 +280,7 @@ In addition to the vocabulary size limit, a minimum word replacement can be spec
 \section{Evaluating Translations}
 \label{sec:3-evaluating}
 
-As identified in the literature review, \acrshort{BLEU} score will be used as the primary metric for the translation evaluation. To ensure the robustness of the results, evaluations will be presented in the form of \acrshort{BLEU}-1 to \acrshort{BLEU}-4. Although a translations may receive a high score for \acrshort{BLEU}-1, there is a significant difference in difficulty for receiving a high \acrshort{BLEU}-4 score as a higher percentage of n-gram counts are required to match the reference translation. The evaluations are calculated using cumulative score rather than individual score as it better represents the metric distribution. 
+As identified in the literature review, \acrshort{BLEU} scores will be used as the primary metric for the translation evaluation. To ensure the robustness of the results, evaluations will be presented in the form of \acrshort{BLEU}-1 to \acrshort{BLEU}-4. Although a translation may receive a high score for \acrshort{BLEU}-1, \acrshort{BLEU}-4 scores are often considerably lower due to the higher percentage of n-gram counts that are required to match the reference translation. The evaluations are calculated using cumulative score rather than individual score as it better represents the metric distribution. 
 
 Another form of evaluation will be in the form of a sentence analysis table. The direct comparison between implementation translations makes it easier to visualise the discrepancies outlined by \acrshort{BLEU} scores.
 Finally, an attention plot diagram using the attention weights will help visualise the inner workings of the attention mechanism's influence on the decision making process of the network for output predictions. 
