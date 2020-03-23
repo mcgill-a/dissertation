@@ -7,7 +7,7 @@ from tqdm.auto import tqdm
 import numpy as np
 
 
-def train(epochs, full_model, encoder, decoder, tr_source_seq, tr_target_seq, va_source_seq, va_target_seq, BATCH_SIZE, history, source_vsize, target_vsize, neptune=None):
+def train(epochs, full_model, encoder, decoder, tr_source_seq, tr_target_seq, va_source_seq, va_target_seq, BATCH_SIZE, history, source_vsize, target_vsize, neptune=None, override_save=False):
     prev_epochs = len(history['train_loss'])
     best_val_loss = None
     # save history to neptune
@@ -100,6 +100,6 @@ def train(epochs, full_model, encoder, decoder, tr_source_seq, tr_target_seq, va
                 best_val_loss = history['val_loss'][ep]
                 save_models(full_model, encoder, decoder)
             else:
-                if history['val_loss'][ep] < best_val_loss:
+                if history['val_loss'][ep] < best_val_loss or override_save:
                     best_val_loss = history['val_loss'][ep]
                     save_models(full_model, encoder, decoder)

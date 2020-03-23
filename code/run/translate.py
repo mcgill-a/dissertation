@@ -51,6 +51,7 @@ VALIDATION_SPLIT = params['VALIDATION_SPLIT']
 MAX_WORDS_PER_SENTENCE = params['MAX_WORDS_PER_SENTENCE']
 MIN_WORD_OCCURRENCE = params['MIN_WORD_OCCURRENCE']
 DATA_CLEANED = params['DATA_CLEANED']
+OVERRIDE_SAVE = params['OVERRIDE_SAVE']
 
 #############################################################################################################################################
 
@@ -134,7 +135,7 @@ if info.models_exist():
     neptune.log_text('Runtime', log_output)
 
 train(N_EPOCHS, full_model, encoder_model, decoder_model, tr_source_seq,
-      tr_target_seq, va_source_seq, va_target_seq, BATCH_SIZE, history, source_vsize, target_vsize, neptune)
+      tr_target_seq, va_source_seq, va_target_seq, BATCH_SIZE, history, source_vsize, target_vsize, neptune, OVERRIDE_SAVE)
 
 #############################################################################################################################################
 
