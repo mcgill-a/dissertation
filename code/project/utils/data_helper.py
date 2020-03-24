@@ -61,7 +61,7 @@ def clean_data(source_sentences, target_sentences, max_words=None, preprocess=Tr
     return source_output, target_output
 
 
-def visualise_data(tr_source_text, tr_target_text, ts_source_text, ts_target_text):
+def visualise_data(tr_source_text, tr_target_text, ts_source_text, ts_target_text, num=0):
     source_l, target_l = [], []
 
     for sentence in tr_source_text:
@@ -75,8 +75,13 @@ def visualise_data(tr_source_text, tr_target_text, ts_source_text, ts_target_tex
 
     length_df = pd.DataFrame(
         {info.source_language_name: source_l, info.target_language_name: target_l})
+    if num == 1:
+        length_df = pd.DataFrame(
+        {info.source_language_name: source_l})
+    elif num == 2:
+        length_df = pd.DataFrame(
+        {info.target_language_name: target_l})
     length_df.hist(bins=30)
-
     return length_df
 
 
