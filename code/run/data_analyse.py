@@ -44,7 +44,7 @@ tr_source_text, tr_target_text, ts_source_text, ts_target_text = get_data(
 # visualise the data
 data_vis = visualise_data(tr_source_text, tr_target_text,
                           ts_source_text, ts_target_text, num=1)
-plt.xlabel('Words Per Sentence')
+plt.xlabel('Words per Sentence')
 plt.ylabel('Number of Sentences')
 plt.show()
 
