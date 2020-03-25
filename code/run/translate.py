@@ -140,13 +140,14 @@ train(N_EPOCHS, full_model, encoder_model, decoder_model, tr_source_seq,
 
 #############################################################################################################################################
 epochs = range(1,len(history['train_loss'])+1)
+x_epochs = [0,2,4,6,8,10,12,14,16,18,20]
 
 plt.plot(epochs, history['train_loss'], 'g')
 plt.plot(epochs, history['val_loss'], 'b')
 plt.title('Training & Validation Loss / Epoch')
 plt.ylabel('Loss')
 plt.xlabel('Epoch')
-plt.xticks(epochs)
+plt.xticks(x_epochs)
 plt.legend(['Train', 'Validation'], loc='upper right')
 neptune.log_image('Charts', plt.gcf(),
                   image_name="Training and Validation Loss")

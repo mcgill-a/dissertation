@@ -166,13 +166,15 @@ def evaluate_model(test_samples):
     for key in bleu_scores:
         neptune.log_metric('BLEU Score', key, bleu_scores[key])
         print('BLEU-', key, ': ', bleu_scores[key])
+    
+    return bleu_scores
 
 #############################################################################################################################################
 
 log_output = timestamp() + ' | [Stage] - Evaluating'
 print(log_output)
 neptune.log_text('Runtime', log_output)
-evaluate_model(test_data)
+bleu_scores = evaluate_model(test_data)
 
 #############################################################################################################################################
 
