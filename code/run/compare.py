@@ -13,8 +13,8 @@ def plot_bleu_scores(experiments):
         idx += 1
         plt.bar(ind + (width * idx), ex['results'], width, label=ex['label'], color=ex['color'])
 
-    plt.ylabel('Score')
-    plt.xlabel('Metric')
+    plt.ylabel('BLEU Score')
+    plt.xlabel('BLEU Metric')
     plt.title('Translation BLEU Scores')
     plt.xticks(ind + width*2, labels)
     plt.legend(loc='best')
@@ -34,7 +34,7 @@ trivial = {
 }
 
 hierarchical = {
-    'results': [0.28, 0.15, 0.12, 0.10],
+    'results': [0.28, 0.15, 0.12, 0.08],
     'label': 'Hierarchical',
     'color': '#581845'
 }
