@@ -198,6 +198,11 @@ def test(test_source, test_target_actual, index=0):
     logger.info('Translation ({}): {}'.format(
         info.target_language_name, test_target))
 
+    neptune.log_text('translation', str(index) + " " + test_source)
+    neptune.log_text('translation', str(index) + " " + test_target_actual)
+    neptune.log_text('translation', str(index) + " " + test_target)
+
+
     # plot the attention
     filename = "attention-" + str(index) + ".png"
     attention_img = plot_attention_weights(test_source_seq, attn_weights,
