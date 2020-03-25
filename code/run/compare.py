@@ -28,7 +28,7 @@ baseline = {
 }
 
 trivial = {
-    'results': [0.22, 0.09, 0.05, 0.02],
+    'results': [0.09308101089188778, 0.00828418147773192, 0.00828418147773192, 0.00],
     'label': 'Trivial',
     'color': '#900C3F'
 }
@@ -42,6 +42,6 @@ hierarchical = {
 experiments = []
 experiments.append(baseline)
 experiments.append(trivial)
-experiments.append(hierarchical)
+#experiments.append(hierarchical)
 
 plot_bleu_scores(experiments)

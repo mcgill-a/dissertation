@@ -145,7 +145,7 @@ y_ticks = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5]
 
 plt.plot(epochs, history['train_loss'], 'g')
 plt.plot(epochs, history['val_loss'], 'b')
-plt.title('Training & Validation Loss')
+plt.title('Trivial Transfer Learning - Training & Validation Loss')
 plt.ylabel('Loss')
 plt.yticks(y_ticks)
 plt.xlabel('Epoch')
