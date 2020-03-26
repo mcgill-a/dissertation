@@ -198,6 +198,8 @@ def test(test_source, test_target_actual, index=0):
     logger.info('Translation ({}): {}'.format(
         info.target_language_name, test_target))
 
+
+
     neptune.log_text('translation', str(index) + " " + test_source)
     neptune.log_text('translation', str(index) + " " + test_target_actual)
     neptune.log_text('translation', str(index) + " " + test_target)
@@ -210,6 +212,10 @@ def test(test_source, test_target_actual, index=0):
     neptune.log_image('Attention Plots', attention_img,
                     image_name="Attention Plot " + str(index) )
 
+
+def remove_tags(string):
+    string.replace('sos', '')
+    string.replace('eos', '')
 
 # Create 5 attention plots
 for i in range(5):

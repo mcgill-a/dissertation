@@ -24,7 +24,8 @@ def plot_attention_weights(encoder_inputs, attention_weights, source_id2word, ta
     dec_inputs = []
     for dec_ind, attn in attention_weights:
         mats.append(attn.reshape(-1))
-        dec_inputs.append(dec_ind)
+        if dec_ind != 0:
+            dec_inputs.append(dec_ind)
     attention_mat = np.transpose(np.array(mats))
 
     fig, ax = plt.subplots(figsize=(32, 32))
