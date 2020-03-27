@@ -6,3 +6,10 @@
 
 \chapter{Analysis and Discussion}
 
+While it could have been beneficial to include a baseline experiment with purely original Scottish Gaelic data, it was discovered during initial testing that the low quality and quantity of data did not produce any \acrshort{NMT} output whatsoever whuch resulted in consistent \acrshort{BLEU} scores of 0.
+
+
+Over-training the parent model during transfer learning negatively impacts the training of the child model. In line the existing transfer learning research identified in the literature review, the parent models were initially trained for 5 epochs. However, it was found that this actually negatively impacted the results of the translation BLEU score. One notable difference between the research is that was a substantial difference in the total number of epochs that the models were trained on. Although 5 epochs may be insignificant in larger training cycles, in this case makes up a significant proportion of the overall training.
+
+
+Given the hardware constraints of this project resulting in a limited dataset size, reduced vocabulary size and therefore less trainable parameters, the models were observed to be overfitting before 20 epochs were completed. Dropout and recurrent dropout were implemented to reduce the rate of overfitting. While this did initially slow the rate of overfitting, the translation \acrshort{BLEU} scores were negatively impacted such that the additional training epochs were negligible.

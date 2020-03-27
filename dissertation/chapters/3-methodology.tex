@@ -38,23 +38,23 @@ A description of each dataset is shown in Table \ref{tab:available-data}, where 
 \begin{tabular}{|l|l|l|l|}
 \hline
 \multicolumn{1}{|c|}{\textbf{Languages}} & \multicolumn{1}{c|}{\textbf{Sentences}} & \textbf{Category} & \multicolumn{1}{c|}{\textbf{Source}} \\ \hline
-EN\textrightarrow FR   & 2,000,000     & Parliament    & Europarl (\cite{french_corpus_2005}) \\ \hline
-EN\textrightarrow GA   & 521,000       & Parliament    & ParaCrawl Corpus (\cite{irish_paracrawl_2020}) \\ \hline
-EN\textrightarrow FR   & 170,000       & Informal      & Tatoeba French (\cite{tatoeba_data_2020}) \\ \hline
-%EN \textrightarrow FR   & 137,500       & Informal      & Udacity Language Translation Dataset (\cite{udacity_data_2020}) \\ \hline
-EN\textrightarrow DEU  & 115,000       & Informal      & Tatoeba German (\cite{tatoeba_data_2020}) \\ \hline
-EN\textrightarrow GA   & 98,000        & Parliament    & Irish Legislation (\cite{irish_corpus_2017}) \\ \hline
-EN\textrightarrow ITA  & 90,000        & Informal      & Tatoeba Italian (\cite{tatoeba_data_2020}) \\ \hline
-EN\textrightarrow SPA  & 80,000        & Informal      & Tatoeba Spanish (\cite{tatoeba_data_2020}) \\ \hline
-EN\textrightarrow GD   & 57,500        & Technical     & OPUS: GNOME v1 (\cite{tiedemann_opus_2012}) \\ \hline
-EN\textrightarrow GD   & 36,500        & Technical     & OPUS: Ubuntu v14.10 (\cite{tiedemann_opus_2012}) \\ \hline
-EN\textrightarrow FIN  & 33,000        & Informal      & Tatoeba Finnish (\cite{tatoeba_data_2020}) \\ \hline
-EN\textrightarrow GA   & 1,900         & Informal      & Tatoeba Irish (\cite{tatoeba_data_2020}) \\ \hline
-EN\textrightarrow GD   & 1,800         & Informal      & LearnGaelic PDF Materials (\cite{learn_gaelic_2019}) \\ \hline
-%EN \textrightarrow GD   & 1,300         & Informal      & OPUS: Bible (\cite{bible_corpus_2015}) \\ \hline
-EN\textrightarrow GA   & 900           & Informal      & Tatoeba Gaelic (\cite{tatoeba_data_2020}) \\ \hline
+EN \textrightarrow \space FR   & 2,000,000     & Parliament    & Europarl (\cite{french_corpus_2005}) \\ \hline
+EN \textrightarrow \space GA   & 521,000       & Parliament    & ParaCrawl Corpus (\cite{irish_paracrawl_2020}) \\ \hline
+EN \textrightarrow \space FR   & 170,000       & Informal      & Tatoeba French (\cite{tatoeba_data_2020}) \\ \hline
+%EN \textrightarrow \space FR   & 137,500       & Informal      & Udacity Language Translation Dataset (\cite{udacity_data_2020}) \\ \hline
+EN \textrightarrow \space DEU  & 115,000       & Informal      & Tatoeba German (\cite{tatoeba_data_2020}) \\ \hline
+EN \textrightarrow \space GA   & 98,000        & Parliament    & Irish Legislation (\cite{irish_corpus_2017}) \\ \hline
+EN \textrightarrow \space ITA  & 90,000        & Informal      & Tatoeba Italian (\cite{tatoeba_data_2020}) \\ \hline
+EN \textrightarrow \space SPA  & 80,000        & Informal      & Tatoeba Spanish (\cite{tatoeba_data_2020}) \\ \hline
+EN \textrightarrow \space GD   & 57,500        & Technical     & OPUS: GNOME v1 (\cite{tiedemann_opus_2012}) \\ \hline
+EN \textrightarrow \space GD   & 36,500        & Technical     & OPUS: Ubuntu v14.10 (\cite{tiedemann_opus_2012}) \\ \hline
+EN \textrightarrow \space FIN  & 33,000        & Informal      & Tatoeba Finnish (\cite{tatoeba_data_2020}) \\ \hline
+EN \textrightarrow \space GA   & 1,900         & Informal      & Tatoeba Irish (\cite{tatoeba_data_2020}) \\ \hline
+EN \textrightarrow \space GD   & 1,800         & Informal      & LearnGaelic PDF Materials (\cite{learn_gaelic_2019}) \\ \hline
+%EN \textrightarrow \space GD   & 1,300         & Informal      & OPUS: Bible (\cite{bible_corpus_2015}) \\ \hline
+EN \textrightarrow \space GA   & 900           & Informal      & Tatoeba Gaelic (\cite{tatoeba_data_2020}) \\ \hline
 \end{tabular}
-\captionsetup{justification=centering,font=Large}
+\captionsetup{justification=centering}
 \caption{\label{tab:available-data} Description of available data}
 \end{table}
 
@@ -69,7 +69,6 @@ The back-translation data augmentation technique identified in the literature in
 % show a sample of the original data and the back-translated data
 Sentence samples from table \ref{tab:back_translated-data} show that despite minor differences in word choice and ordering, the back-translated data retains the meaning of the original sentence. The ``Gaelic Translated" field is the original Irish Gaelic data translated into Scottish Gaelic. The ``English Translated" field can be used to compare the English sentences as it represents the Gaelic translation translated again back into English. It is worth noting that the supplementary English translation is unlikely to retain the same level of quality in comparison to the Gaelic translation, given the relatedness of the language pair and anticipated degradation through a translation of a translation.
 
-% maybe wider and maybe colour
 \begin{table}[!ht]
 \centering
 \renewcommand{\arraystretch}{1.1}
@@ -91,7 +90,7 @@ Translated English         & The lion is the king of the Jungle.      \\ \hline
 %Translated Scottish Gaelic & Gu dearbh, bhrist e an uinneig.          \\ \hline
 %Translated English         & Indeed, he broke the window.             \\ \hline
 \end{tabular}
-\captionsetup{justification=centering,font=Large}
+\captionsetup{justification=centering}
 \caption{Back-translated data augmentation}
 \label{tab:back_translated-data}
 \end{table}
@@ -108,16 +107,16 @@ The data identified in Table \ref{tab:available-data} quantifies the difference 
 % and how this cuts the dataset numbers drastically.
 % longer sentences don't work well for this architecture so had to be removed
 
-Although the size of a dataset may be large, limitations in the maximum length of a sentence mean that the number of sentences that actually meet the criteria for use in the neural network is often a significantly lower amount. The RNN accepts variable length sequences using zero-padding to make them all the same length, meaning that all sentences match the length of the longest sentence. This may lead to issues where excessive padding on shorter sentences overwhelms the input sequence signal, making it difficult for the network to accurately decode an output sequence. To prevent this from occurring, the maximum sentence limit has been set to 20.
+Although the size of a dataset may be large, limitations in the maximum length of a sentence mean that the number of sentences that actually meet the criteria for use in the neural network is often a significantly lower amount. The RNN accepts variable length sequences using zero-padding to make them all the same length, meaning that all sentences match the length of the longest sentence. This may lead to issues where excessive padding on shorter sentences overwhelms the input sequence signal, making it difficult for the network to accurately decode an output sequence. As identified in research by \cite{cho_properties_2014}, the maximum sentence limit has been set to 20 to help prevent this from occurring.
 
 While searching for different sources of data it became clear that parliamentary data is a popular source of parallel data due to the established guidelines of governments and the European Union where proceedings and legislation are required to be transcribed and translated into specific languages. As a result of this, there is an abundance of Irish Gaelic data in this format. Despite the abundance of data, it was discovered that while parliamentary data may be useful for translation of other parliamentary transcripts, alternative datasets prove more beneficial for more general purpose contexts. The parliamentary data consists of very long sentences that often consist of a lot of legal terminology relating to a specific piece of legislation regarding a place, organisation, references, and dates. 
 As such, the vocabulary size is very large and the majority of the sentences exceed any reasonable threshold for sentence length as set the parameters of the neural network. For example, despite having 2 million sentences in the \cite{french_corpus_2005} dataset, 1.38 million sentences exceed the maximum sentence length, drastically reducing the quantity of usable data. The sentence length distribution can be seen in Figure \ref{fig:sentence_length-french_legal}.
 
 \begin{figure}[ht!]
 \centering
-\includegraphics[width=0.9\textwidth]{media/methodology/sentence_length_french.png}
-\captionsetup{justification=centering,font=Large}
-\caption[Diagram of the Europarl dataset sentence length distribution]{Sentence length distribution - Europarl English \& French dataset (\cite{french_corpus_2005}) \\ \textbf{**** ADD X AND Y LABELS TO THE CHART ****}}
+\includegraphics[width=1\textwidth]{media/methodology/s_length-1-en_fr.jpg}
+\captionsetup{justification=centering}
+\caption[Diagram of the Europarl dataset sentence length distribution]{Sentence length distribution - Europarl English and French dataset} % (\cite{french_corpus_2005})
 \label{fig:sentence_length-french_legal}
 \end{figure}
 
@@ -141,24 +140,24 @@ To create a varied data corpus in the low-resource context, a subset of 145,000 
 900     & Tatoeba Gaelic (\cite{tatoeba_data_2020}) \\ \hline
 800     & LearnGaelic (\cite{learn_gaelic_2019}) \\ \hline
 \end{tabular}
-\captionsetup{justification=centering,font=Large}
-\caption{Back-translated data augmentation}
+\captionsetup{justification=centering}
+\caption{Final Scottish Gaelic dataset (original + back-translated)}
 \label{tab:low_resource-data}
 \end{table}
 
 The sentence length distribution of the final Scottish Gaelic dataset is shown in Figure \ref{fig:sentence_length-gaelic}.
 \begin{figure}[ht!]
 \centering
-\includegraphics[width=1\textwidth]{media/methodology/sentence_length_gaelic.png}
-\captionsetup{justification=centering,font=Large}
-\caption[Diagram of the Scottish Gaelic dataset sentence length distribution]{Sentence length distribution - English \& Gaelic dataset \\ \textbf{**** ADD X AND Y LABELS TO THE CHART ****}}
+\includegraphics[width=1\textwidth]{media/methodology/s_length-2-en_gd.jpg}
+\captionsetup{justification=centering}
+\caption[Diagram of the Scottish Gaelic dataset sentence length distribution]{Sentence length distribution - English and Gaelic dataset}
 \label{fig:sentence_length-gaelic}
 \end{figure}
 
 
 \subsection{Pre-processing}
 
-A series of data cleaning and processing is required to ensure the consistency of the data structure throughout the dataset. Subsequently, tokenization will convert the data into sequences of word indices that can be understood by the \acrshort{NMT} models. This includes the following steps:
+As outlined in the Tensorflow \acrshort{NMT} documentation (\cite{tensorflow_preprocess_2020}), a series of data cleaning and processing is required to ensure consistency throughout the dataset. Subsequently, tokenization will convert the data into sequences of word indices that can be understood by the \acrshort{NMT} models. This includes the following steps:
 
 Data Cleaning:
 \begin{itemize}
@@ -202,7 +201,7 @@ The concatenate layer receives input in the form of tensors from the decoder \ac
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.6\textwidth]{media/methodology/model_architecture.jpeg}
-\captionsetup{justification=centering,font=Large}
+\captionsetup{justification=centering}
 \caption[Diagram of the model architecture]{Model architecture}
 \label{fig:model_diagram}
 \end{figure}
@@ -212,7 +211,7 @@ Keras (\cite{keras_2015}) was used to implement the proposed model architecture 
 
 % reference about importance of parameter tuning?
 The internal structure of the model is dependent on a set of parameters that are set during the model initialisation. 
-Tuning of these parameters can have a big impact on the quality of translation model efficiency, speed, and quality so it is essential that a wide variety of parameters are available. The parameters for this project are stored in a separate parameters file that is linked to the runtime of experiments to store the relevant state of the parameters per experiment. The key parameters that are available for tuning are shown in Table \ref{tab:model-parameters} along with a description of their purpose and their default value.
+Tuning of these parameters can have a big impact on the quality of translation model efficiency, speed, and quality so it is essential that a wide variety of parameters are available. The parameters for this project are stored in a separate parameters file (Appendix \ref{AppendixD}) that is linked to the runtime of experiments to store the relevant state of the parameters per experiment. The key parameters that are available for tuning are shown in Table \ref{tab:model-parameters} along with a description of their purpose and their default value.
 
 %\begin{table}[!ht]
 %\centering
@@ -238,8 +237,8 @@ MIN\_WORD\_OCCURRENCE      & Minimum number of occurrences to be included in voc
 FORCE\_SOURCE\_VOCAB\_SIZE & Source language vocabulary size limit              & 4000 \\ \hline
 FORCE\_TARGET\_VOCAB\_SIZE & Target language vocabulary size limit              & 4000 \\ \hline
 \end{tabular}
-\captionsetup{justification=centering,font=Large}
-\caption{Model parameters}
+\captionsetup{justification=centering}
+\caption{Key model parameters}
 \label{tab:model-parameters}
 \end{table}
 
@@ -251,7 +250,9 @@ Training neural networks on Tensorflow is possible on both a GPU and a CPU. Due 
 
 Given the hardware constraints of a GTX 980 4GB graphics card, the model has a batch size of 64 and has 128 hidden units. This ensures that the video memory resources will not be exhausted and interrupt training. Had more resources been available, the parameters identified in the transfer learning literature would be replicated (256 batch size and 1000 hidden units). This would significantly increase the number of trainable parameters which means that the network has more flexibility in representing the desired mapping.
 
-The models are trained using the Adam optimizer (\cite{adam_optimizer_2014}) with a learning rate of 0.001 and the categorical cross-entropy loss function. To help prevent overfitting during early epochs and improve generalisation of the models, dropout and recurrent dropout has been applied to the encoder \acrshort{GRU} and decoder \acrshort{GRU} with a value of $0.2$.
+Before training takes place, the data is split up into training data and testing data, with 80\% of the data to be assigned to training and the remaining 20\% kept separate for the test set which will be used for evaluation. The training data is split again into the final training set (80\%) and validation set (20\%).
+
+The models are trained using the Adam optimizer (\cite{adam_optimizer_2014}) with a learning rate of 0.001 and the categorical cross-entropy loss function. To help prevent overfitting during early epochs and improve generalisation of the models, dropout and recurrent dropout has been applied to the encoder \acrshort{GRU} and decoder \acrshort{GRU} with a value of $0.2$. 
 
 The full model, encoder model, and decoder model are all saved at the end of an epoch if the mean validation loss of the epoch improves upon the previous best validation loss. If no improvements are observed after 5 epochs then training is stopped.
 
