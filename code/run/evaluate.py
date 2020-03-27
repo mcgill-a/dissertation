@@ -152,6 +152,7 @@ def evaluate_model(test_samples):
     iterations = len(test_samples)
     for i in tqdm(range(iterations)):
         raw_src, raw_target = test_samples[i]
+        raw_target = raw_target.split(' ', 1)[1] # remove 'sos' (start of string) delimiter
         translation, _ = translate(raw_src)
         actual.append([raw_target.split()])
         predicted.append(translation.split())

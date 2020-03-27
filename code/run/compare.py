@@ -11,9 +11,6 @@ def plot_loss_scores(experiments):
     for ex in experiments:
         plt.plot(epochs, ex['loss'], ex['color'])
 
-    #plt.plot(epochs, history['train_loss'], 'g')
-    #plt.plot(epochs, history['val_loss'], 'b')
-
     plt.title('Baseline Vocabulary Size - Validation Loss')
     plt.ylabel('Loss')
     plt.yticks(y_ticks)
