@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import tensorflow.keras as keras
 from tensorflow.keras.utils import plot_model
 from nltk.translate.bleu_score import corpus_bleu
+from nltk.translate.nist_score import corpus_nist
 from tqdm.auto import tqdm
 
 sys.path.insert(0, '..')
@@ -164,18 +165,30 @@ def evaluate_model(test_samples):
         4: corpus_bleu(actual, predicted, weights=(0.25, 0.25, 0.25, 0.25)),
     }
 
+    nist_scores = {
+        1: corpus_nist(actual, predicted, n=1),
+        2: corpus_nist(actual, predicted, n=2),
+        3: corpus_nist(actual, predicted, n=3),
+        4: corpus_nist(actual, predicted, n=4),
+        5: corpus_nist(actual, predicted, n=5),
+    }
+
     for key in bleu_scores:
         neptune.log_metric('BLEU Score', key, bleu_scores[key])
         print('BLEU-', key, ': ', bleu_scores[key])
+
+    for key in nist_scores:
+        neptune.log_metric('NIST Score', key, nist_scores[key])
+        print('NIST-', key, ': ', nist_scores[key])
     
-    return bleu_scores
+    return bleu_scores, nist_scores
 
 #############################################################################################################################################
 
 log_output = timestamp() + ' | [Stage] - Evaluating'
 print(log_output)
 neptune.log_text('Runtime', log_output)
-bleu_scores = evaluate_model(test_data)
+bleu_scores, nist_scores = evaluate_model(test_data)
 
 #############################################################################################################################################
 
@@ -200,7 +213,6 @@ def test(test_source, test_target_actual, index=0):
         info.target_language_name, test_target))
 
 
-
     neptune.log_text('translation', str(index) + " " + test_source)
     neptune.log_text('translation', str(index) + " " + test_target_actual)
     neptune.log_text('translation', str(index) + " " + test_target)
@@ -218,15 +230,11 @@ def remove_tags(string):
     string.replace('sos', '')
     string.replace('eos', '')
 
-# Create 5 attention plots
-for i in range(5):
-    random.seed(i) # get the same 5 random sentences every time
-    # idx = random.randrange(len(ts_source_text))
-    
-    # Only choose from sentences within the first 100 lines.
-    # If data size was higher then it might choose
-    # an index too high for a smaller subset
-    idx = random.randrange(100)
+random.seed(420)
+
+# Create 10 attention plots
+for i in range(10):
+    idx = random.randrange(len(ts_source_text)-1)
     
     test(ts_source_text[idx], ts_target_text[idx], i+1)
 

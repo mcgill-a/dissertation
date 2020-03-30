@@ -46,7 +46,7 @@ duplicate_check(history['train_loss'])
 #history['train_loss'].pop(10)
 
 print("Duplicates Removed.")
-
+print(history['val_loss'])
 duplicate_check(history['val_loss'])
 duplicate_check(history['train_loss'])
 
