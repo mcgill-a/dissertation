@@ -141,7 +141,7 @@ train(N_EPOCHS, full_model, encoder_model, decoder_model, tr_source_seq,
 #############################################################################################################################################
 epochs = range(1,len(history['train_loss'])+1)
 x_ticks = [0,2,4,6,8,10,12,14,16,18,20]
-y_ticks = [0, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25]
+y_ticks = [0, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75]
 
 plt.plot(epochs, history['train_loss'], 'g')
 plt.plot(epochs, history['val_loss'], 'b')

@@ -175,11 +175,11 @@ def evaluate_model(test_samples):
 
     for key in bleu_scores:
         neptune.log_metric('BLEU Score', key, bleu_scores[key])
-        print('BLEU-', key, ': ', bleu_scores[key])
+        print('BLEU -', key, ': ', bleu_scores[key])
 
     for key in nist_scores:
         neptune.log_metric('NIST Score', key, nist_scores[key])
-        print('NIST-', key, ': ', nist_scores[key])
+        print('NIST -', key, ': ', nist_scores[key])
     
     return bleu_scores, nist_scores
 
@@ -222,18 +222,19 @@ def test(test_source, test_target_actual, index=0):
     filename = "attention-" + str(index) + ".png"
     attention_img = plot_attention_weights(test_source_seq, attn_weights,
                         source_index2word, target_index2word, filename=filename)
-    neptune.log_image('Attention Plots', attention_img,
-                    image_name="Attention Plot " + str(index) )
+    if attention_img:
+        neptune.log_image('Attention Plots', attention_img,
+                        image_name="Attention Plot " + str(index))
 
 
 def remove_tags(string):
     string.replace('sos', '')
     string.replace('eos', '')
 
-random.seed(420)
+random.seed(100)
 
 # Create 10 attention plots
-for i in range(10):
+for i in range(25):
     idx = random.randrange(len(ts_source_text)-1)
     
     test(ts_source_text[idx], ts_target_text[idx], i+1)
