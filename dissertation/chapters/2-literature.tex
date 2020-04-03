@@ -11,12 +11,6 @@ This chapter will present the background information and approaches for Deep Lea
 \clearpage
 \section{Deep Learning}
 \label{section:deep_learning}
-% Give an actual introduction here explaining basic perceptron and how CNNs can be used in NLP and translation
-
-% What is a neural network?
-
-%\cite{schmidhuber_deep_2015}
-
 
 % What is deep learning?
 Deep learning is a subset of machine learning inspired by the human brain that uses artificial neural networks with many hidden layers to extract features from inputs while training with large amounts of data. %The deep neural networks that are trained on a large parallel corpus are the 
@@ -29,26 +23,11 @@ Deep learning neural networks such as a \acrfull{CNN} expand upon the concept of
 \label{fig:perceptron_multi}
 \end{figure}
 
-%\cite{goodfellow_deep_learning_2016} talks about feedforward networks (MLPs)
-
 Extracting simple features from the lower levels of representation helps to identify the abstract features present in the higher representation levels that lead to the output classification of data (\cite{bengio_deep_2011}).
 %
 The intricacies of a data structure are identified using backpropagation to determine how the neural network should update the weights that are responsible for calculating the representation in each layer, based on the representation of the previous layer. (\cite{lecun_deep_2015}). The proceeding chapters explore the literature surrounding deep learning neural networks, specifically the \acrfull{CNN}, \acrfull{RNN}, and \acrfull{GRU}.
 
-
-
-% What are they good at doing?
-% They are good at speech recognition, image recognition, natural language processing, facial detection, self driving, machine translation
-
-% Introduce NMT
-
-% \cite{lecun_deep_2015} DL background information. MLPs, CNNs, RNNs
-
-%\subsection{Feedforward Neural Networks}
 \subsection{Convolutional Neural Networks}
-
-%\subsubsection{Introduction}
-% what is a CNN?
 
 A \acrfull{CNN} is an artificial neural network similar to the multi-layer perceptron with additional hidden convolutional layers. \acrshort{CNN}s are very good at detecting patterns from data which makes them ideal for image classification, object recognition, and more recently \acrfull{NLP} (\cite{young_cnns_recent_2018}).
 
@@ -67,18 +46,14 @@ The \acrshort{CNN} architecture is shown in Figure \ref{fig:cnn_1} using an exam
 A convolutional layer typically involves three different actions (\cite{goodfellow_deep_learning_2016}):
 \begin{itemize}
     \item Run multiple convolutions in parallel, producing a set of linear activations
-    %item The layer performs several convolutions in parallel to produce a set of linear activations
     \item Use a nonlinear activation function on each linear activation
-    %\item Each linear activation is run through a nonlinear activation function such as \acrshort{RELU}
     \item Use a pooling function to downsample the layer output
-    %\item Use a pooling function to modify the output of the layer further
 \end{itemize}
 
 
 % Convolutional layers + filters
 A convolution is a mathematical operation that generates an activation map (matrix) using inputs such as an image matrix and a filter, outputting high values if the convolution feature is present in that location. For image classification, a filter represents a small matrix with a preset number of columns and rows.
 A convolutional layer has a specified number of filters that are used to detect different patterns. These filters are initialised with random numbers and adjusted using backpropagation to learn the weights automatically.
-%3x3 is a common matrix size because as the matrix size increases, so does the number of parameters, increasing the likelihood of overfitting. 
 When a convolutional layer receives an input, the filter convolves over each $n$ x $n$ block of pixels in the image and the value of each cell becomes the dot product of the block of pixels and the filter. The resultant matrix is used as input to the next layer.
 
 In early convolutional layers, filters may only detect very simple features such as edges and shapes but as the layers get deeper in the neural network, filters are able to identify more complicated objects such as a facial features or types of animals. These high level features are what the classifier uses for weighting the output predictions.
@@ -94,11 +69,6 @@ Feature maps (the output activations for a given filter) are sensitive to the po
 
 % Fully connected layers
 The fully connected layers take outputs from the convolution and flatten them into a single vector. Using the Softmax activation function, the values of the vector in the final layer represent the probabilities of features matching the labels used for classification. Every neuron has full connections to all of the activations from the previous layer, and activations are computed using matrix multiplication and a bias offset (\cite{stanford_cs231n_2019}).
-
-% Original:
-%The fully connected layers take outputs from the convolution and flatten them into a single vector. The values of the vector represent the probabilities of features matching certain labels, subsequently used for classification. Every neuron has full connections to all of the activations from the previous layer, and activations are computed using matrix multiplication and a bias offset (\cite{stanford_cs231n_2019}).
-
-
 
 \begin{figure}[ht!]
 \centering
@@ -125,28 +95,6 @@ Dropout is a technique that helps address the problem of overfitting for \acrsho
 \label{fig:cnn_dropout}
 \end{figure}
 
-
-
-
-% TODO
-% - More information to introduce the CNN architecture
-% - backpropagation (update weights) % REMOVE but mention
-% XXX - Pooling layer (sub-sample input after convolutional layers)
-% XXX - Activation function (decide if neuron fires or not) % mention briefly
-% OOO - Batch normalisation (improve speed + performance, helps reduce overfitting)
-% XXX - Dropout (ignore random set of neurons during training, helps reduce overfitting) 
-% XXX - Fully connected layers
-%    
-%\end{itemize}
-
-
-%\cite{lecun_deep_2015}
-
-%\cite{jacovi_understanding_2018} conv nets for text classification: n-grams etc.
-
-
-% Talk about CNNs for Neural Machine Translation
-
 \subsection{Recurrent Neural Networks}
 
 % Introduction
@@ -155,14 +103,6 @@ Similar to the objectives of traditional neural networks such as a \acrshort{CNN
 \acrshort{RNN}s are capable of mapping the entire history of previous inputs to each output, using internal hidden states to maintain a representation of the information that has been calculated previously and influence the network output.
 % What are they good at?
 This is particularly useful for \acrshort{NLP}, where the prediction of a word often depends on the context of what has been observed in the sentence so far. Short term memory also improves the handling of invariance for tasks such as image classification (\cite{mikolov_recurrent_slides_2010}), where the position, orientation, and size of an object may differ but the correct object is still identified. 
-
-% Stolen. Could be modified and added somewhere though:
-% \acrshort{RNN}s can handle much longer sequences than would be practical for networks without sequence-based specialisation \cite{\cite{goodfellow_deep_learning_2016}}
-
-
-
-
-% Vanilla RNN (Equation) - formula for calculating the current state at every time step
 
 The 'simple recurrent neural network' was first proposed by \cite{elman_original_rnn_1990} and consists of an input layer, a recurrent hidden layer, and an output layer. The recurrent hidden layer is essentially multiple copies of the same neural network that are connected sequentially and pass information forwards. The network can be 'unrolled' in a diagram to visualise the sequence, as shown in Figure \ref{fig:rnn_unrolled}.
 
@@ -204,36 +144,6 @@ Predictions are based on the vectors that pass through the gates and a copy is k
 
 
 One of the issues of using \acrshort{LSTM}s comes from the bandwidth and memory resource constraints that are encountered in the architecture as a result of the high number of tensor operations required. A simpler architecture may be more computationally efficient at the risk of being less accurate for specific deep learning tasks.
-% probably need to get a source for this
-
-% What are the issues with LSTMs?
-
-% hardware memory and bandwidth constraints - uses a lot of resources. Although this seems to be true for RNNs in general not just LSTMs. LSTMs might be worse though.
-
-% same as LSTMs in that it was created as a solution to short term memory
-% internal mechanisms called gates that can regulate the flow of info
-
-% the gates learn which data in a sequence is important to keep or throw away
-% pass relevant info down the chain of sequences to make predictions
-
-
-% \cite{mikolov_recurrent_2010} paper (notes on notion) - learning long term dependencies by stochastic gradient descent difficult
-
-% RNNs and LSTM
-%For standard \acrshort{RNN} architectures, the 
-%\cite{graves_supervised_2012}
-
-% LSTM references:
-% %\cite{graves_supervised_2012} - page 43
-% \cite{goodfellow_deep_learning_2016} chapter 10 on neural networks
-
-% 
-
-% output of a particular layer is saved and fed back to the input
-% this helps predict the outcome of the layer
-
-% first layer is formed the same way as it is in the feed-forward network.  Product of the sum of the weights and features
-% however, subsequent layers, the recurrent neural network process begins
 
 % =============== CNN vs LSTM for sequence to sequence ===============
 
@@ -242,11 +152,6 @@ An encoder is a network that maps an input to a feature vector and a decoder is 
 \subsubsection{\acrlong{GRU}}
 
 % =============== GRU ===============
-
-% Write about GRUs
-% How is it different to an LSTM?
-% What are the benefits of GRUs?
-% What are the drawbacks of GRUs?
 
 \acrfull{GRU} is an architecture proposed by \cite{cho_properties_2014} that consists of an update gate, reset gate, and hidden state. Similar to an \acrshort{LSTM}, the aim of a \acrshort{GRU} is to help overcome the issue of short term memory in \acrshort{RNN}s.
 The internal cell state in an \acrshort{LSTM} is not present in a \acrshort{GRU}. Instead, the information is represented in the hidden state vector which is passed onto subsequent \acrshort{GRU}s.
@@ -259,10 +164,8 @@ A diagram of the described architecture can be visualised in more detail in Figu
 \label{fig:rnn_gru}
 \end{figure}
 
-
 As a result of these differences, \acrshort{GRU}s include fewer tensor operations which can lead to efficient computation and therefore a reduction in training time (\cite{chung_gru_2014}).
 The performance of \acrshort{GRU} models favour short sentences without unknown words, degrading significantly as the length of the sentence and unknown word count increases (\cite{cho_properties_2014}).
-
 
 \section{Machine Translation}
 \label{Machine Translation}
@@ -271,18 +174,6 @@ This section will introduce machine translation in a review of two of the most p
 
 \subsection{Techniques}
 
-%\subsubsection{Statistical Machine Translation}
-
-% every sentence in one language is a possible translation of any sentence in another
-% Assign every pair of sentences a probability
-% Pr(T|S) - probability that a translator will produce T in the
-%           target language when presented with S in the source language
-
-% View the problem of machine translation as follows:
-% given a sentence T in the target language,
-% Seek the sentence S from which the translator produced T.
-% Chance of error is minimised by choosing that sentence S that is most probable given T
-% Thus, we wish to choose S so as to maximise Pr(S|T)
 
 \acrfull{SMT} is a statistical approach for machine translation first presented by \cite{brown_statistical_1990}. 
 \acrshort{SMT} assumes that all sentences in a source language have the possibility of being the correct translation of a sentence in a target language. 
@@ -296,64 +187,8 @@ This is done using a language model, translation model, and decoder as shown in 
 \label{fig:smt_diagram}
 \end{figure}
 
-
-
-% SMT - instead of defining all the language rules and exceptions to rules, let the system find the rules itself
-% analyse millions of parallel data sets that have already been translated by human translators
-% once the computer finds the pattern, use this pattern to translate text in the future
-% repeat this process a lot, lots of patterns, lots of translations
-
-
-% probabilistic models estimated from parallel corpora
-% need large quantities of training data
-
-
-% From SLIDES: http://folk.uio.no/plison/pdfs/talks/meetup_SMT.pdf
-% encodes the faithfulness of T as a translation of S
-
-% early translation models relied on probabilities for individual words
-% did not account well for idiosyncratic expressions
-
-% decompose translation probability P(s|t)  into phrase pairs
-% - phrase probability (as given by the translation table)
-% - distortion probability (relative distance between the phrase positions in the two languages)
-
-% Three challenges:
-% estimating the language model probability, Pr(e) - called the language modelling problem
-% estimating the translation model probability, Pr(f|e) - called the translation modelling problem
-% devising an effective and efficient sub-optimal search for the English string that maximises their product
-% ^ called the search problem search problem
-
-%Explain the language model:
 The language model provides an estimation of how probable a given source sentence is based on the probability distribution of word sequences. This model is associated with the fluency of the translation as it is trained using target language monolingual data, providing the guidelines for well written translation output. N-grams are all of the combinations of $n$ contiguous words that can be found in a source text. Using a large training corpus, the n-gram probability of every word is determined from the words immediately proceeding it. One drawback to this approach is that the unrecognised increased probability for words that are dependant on each other but are further apart.
 
-%in scenarios where words are linked to other words that are further away from them, 
-
-%n-gram probabilities on large amounts of monolingual data 
-
-%This is accomplished by using large amounts of monolingual data, n-gram probabilities can 
-
-
-
-% bigram or general m-gram model
-
-% encodes the fluency of T in the target language
-
-% also want the translated sentence T to be fluent in the target language
-% statistical language model is a probability distribution over sequences of words
-% typically represented as n-grams, where the probability of each word depends on the words occurring before it
-
-% N-gram probabilities can be estimated from large amounts of monolingual data
-% Bigrams or trigrams are most popular
-% Smoothing methods to account for data sparsity
-
-% Does not do well with long-range dependencies (words that depend on another word that is multiple words away)
-
-%Explain the translation model:
-% decomposed into a lexical and an alignment model
-% estimation of the lexical correspondence between languages (lexical = words or vocab of a language)
-
-%The translation model proposed by \cite{brown_statistical_1990} includes the following parameters:
 The translation model is an estimation of the source and target language vocabulary correspondence. It is associated with the quality of the translations, as it is responsible for predicting the translations of words and short sequences of words, mapping the source language to the target language. Model parameters are estimated by training probabilistic models on large quantities of parallel training data, derived from the following sets of probabilities as proposed by \cite{brown_statistical_1990}:
 \begin{itemize}
     \item Fertility probabilities:  $Pr(n|s)$ - the probability that a source word $s$ generates $n$ target words in a given source-target sentence alignment
@@ -361,87 +196,20 @@ The translation model is an estimation of the source and target language vocabul
     \item Lexical probabilities: $Pr(s|t)$ - the probability that a source word $s$ translates into a target word $t$, for each element in the source and target language vocabularies
     
     \item Distortion probabilities: $Pr(i|j, l)$ - the probability of the position of a target word $i$, based on the position of the source word $j$, and the length of the target sentence $l$
-    
-    %\item Probability p1: p(you|NULL) the probability that the spurious word you is generated from NULL
-    % %\item if an English word isn't aligned with a french word then it is omitted
-    %\item Lexical probability t: t(Quan|When) the probability that Quan translates into When
-    
-    %\item Distortion d: d(j|i, m, n) the probability that the word in position j generates a word in position i. m and n are the length of the source and target sentences
-    % \item distortions allow adjectives to precede the noun that they modify in english but to follow them in french
 \end{itemize}
 
-
-% \cite{brown_mathematics_1993}
-% the language model probability is large for well-formed English strings regardless of their connection to French.
-% together, they produce a large probability for well-formed English strings that account well for French.
-
-% alignment mapping i j -> i = a_j from source position j to target position i = a_j
-% use of alignment model raises major problems as it fails to capture dependencies between groups of words
-% it is difficult to handle different word order and the translation of compound nouns
-
-% \cite{och_1999_improved} described two methods for SMT that extend the baseline alignment model
-% to account for these problems
-
-
 %Explain the decoder
-
 During the runtime of \acrshort{SMT} systems, the decoder uses the translation and language models to find the best translation from the source input to the target language output. 
 The decoder starts off with an empty hypothesis for the translation. The hypothesis is expanded incrementally by partial hypotheses using the translation and language models. As there is an exponential number of hypotheses in relation to the length of the source sentence, search optimisation techniques are required to find the most likely translation. A beam search is an optimised breadth-first search algorithm that searches the most promising nodes, storing and expanding only a limited number of states. In this scenario, it can be used as a decoding technique to confine the search space to a limited quantity of low cost hypotheses by comparing hypotheses with equal length translation output and removing those with a high cost and estimated future cost (\cite{koehn_pharaoh_2004}).
-
-% how to use translation and language models to find the best translation T for a sentence S?
-
-% Search through the space of possible translations
-% incremental decoding process (beam search): gradual expansion of translation hypothesis
-% every partial hypothesis is associated with a cost
-% translation and language models + estimate of future costs
-% beam search only keeps track of a limited number of good hypotheses (based on their cost), the rest is discarded
-
-% the search space is further reduced through hypothesis recombination
-
-
-%\cite{brown_statistical_1990}
-%\begin{itemize}
-%    \item SMT first introduced
-%    \item Most successful phrase-based method to translate input text
-%    \item Translate sequences of words at a time using a parallel corpus
-%\end{itemize}
-
-
-%\cite{schwenk_continuous_2012}
-%\begin{itemize}
-%    \item Phrase-based SMT further improvements
-%\end{itemize}
-
-% introduced by IBM 1990, 1993
-% most successful use phrase-based method to translate input text
-% by translating sequences of words at a time
-
-% phrase based use a language model trained from a parallel corpus
-% translation model in broken down into several components:
-% reordering model, phrase translation model, world translation model
 
 \subsubsection{Neural Machine Translation}
 
 \acrfull{NMT} is a modern approach to machine translation that uses neural networks to generate statistical models capable of translating sentences from a source language into sentences in the target language.
-% mention its wide spread adoption and state of the art results
-% used by companies such as Google for Google Translate
-% Bahdanau has a background section on NMT:
-% in NMT, we fit a parameterized model to maximise the conditional probability of sentence pairs
-% using a parallel training corpus
-% Once the conditional distribution is learned by a translation model
-% given a source sentence a corresponding translation can be generated by searching for
-% the sentence that matches the conditional probability
-%<<introduce sequence to sequence models, leading onto the next section>>
-%continuous translation model named \acrfull{RCTM} \cite{kalchbrenner_recurrent_2013}
-%Early \acrshort{NMT} research originates from \cite{sutskever_sequence_2014} and \cite{kalchbrenner_recurrent_2013}.
-% The advantage of a sequence to sequence model is that it is possible to map a variable-length input sequence into a variable-length output sequence.
 These models are trained using sequence to sequence learning, where it is possible to map a variable-length input sequence into a variable-length output sequence. %, something that was not possible with conventional \acrshort{DNN}s.
 Early research of sequence to sequence neural network models derive from \cite{sutskever_sequence_2014}. They proposed a sequence to sequence solution using the \acrshort{LSTM} architecture that can be simplified into two distinct stages, commonly referred to as an encoder-decoder model:
 \begin{itemize}
     \item Encode the input sequence using an \acrshort{LSTM} to create a fixed-length vector
     \item Decode the output sequence from the fixed-length vector using another \acrshort{LSTM}
-    %\item Use one LSTM to read the input sequence, one step at a time, to obtain large fixed-dimensional vector representation
-    %\item Use another LSTM to extract the output sequence from that vector
 \end{itemize}
 
 The \acrshort{LSTM} sequence to sequence implementation by \cite{sutskever_sequence_2014} achieved a \acrshort{BLEU} score of $34.8$ on an English to French data set, outperforming a baseline phrased-based \acrshort{SMT} system by $1.5$ \acrshort{BLEU} with the same training corpus.
@@ -453,25 +221,6 @@ A generalisation of the encoder-decoder architecture can be visualised in Figure
 \label{fig:encoder_decoder}
 \end{figure}
 
-% looks to map sequences to sequences
-% sequence learning method that makes minimal assumptions on the sentence structure
-% they use multilayered LSTM to map the input sequence to a vector of a fixed dimensionality
-% then use another deep LSTM to decode the target sequence from the vector
-
-% english to french translation on WMT-14 dataset achieved translation of 34.8 BLEU score
-% LSTM did not have difficulty on long sentences
-% phrase based SMT achieves 33.3 on same dataset
-
-%used the \acrfull{LSTM} architecture in a sequence to sequence translation model. 
-
-% use a LSTM to solve sequence to sequence problems
-% LSTM to read input sequence, one time-step at a time
-% obtain large fixed-dimensional vector representation
-% use another LSTM to extract the output sequence from that vector
-
-% the second LSTM is essentially an RNN language model except that it is conditioned on the input sequence
-% LSTM's ability to successfully learn make it natural choice for this application
-
 
 % Talk about encoder-decoder framework
 When analysing the properties of \acrshort{NMT} encoder-decoder approaches, \cite{cho_properties_2014} discovered that despite achieving good translation performance on short sentences, when the length of a sentence increases, \acrshort{NMT} translation performance significantly reduces. This is a result of using fixed-length vectors, as longer sentences will struggle to fit within a fixed-length vector without losing certain information, structure, and meaning.
@@ -480,75 +229,12 @@ When analysing the properties of \acrshort{NMT} encoder-decoder approaches, \cit
 It is possible to reduce the likelihood of poor translation quality for long sentences in an encoder-decoder framework by aligning a sequence of vectors with the positions that have highest concentration of relevant information (\cite{bahdanau_neural_2016}). 
 Instead of encoding the entire sentence into one fixed-length vector, each sentence is encoded into a series of vectors. A subset of these vectors are automatically selected during decoding based on previous words and the positions of the relevant information, determining the prediction of the output sequence. This known as an attention mechanism, due to the ability of the decoder to select which sections of the source sentence to pay attention to during each part of the output sequence. Results of encoder-decoder attention model show significant improvement over conventional \acrshort{NMT} encoder-decoder models, particularly for long sentences (\cite{luong_effective_2015}). Therefore, the implementation of the translation models used for experimentation of different transfer learning methods in Chapter 3 will include an attention layer.
 
-
-% most research uses the encoder decoder approach with fixed-length vectors
-% this may make it difficult for the neural network to cope with long sentences
-% especially if it is longer than those in the training corpus (shown by Cho et al. 2014b)
-
-% this paper introduces an extension to encoder-decoder which learns to align and translate jointly
-% each time the model generates a word in a translation, it soft-searches
-% for a set of positions in a source sentence where the most relevant info is concentrated
-% model then predicts a target word based on context vectors associated with these source positions
-% and all previously generated words
-
-% results show proposed approach of jointly learning to align significantly improves translation
-% performance over basic encoder-decoder approach
-% improvement is obvious with long sentences, but also present in any length
-
-
-
-
-
-
-%\cite{wu_googles_2016} google's NMT
-
-
-% ========================== REMOVED ========================== 
-
-% the encoder processes a variable-length input (source sentence)
-% and builds a fixed-length vector representation
-% Conditioned on the encoded representation, the
-% decoder generates a variable-length sequence (target sentence)
-
-
-
-% ========================== REMOVED ========================== 
-
-%\clearpage
-
 \subsection{Evaluation}
 
-%Say something about human translation evaluation, cite a reference and the state why it is not applicable to MT.
-%Although likely to provide a more accurate evaluation of translation quality, it is not possible for professional human translators to handle the high output rate of machine translation techniques during training.
 Although likely to provide a more accurate evaluation of translation quality, hiring professional human translators is costly and time consuming, making it incompatible with the high output rate of machine translation during training.
 Therefore, automatic evaluation plays a key role in the machine translation process, where it is important that translation models can be evaluated quickly and accurately to speed up the training process.
 
 \acrfull{BLEU} is an automatic machine translation algorithm that is widely regarded as the standard evaluation metric, originating from research by \cite{papineni_bleu_2001}. \acrshort{BLEU} score evaluations are calculated based on the difference between the machine translation output and the translation of a professional human translator. If they are very similar, a high \acrshort{BLEU} score will be awarded. Overall this approach works well, however, translations are scored lower regardless of context or meaning if different words are used. This makes it virtually impossible to achieve a perfect score, even for professional human translators, unless the exact same ordering of words are used. Despite this drawback, it remains the state-of-the-art automatic translation evaluation metric.
-
-% Multiple reference translations
-% As long as the translation is pretty close, it will get a high BLEU score
-% look at the machine generated output and see if it appears in at least one of the human generated references
-
-% unigram
-% precision: what fraction of the mt output appears in the reference translations
-% modified precision: out of 7 words, give it 2 credits for appearing a maximum 2
-% MAX ( count("the)) / count("the")
-% sum of the words that appear over the y output (mt output)
-% divided by sum of all unigrams in mt output 
-
-% bigrams to define BLEU score:
-% word pairs - count how many each of the pairs appears
-% give credit for the maximum number of times a pair appears
-% modified bigram precision = sum of count clips / total number of bigrams
-
-
-
-% count how many times each of the n-grams appear
-% define the clipped count:
-% taking all the counts and reducing them to be no more than the number of
-% times they appear in a single reference translation
-
-% sum of the count clips divided by the total number of bigrams
 
 The underlying metric of \acrshort{BLEU} is the 'precision measure', which is determined by the fraction of the translation output that appears in the reference translations. This is expanded upon in the 'modified precision measure' which involves the following three steps:
 \begin{itemize}
@@ -556,26 +242,13 @@ The underlying metric of \acrshort{BLEU} is the 'precision measure', which is de
     \item Clip (reduce) the counts to be equal to the maximum number of times the n-gram appears in a single reference
     \item Divide the sum of all clipped counts by the total number of n-gram occurrences
 \end{itemize}
-%counting the maximum number of times a word occurs in any single reference translation
-%Next, one clips the total count of each candidate word by its maximum reference count, adds these
-%clipped counts up, and divides by the total (unclipped) number of candidate words.
 
-% Stolen -----------------------------------------
-%\acrshort{BLEU} score is calculated by taking the geometric mean of modified precision scores and then multiplying the result by an exponential brevity penalty factor.
-% Stolen -----------------------------------------
 \acrshort{BLEU} score is calculated using the geometric mean of the modified precision scores multiplied by an exponential brevity penalty.
 The brevity penalty ($BP$) that is designed to penalise translations that are too short. This adjustment factor helps ensure that a translation with a high \acrshort{BLEU} score not only matches in words and word ordering but in length as well.
 If the translation length is more than the reference output length then the brevity penalty is $1$. Otherwise, the brevity penalty is calculated using the following equation, where $r$ is the effective reference corpus length and $c$ is the candidate translation length:
 \begin{equation}
     BP = e^{(1-r/c)}
 \end{equation}
-
-%\begin{equation}
-%    BP = \left \{ \begin{matrix}
-%    1 & if  c > r \\ 
-%    e^{(1-r/c)} & if  c \leq r
-%    \end{matrix}\right.
-%\end{equation}
 
 The full equation for BLEU score can be seen below, where $BP$ is the brevity penalty, $N$ is number of n-grams, $w_n$ is the positive weights that total $1$, and $p_n$ is the geometric mean of the modified precision measure:
 
@@ -586,94 +259,16 @@ The full equation for BLEU score can be seen below, where $BP$ is the brevity pe
 
 Variations of BLEU such as \acrshort{BLEU}-$2$, and \acrshort{BLEU}-$3$, and \acrshort{BLEU}-$4$ refer to the cumulative n-gram score. Cumulative n-gram scores are calculated at all orders from $1$ to $n$ and weighted using the geometric mean ($1/n$). For example, \acrshort{BLEU}-$2$ has a geometric mean of $1/2$ so the $1$-gram and $2$-gram score weights are $50$\%.
 
-
-%The \acrshort{BLEU}-2 weights are 1/2 ($1/n$) for all of the n-gram scores (1-gram, 2-gram). Using the weights to calculate the weighted geometric mean
-
-
-%and the cumulative n-gram score is derived from the weighted geometric mean from all orders 1 to $n$.
-
-%This is calculated using the individual n-gram scores at all orders from 1 to n and weighting them by calculating the weighted geometric mean.
-%The weights for BLEU-4 are 1/4 (25\%) or 0.25 for each of the 1-gram, 2-gram, 3-gram, and 4-gram scores.
-
-
-%The cumulative n-gram score is derived from the weighted geometric mean from orders 1 to n, where the weight of each 
-
-%The cumulative n-gram score derives from the weighted geometric mean of all orders from 1 to n.
-
-
-
-% if mt output is exactly the same as reference 1 or 2 then all of these values will be equal to 1.0
-
-% calculate p1, p2, p3, p4 and combine them together. average of n 1-4 p^n
-
-% BP = brevity penalty
-% an adjustment factor that penalises translation systems that outputs translation systems that are too short
-% if mt output_length > reference output length then 1
-% else exp(1 - mt_output_length / reference_output_length)
-
-
 \acrshort{BLEU} score has a range of $0$ and $1$, with $1$ being the highest translation score possible. A score of $1$ indicates that it is a direct copy of the reference translation, making it difficult to achieve for human translators, even if their translation is still valid. To improve the readability of translation performance results, \acrshort{BLEU} score is typically referenced as a percentage rather than a small number between $1$ and $0$. For example, $45$ \acrshort{BLEU} score represents $0.45$ \acrshort{BLEU}. In terms of \acrshort{BLEU} score translation interpretability, scores over $30$ are typically understandable and scores that are higher than $50$ indicate a fluent translation (\cite{lavie_evaluating_2010}).
 
 \cite{papineni_bleu_2001} conducted experiments for translations in a variety of languages where \acrshort{BLEU} scores were compared with the judgements of both monolingual native English speakers and bilingual English speakers in order to determine the accuracy of the automatic evaluation. Results showed a significantly high correlation between \acrshort{BLEU} score and human translation score evaluations.
 
-
-% There are a number of automatic translation evaluation algorithms that each benefit differently in various contexts.
-% \acrfull{METEOR} automatic translation evaluation technique that
-
-%\acrfull{METEOR} is another automatic translation evaluation technique that  
-
-
 Although \acrshort{BLEU} is the most popular automatic evaluation metric, there are alternatives that are also capable of machine translation evaluation. \acrfull{METEOR} is a metric proposed by \cite{banerjee_meteor_2005} that was designed to overcome some of the weaknesses of \acrshort{BLEU}. For example, \cite{banerjee_meteor_2005} states because \acrshort{BLEU} does not require word-to-word matching, n-gram counts of matches between the translation and reference translations can be incorrect. In contrast, \acrshort{METEOR} does evaluate n-gram counts based on explicit word-to-word matches. 
-%In a comparative case study of \acrshort{BLEU} and \acrshort{METEOR}, \cite{laith_comparative_2015} concluded that \acrshort{BLEU} has a higher correlation to human evaluation. (THE CASE STUDY FOCUS WAS ON ARABIC, METEOR HAD NOT FULLY SUPPORTED ARABIC YET...)
 
-%\cite{denkowski_meteor_2014} Meteor translation technique. apparently better than BLEU
-
-%\begin{itemize}
-%    \item This section is not finished:
-%    \item Explain METEOR Universal translation evaluation technique (\cite{denkowski_meteor_2014})
-%    \item Compare METEOR and BLEU (\cite{laith_comparative_2015}) % BLEU is better apparently
-%\end{itemize}
-
-
-
-
-% ===================== REMOVED ===================== 
-
-%Research by \cite{wolk_comparison_2017} compares \acrshort{BLEU}, EBLEU, NIST, and METEOR with 
-
-%the human translation evaluation model NER. % not true. its not human
-% comparison between BLEU and others. BLEU wins again. Most similar to human scores
-
-% measuring accuracy of the data has to take semantic meaning into account,
-% rather than just blindly performing simple word-to-word comparison
-
-% NER is a human translation evaluation method. commonly used in re-speaking
-% it is expensive and time-consuming [8]
-% human effort cant keep up with the growing demand for evaluation
-
-% BLEU is the most significant predictor of NER
-% NIST is significant
-% EBLEU is also significant
-
-% ===================== REMOVED ===================== 
-
-
-
-
-
-%\clearpage
-
-
-%\section{Corpus Augmentation}
 \section{Data Augmentation for Low-Resource NLP Datasets}
 \label{sec:2-low_resource_mt}
-% Add a paragraph that provides an overview for low resource MT
-%Two important areas of research in low-resource \acrshort{NMT} are data augmentation and neural network initialisation. New data can be generated by augmenting existing datasets to increase the number of training samples that can be used for the low-resource language. A number of these data augmentation techniques will be analysed in Section \ref{sec:2-low_resource_mt}. Using the knowledge gained on a previous task to improve the performance on a related task can be achieved through transfer learning and meta learning techniques, where training on high resource languages forms the basis of the initialisation in the neural network of a low-resource language as described in Section \ref{sec:2-transfer_learning}.
 
 This section will cover the techniques that can be used to generate new data based based on the augmentation of existing datasets, increasing the number of training samples that can be used for the low-resource language.
-
-
-
 
 \subsection{Back-Translation}
 %Back-translation makes it possible to generate synthetic parallel data by pairing monolingual data with a back-translated version of the data.
@@ -689,47 +284,6 @@ Although monolingual data can be used to improve the performance of phrase-based
 Research by \cite{sennrich_improving_2016} incorporates monolingual data into \acrshort{NMT} by studying the effect of using back-translation on monolingual data in order to improve translation models.  Without any alterations to the underlying architecture, their findings indicate that adding the synthetic data to the training corpus significantly improved translation quality by $3.4$ BLEU score in both high-resource and low-resource training data sets.
 
 
-
-% back-translation of monolingual target data into the source language,
-% and treating this synthetic data as additional training data
-
-% back translation is simple and easy to do as it doesn't require modification to MT training algorithms
-% instead requires target to source system into order to generate additional synthetic parallel data
-% from monolingual target data
-
-% pairing monolingual training data with automatic back-translation,
-% treat it as additional parallel training data
-% Improvements on the low-resourced IWSLT 14 task Turkish > English (2.1 - 3.4 BLEU)
-% state of the art results (in 2015)
-
-% introduce back-translation technique for NMT
-% shows the quality of the back-translation model, and therefore resulting pseudo-corpus
-% has a positive effect on the quality of the subsequent source-to-target model
-
-%\cite{graca_generalizing_2019} problems with sampling-based approaches + remedies
-% current state of the art NMT models suffer from smearing issues (ott et al 2018)
-% and are trained using label smoothing (pereyra et al, 2017)
-% these result in low quality sampled sentences
-
-% they investigate considering only high quality hypotheses by restricting search space of the model via:
-% - ignoring words under a probability threshold during sampling
-% - N-best list sampling
-
-% Experiments show their restricted sampling techniques are comparable to or better than other generation methods
-% by imitating human-generated data better
-
-% translation quality is still not with consistent improvements over typical beam search strategy
-
-
-%\cite{edunov_back_trans_2018} understanding back-translation at scale
-% broadens understanding of back-translation
-% investigates methods to generate synthetic source sentences
-% scale to hundreds of millions of monolingual sentences and achieve new state of the art
-% they found in low-resource settings, back-translation obtained by sampling or noised beam outputs
-% are the most effective
-% noise beam is sentences with various types of noise (deleting, replacing and swapping words)
-
-
 \subsection{Sentence Segmentation}
 
 Sentence segmentation is the process of using punctuation marks within a sentence as delimiters to divide the sentence into multiple partial sentences. When applied to an existing parallel corpus that contains long sentences with punctuation, sentence segmentation can be used as a data augmentation technique. \cite{zhang_corpus_2019} implemented this by generating pseudo-parallel sentence pairs using sentence segmentation with back-translation as follows:
@@ -740,24 +294,6 @@ Sentence segmentation is the process of using punctuation marks within a sentenc
 \end{itemize}
 
 Results of their sentence segmentation implementation demonstrate that the increase of parallel sentence pairs can lead to improvements over baseline \acrshort{NMT} translation performance. In addition, their proposed method outperformed models using the back-translation augmentation method for the Japanese - Chinese 'ASPEC-JC' (\cite{NAKAZAWA16.621}) training corpus.
-
-% Segmenting long sentences in a corpus using back-translation
-% and generating pseudo-parallel sentence pairs
-% improves translation performance
-
-
-
-
-%\cite{kuang_automatic_2016}
-% automatic long sentence -- improves translation for long sentences...
-% nothing to do with training data augmentation
-
-%\cite{fadaee_data_2017}
-% replace certain words with other words. not sentence segmentation....
-% Targets low-frequency words by generating new sentence pairs, containing new rare words
-% in synthetically created contexts
-% improves translation quality up to 2.9 BLEU over baseline
-% and up to 3.2 over back-translation
 
 \subsection{Easy Data Augmentation}
 \acrfull{EDA} is a data augmentation technique which aims to improve \acrshort{NLP} text classification performance by creating augmented training data to artificially increase the size of the corpus. It is a corpus augmentation technique that uses a combination of word replacements, insertions, swaps, and deletions. Additional parameters such as number of augmented sentences per original sentence, and the percentage of words from the original sentence to change allow for fine-tuning of the output relevant to the usage context. For individual sentences in the training data, an augmented sentence is generated using an operation selected randomly from four different techniques:
@@ -770,28 +306,6 @@ Results of their sentence segmentation implementation demonstrate that the incre
 
 \cite{wei_eda:_2019} found that \acrshort{EDA} increased performance for both recurrent and convolutional neural networks and improvements are most significant when the data was restricted to simulate a low-resource scenario. The additional training data generated and noise from the variety of swaps contribute towards reduced overfitting. In a text classification task, \acrshort{EDA} can achieve the same level of accuracy as the baseline performance of the entire training corpus despite only using only $50$\% of the training corpus. However, \acrshort{EDA} experiments have focussed exclusively on its application to text classification. Although it may be useful for generating additional monolingual data, \acrshort{EDA} cannot be applied to a parallel data set consisting of two different languages due to the replacement that occurs without the use of a language model.
 
-% say something about overfitting and how the context remains similar
-
-
-% improves performance for convolutional and recurrent neural networks
-% strong results for small data sets
-% on average, only took 50% of the available training data to achieve the same accuracy as full data set
-
-% contextual augmentation, noising, GAN or back-translation may work better, but:
-% high cost of implementing relative to the expected performance gain
-% EDA is a set of simple techniques that are generalisable to a range of NLP tasks
-
-% added noise from random swaps can help prevent overfitting
-% synonym is more likely to be relevant to the context and retain the original label of the sentence
-
-
-%\begin{figure}[ht!]
-%\centering
-%\includegraphics[width=0.45\textwidth]{media/literature/data_argumentation/eda_class.png}
-%\caption[\acrshort{EDA} augmented data latent space visualisation]{EDA comparison of original and augmented sentences in a %latent space visualisation (\cite{wei_eda:_2019})
-%}
-%\label{fig:transfer}
-%\end{figure}
 \subsection{Contextual Data Augmentation}
 
 Contextual data augmentation is a type of data augmentation where words are replaced at random using predictions from a language model, based on the context of the word within the sentence. As with other augmentation techniques, the primary aim is to reduce overfitting and improve generalisation of the models that train on the augmented data. 
@@ -814,28 +328,6 @@ The key difference is that random words from the original sentences are replaced
 
 Their findings demonstrate that the \acrshort{SCDA} method provides a consistent improvement of more than $1.0$ BLEU score for transformer model \acrshort{NMT} in comparison to alternative approach baselines using a transformer model with both small and large data sets.
 
-% Data augmentation is good in deep learning computer vision,
-% it is still limited in natural language
-
-% this paper presents a novel data augmentation method for NMT
-% different from previous methods that drop swap or replace words with other words
-
-% other methods often need to augment one sentence multiple times and replace
-% a different subset of words in the original sentence with different candidate words in vocabulary
-% which still cannot guarantee adequate variations of augmented sentences 
-
-% they softly augment a random word in a sentence by its contextual mixture of multiple related words
-% by replacing the one-hot representation of a word by a distribution over the vocabulary
-
-% they use a distribution vector to replace a randomly chosen word from the original sentence
-
-% results demonstrate superiority over baselines for small and large scale MT data sets
-% consistently achieve more than 1.0 BLEU score improvement over strong Transformer base system for all tasks
-% unlike other methods that may not work well in all tasks,
-% theirs does, regardless of the data set
-
-% The augmented data closely match the position of the original data,
-
 
 \section{Low-Resource Machine Translation}
 \label{sec:2-low_resource_approaches}
@@ -844,7 +336,7 @@ This section will explain how using the knowledge gained on a previous task can 
 \subsection{Existing Scottish Gaelic Machine Translation}
 %Existing research on Scottish Gaelic machine translation has focussed on using \acrshort{SMT}
 
-Research by \cite{dowling_leveraging_2019} takes advantage of the increased data availability of a high-resource language (Irish Gaelic) and uses back-translation to create a parallel corpus with Scottish Gaelic, a closely related low-resource language pair. As shown in Figure \ref{fig:lang_pair}, the sentence structure of Irish Gaelic (GD) and Scottish Gaelic (GA) is very similar, making it an ideal choice for back-translation.
+Research by \cite{dowling_leveraging_2019} takes advantage of the increased data availability of a high-resource language (Irish Gaelic) and uses back-translation to create a parallel corpus with Scottish Gaelic, a closely related low-resource language pair. As shown in Figure \ref{fig:lang_pair}, the sentence structure of Irish Gaelic (GA) and Scottish Gaelic (GD) is very similar, making it an ideal choice for back-translation.
 
 \begin{figure}[ht!]
 \centering
@@ -882,18 +374,11 @@ Hierarchical transfer learning seeks ensure the closeness of the related languag
   \item Initialise the next model and train on an intermediate language pair
   \item Initialise the final model and train using the low-resource language pair
 \end{itemize}
-% The first stage involves training using an unrelated high-resource language pair. Once the model has reached convergence, it is used to initialise the next model that will be trained on an intermediate language pair, closely related to the low-resource language. Upon convergence, the final model in the hierarchy is initialised and the low-resource language pair is trained.
 
 Results indicate improvements of up to $0.58$ \acrshort{BLEU} score in comparison to the aforementioned transfer learning methods that are limited to a parent-child architecture.
 
-
-% Train the NMT model using the unrelated high-resource language pair
-% Train using the similar intermediate language pair
-% Train using the low-resource language pair
-
-
 \subsection{Meta Learning}
-% Seems like an extension of hierarchical transfer learning
+\label{sec-2:meta_learning}
 
 % what is meta learning
 Meta learning can be thought of as the machine learning process of "learning how to learn". Observing the performance of different approaches on a variety of tasks and then using this experience to influence the learning process of new tasks in order to considerably increase the rate of learning (\cite{vanschoren_meta-learning:_2018}).
@@ -910,19 +395,7 @@ A diagram of the \acrshort{MAML} algorithm can be seen in Figure \ref{fig:MAML}.
 
 Despite the primary focus of \acrshort{MAML} research relating to object recognition, it can be applied to a variety of machine learning problems with any number of training steps or training data because the algorithm still produces a weight initialisation, meaning no additional learning parameters are required.
 
-% as shown in Figure ~\ref{fig:MAML}.
-% goal of meta learning is to train model on variety of tasks 
-% so that it can solve new tasks w/ small number of training samples
 
-% In MAML, parameters of the model are trained such that a small number of gradient steps
-% with a small amount of training data from a new task will produce good generalisation performance on that task
-
-% Essentially, trains the model to be easy to fine-tune 
-%
-% Leads to state-of-the-art-performance with few-shot image classification benchmarks
-%
-
-% say how this paper uses meta agnostic model for translation
 Research by \cite{gu_meta-learning_2018} is the first of its kind to use \acrshort{MAML} for \acrshort{NMT}. In comparison to the transfer based approach by \cite{zoph_transfer_2016}, results showed further improvements with a BLEU score of $22.04$, despite training data for the low-resource language limited to $16,000$ words (around $600$ parallel sentences). As the corpus size of the low-resource language decreases, transfer learning approaches suffer significantly more than meta learning, which proves the effectiveness of \acrshort{MAML} for low-resource languages. However, as the corpus size increases, the differences in BLEU score between the two approaches are much less significant.
 
 \section{Conclusions}
@@ -935,13 +408,4 @@ As confirmed by the literature, various low-resource \acrshort{NMT} techniques h
 
 Limitations of recent research primarily involves the scope of each implementation. There are many techniques and implementation decisions that have shown to improve translation quality, however, the majority of the research goes into great detail about one particular choice. Understandably, individual papers have a clear focus, but there is an identifiable gap in the research regarding the impact of using a combination of the aforementioned techniques. Data augmentation techniques such as back-translation have shown to improve \acrshort{NMT} quality on baseline \acrshort{NMT} approaches, so it is worth investigating what the impact when used with low-resource \acrshort{NMT} approaches. There is also no existing research for Scottish Gaelic \acrshort{NMT} systems as prior research was limited to statistical machine translation due to the large quantity of training data required with generic \acrshort{NMT} approaches. Transfer learning has shown promising results in other low-resource languages, so it may be a good alternative for Scottish Gaelic.
 
-% Expand on why you used the approaches you used and what are their benefits.
-
 Based on the review of literature, the low-resource \acrshort{NMT} techniques that this project implements are trivial transfer learning and hierarchical transfer learning. The initialisation of a neural network with the weights of a previously trained neural network in a similar domain helps to aid the translation quality, particularly in a low-resource context. Experimentation in regards to the relatedness of the language pair, particularly Irish Gaelic which also has a very similar sentence structure, will identify whether either the quantity or relatedness of data is of a higher importance for Scottish Gaelic.
-
-
-% purpose of this chapter (lit review)
-% from research it is clear that (mention some important developments)
-% as confirmed by literature, <low resource translation techniques> have shown to be successful for other lr languages
-% any limitations of the research
-% finally i will investigate these approaches and analyse 
