@@ -5,12 +5,19 @@
 \newpage
 \section{Critical Evaluation}
 
-\begin{enumerate}
-    \item Took too long trying to get a baseline model with LSTM. Should've switched to GRU sooner.
-    \item The data I originally collected was rubbish for NMT. Should've thought about this before.
-    \item The models couldn't use all the data I had available because of available computing power. Ideally would've used a better GPU
-    \item Models still work quite well but I think this is due to the limited variety of the datasets. Would've been good to use the same data as other papers to have a direct comparison.
-\end{enumerate}
+% challenging project, managed to do it
+% now know more low-resource translation
+% had more data better results
+% more representative data
+
+A number of issues arose throughout the implementation that caused significant delays in the project development and experimentation. While the implementation of the translation model originally seemed fairly straightforward, it became clear that the Sequential Keras API that had been used previously would not support the more complex architectures proposed by the literature regarding current \acrshort{NMT} and transfer learning methods. The decision was made to switch to the Functional Keras API but it took multiple weeks before a working model was implemented and ready to train. In addition, the \acrshort{GRU} implementation used \cite{bahdanau_neural_2016} attention rather than the more commonly used \cite{luong_effective_2015} attention. It is currently unclear how much of an impact these alterations may have impacted the results of the experiments but may be worth investigating in the future.
+
+Once the models were implemented and had the supporting code required for all of intricacies of machine learning, it was discovered that the quality of the original data that was collected (mainly technical localisation files) was not sufficient for the low-resource \acrshort{NMT} that was planned. This oversight lead to further delays in the project, where an entirely new data corpus had to be generated before any experiments could be completed. Once the new data was finalised, it was discovered that the models could not use all of the available data due to limitations in the available hardware. Had more powerful GPU's been accessible, the translation models would include both more data and dimensionality in the model architecture. It is thought that this would significantly improve the translation quality of all experiment models.
+
+The vocabulary size and sentence length experiments carried out in Section \ref{sec:4-vocab_size} and \ref{sec:4-sentence_length} were both carried out solely on the baseline model and the results of these experiments were used to determine the parameters of subsequent experiments. While a vocabulary size of 5000 and sentence length of 15 may have been beneficial for the baseline model, it is possible that the transfer learning models may have benefit from alternative parameters.
+
+A limitation of the evaluation is that they are limited to a single reference sentence for each hypothesis (translation). Sentences can be phrased in a variety of ways while retaining the original meaning of the sentence, meaning that even if a sentence translation may be correct, should the phrasing or word choice be different, the translation score is negatively affected. Having multiple references for each hypothesis may significantly reduce the impact of this potential bias on the results.
+
 
 
 \section{Future Work}
@@ -19,8 +26,7 @@
     \item Try with LSTM instead of GRU
     \item Use Luong \cite{luong_effective_2015} attention instead of Bahdanau \cite{bahdanau_neural_2016} attention
     \item Try more data with larger vocab sizes
-    \item Adjust learning rate over time with each epoch (different parameters)
-    \item Link the models to an interactive web interface like Google Translate
+    \item Adjust learning rate over time with each epoch (different parameters) - Adam optimizer doesn't really need changing learning rate..
 \end{itemize}
 
 

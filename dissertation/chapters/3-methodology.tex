@@ -234,8 +234,8 @@ TEST\_SPLIT                & Training / test data split                         
 VALIDATION\_SPLIT          & Training / validation data split                   & 0.2   \\ \hline
 MAX\_WORDS\_PER\_SENTENCE  & Maximum number of words in a sentence              & 20    \\ \hline
 MIN\_WORD\_OCCURRENCE      & Minimum number of occurrences to be included in vocabulary & 5 \\ \hline
-FORCE\_SOURCE\_VOCAB\_SIZE & Source language vocabulary size limit              & 4000 \\ \hline
-FORCE\_TARGET\_VOCAB\_SIZE & Target language vocabulary size limit              & 4000 \\ \hline
+FORCE\_SOURCE\_VOCAB\_SIZE & Source language vocabulary size limit              & 5000 \\ \hline
+FORCE\_TARGET\_VOCAB\_SIZE & Target language vocabulary size limit              & 5000 \\ \hline
 \end{tabular}
 \captionsetup{justification=centering}
 \caption{Key model parameters}
@@ -272,7 +272,7 @@ The high-resource languages that have been selected for use in transfer learning
 % Talk about vocabulary size, minimum word replacement
 When a model is defined, the vocabulary size of the source language and the target language is used as a parameter to define the shape of encoder and decoder \acrshort{GRU}. High-resource languages will typically have a much higher vocabulary size by default given that there are many more training examples where unique words are likely to occur. A vocabulary size limit is required for transfer learning as the input shape that is passed to the encoder and decoder must be the same as the initial declaration. The restriction on vocabulary means that these sizes remain consistent between different languages and datasets.
 
-The vocabulary size has been restricted to 4,000 for all languages used in the experiments, replacing words outside of this limit with the out of vocabulary unknown word token ``UNK". The implementation of this restriction prioritises the most frequently occurring words by sorting them by frequency in descending order and adding up to 4,000 words to the vocabulary dictionary.
+The vocabulary size has been restricted to at most 7,000 for all languages used in the experiments, replacing words outside of this limit with the out of vocabulary unknown word token ``UNK". The implementation of this restriction prioritises the most frequently occurring words by sorting them by frequency in descending order and adding up to 7,000 words to the vocabulary dictionary.
 In addition to the vocabulary size limit, a minimum word replacement can be specified with the purpose of removing words that only occur in a very small subset of training samples. Given the limited vocabulary size present in the low-resource language training dataset, this value remains at 2 for the duration of the experiments that use the Scottish Gaelic data. Despite a minimum word replacement value of 2 for the high-resource languages, most of the training samples will significantly exceed this value as a result of the limited vocabulary size and prioritisation of more important words.
 
 % Make a graphic representing the vocabulary count occurrences for each language (french, irish, gaelic). Will be interesting to see what the distribution of the counts are given the minimum word occurrence set to 2.
