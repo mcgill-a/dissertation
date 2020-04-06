@@ -1,6 +1,6 @@
 \chapter{Literature Review}
 \label{literature}
-This chapter will present the background information and approaches for Deep Learning (Section 2.1) and discuss the most prevalent techniques and evaluation methods in Machine Translation (Section 2.2). It will then investigate data augmentation in Low-Resource Machine Translation (Section 2.3) and Low-Resource Machine Translation (Section 2.4). Finally, the findings will be concluded in the literature review Conclusions (Section 2.5).
+This chapter will present the background information and approaches for deep learning (Section 2.1) and discuss the most prevalent techniques and evaluation methods in machine translation (Section 2.2). It will then investigate data augmentation in low-resource machine translation (Section 2.3) and low-resource machine translation (Section 2.4). Finally, the findings will be concluded in the literature review conclusions (Section 2.5).
 
 
 \clearpage
@@ -14,7 +14,7 @@ Deep learning neural networks such as a \acrfull{CNN} expand upon the concept of
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.65\textwidth]{media/literature/machine_learning/ml_perceptron_multi.png}
-\caption[Diagram of a multi-layer perceptron]{Multi-Layer Perceptron (\cite{michael_perceptron_2019})}
+\caption[Multi-layer perceptron]{Multi-Layer Perceptron (\cite{michael_perceptron_2019})}
 \label{fig:perceptron_multi}
 \end{figure}
 
@@ -34,7 +34,7 @@ The \acrshort{CNN} architecture is shown in Figure \ref{fig:cnn_1} using an exam
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=1\textwidth]{media/literature/machine_learning/ml_cnn_1.png}
-\caption[Diagram of a convolutional neural network architecture]{Convolutional Neural Network architecture (\cite{lopez_deep_2017})}
+\caption[Convolutional neural network architecture]{Convolutional Neural Network architecture (\cite{lopez_deep_2017})}
 \label{fig:cnn_1}
 \end{figure}
 
@@ -68,7 +68,7 @@ The fully connected layers take outputs from the convolution and flatten them in
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.30\textwidth]{media/literature/machine_learning/ml_pooling.png}
-\caption[Diagram of CNN Max Pooling and Average Pooling ]{\acrshort{CNN} Max Pooling (MP) and Average Pooling (AP) (\cite{wang_pooling_2018})}
+\caption[CNN max pooling and average pooling ]{\acrshort{CNN} Max Pooling (MP) and Average Pooling (AP) (\cite{wang_pooling_2018})}
 \label{fig:cnn_pooling}
 \end{figure}
 
@@ -86,7 +86,7 @@ Dropout is a technique that helps address the problem of overfitting for \acrsho
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.55\textwidth]{media/literature/machine_learning/ml_dropout3.png}
-\caption[Diagram of the Dropout Neural Network Model]{Dropout Neural Network Model. Left side: Standard \acrshort{NN} with 2 hidden layers. Right side: Standard \acrshort{NN} with 2 hidden layers, after applying dropout (\cite{srivastava_dropout_2014})}
+\caption[Dropout neural network model]{Dropout neural network model. Left side: Standard \acrshort{NN} with 2 hidden layers. Right side: Standard \acrshort{NN} with 2 hidden layers, after applying dropout (\cite{srivastava_dropout_2014})}
 \label{fig:cnn_dropout}
 \end{figure}
 
@@ -104,7 +104,7 @@ The 'simple recurrent neural network' was first proposed by \cite{elman_original
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.9\textwidth]{media/literature/machine_learning/ml_rnn_unrolled.png}
-\caption[Diagram of an unrolled Recurrent Neural Network]{Left side: A vanilla \acrlong{RNN}. Right side: An unrolled vanilla \acrlong{RNN} (\cite{colah_lstm_2019})}
+\caption[Unrolled Recurrent Neural Network]{Left side: A vanilla \acrlong{RNN}. Right side: An unrolled vanilla \acrlong{RNN} (\cite{colah_lstm_2019})}
 \label{fig:rnn_unrolled}
 \end{figure}
 
@@ -131,7 +131,7 @@ In the diagram shown in Figure \ref{fig:rnn_lstm}, an entire vector is carried t
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.89\textwidth]{media/literature/machine_learning/ml_rnn_lstm.png}
-\caption[Diagram of Long Short Term Memory]{\acrfull{LSTM} diagram (\cite{colah_lstm_2019})}
+\caption[Long Short Term Memory]{\acrfull{LSTM} diagram (\cite{colah_lstm_2019})}
 \label{fig:rnn_lstm}
 \end{figure}
 
@@ -155,7 +155,7 @@ A diagram of the described architecture can be visualised in more detail in Figu
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.89\textwidth]{media/literature/machine_learning/ml_rnn_gru.png}
-\caption[Diagram of Gated Recurrent Unit]{\acrfull{GRU} diagram (\cite{colah_lstm_2019})}
+\caption[Gated Recurrent Unit]{\acrfull{GRU} diagram (\cite{colah_lstm_2019})}
 \label{fig:rnn_gru}
 \end{figure}
 
@@ -178,7 +178,7 @@ This is done using a language model, translation model, and decoder as shown in 
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=1\textwidth]{media/literature/machine_translation/smt_3.png}
-\caption[Diagram of \acrshort{SMT} probability distribution and decoder]{Left side: \acrshort{SMT} probability distribution for source ($S$) and target ($T$) sentence pairs. Right side: \acrshort{SMT} decoder selecting the highest probability sentence pair (\cite{brown_statistical_1990})}
+\caption[\acrshort{SMT} probability distribution and decoder]{Left side: \acrshort{SMT} probability distribution for source ($S$) and target ($T$) sentence pairs. Right side: \acrshort{SMT} decoder selecting the highest probability sentence pair (\cite{brown_statistical_1990})}
 \label{fig:smt_diagram}
 \end{figure}
 
@@ -212,7 +212,7 @@ A generalisation of the encoder-decoder architecture can be visualised in Figure
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.64\textwidth]{media/literature/machine_translation/mt_encoder-decoder.png}
-\caption[Diagram of the encoder-decoder architecture]{The encoder-decoder architecture (\cite{cho_properties_2014})}
+\caption[Encoder-decoder architecture]{Encoder-decoder architecture (\cite{cho_properties_2014})}
 \label{fig:encoder_decoder}
 \end{figure}
 
@@ -271,7 +271,7 @@ Although monolingual data can be used to improve the performance of phrase-based
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.55\textwidth]{media/literature/data_argumentation/da_back_trans.png}
-\caption[Diagram of the back-translation synthetic parallel corpus]{Back-translation synthetic parallel corpus creation (\cite{hoang_iterative_2018})}
+\caption[Back-translation synthetic parallel corpus creation]{Back-translation synthetic parallel corpus creation (\cite{hoang_iterative_2018})}
 \label{fig:back_trans}
 \end{figure}
 Research by \cite{sennrich_improving_2016} incorporates monolingual data into \acrshort{NMT} by studying the effect of using back-translation on monolingual data in order to improve translation models.  Without any alterations to the underlying architecture, their findings indicate that adding the synthetic data to the training corpus significantly improved translation quality by $3.4$ BLEU score in both high-resource and low-resource training data sets.
@@ -309,7 +309,7 @@ Although capable of retaining contextual information, contextual data augmentati
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.58\textwidth]{media/literature/data_argumentation/da_scda.png}
-\caption[Diagram of the \acrlong{SCDA} encoder architecture]{\acrlong{SCDA} encoder architecture (\cite{zhu_soft_2019})}
+\caption[\acrlong{SCDA} encoder architecture]{\acrlong{SCDA} encoder architecture (\cite{zhu_soft_2019})}
 \label{fig:scda}
 \end{figure}
 
@@ -333,7 +333,7 @@ Research by \cite{dowling_leveraging_2019} takes advantage of the increased data
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.4\textwidth]{media/literature/nmt_approaches/lr_gaelic.png}
-\caption[Diagram of the similarities in a closely related language pair]{Similarities in a closely related language pair (\cite{dowling_leveraging_2019})}
+\caption[Similarities in a closely related language pair]{Similarities in a closely related language pair (\cite{dowling_leveraging_2019})}
 \label{fig:lang_pair}
 \end{figure}
 
@@ -347,7 +347,7 @@ As outlined by \cite{torrey_transfer_2009}, transfer learning uses the knowledge
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.8\textwidth]{media/literature/nmt_approaches/transfer.png}
-\caption[Diagram of the transfer learning process]{The process of transfer learning (\cite{ruder_transfer_2019})}
+\caption[The process of transfer learning]{The process of transfer learning (\cite{ruder_transfer_2019})}
 \label{fig:transfer}
 \end{figure}
 
@@ -381,7 +381,7 @@ A diagram of the \acrshort{MAML} algorithm can be seen in Figure \ref{fig:MAML}.
 \begin{figure}[ht!]
 \centering
 \includegraphics[width=0.40\textwidth]{media/literature/nmt_approaches/maml.png}
-\caption[Diagram of a \gls{MAML} algorithm]{An illustration of the \Gls{MAML} algorithm (\cite{finn_model-agnostic_2017})}
+\caption[\gls{MAML} algorithm]{An illustration of the \Gls{MAML} algorithm (\cite{finn_model-agnostic_2017})}
 \label{fig:MAML}
 \end{figure}
 

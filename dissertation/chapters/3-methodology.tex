@@ -87,7 +87,7 @@ As such, the vocabulary size is very large and the majority of the sentences exc
 \centering
 \includegraphics[width=1\textwidth]{media/methodology/s_length-1-en_fr.jpg}
 \captionsetup{justification=centering}
-\caption[Diagram of the Europarl dataset sentence length distribution]{Sentence length distribution - Europarl English and French dataset} % (\cite{french_corpus_2005})
+\caption[Europarl dataset sentence length distribution]{Sentence length distribution - Europarl English and French dataset} % (\cite{french_corpus_2005})
 \label{fig:sentence_length-french_legal}
 \end{figure}
 
@@ -121,7 +121,7 @@ The sentence length distribution of the final Scottish Gaelic dataset is shown i
 \centering
 \includegraphics[width=1\textwidth]{media/methodology/s_length-2-en_gd.jpg}
 \captionsetup{justification=centering}
-\caption[Diagram of the Scottish Gaelic dataset sentence length distribution]{Sentence length distribution - English and Gaelic dataset}
+\caption[Scottish Gaelic dataset sentence length distribution]{Sentence length distribution - English and Gaelic dataset}
 \label{fig:sentence_length-gaelic}
 \end{figure}
 
@@ -161,14 +161,14 @@ The concatenate layer receives input in the form of tensors from the decoder \ac
 \centering
 \includegraphics[width=0.6\textwidth]{media/methodology/model_architecture.jpeg}
 \captionsetup{justification=centering}
-\caption[Diagram of the model architecture]{Model architecture}
+\caption[Model architecture]{Model architecture}
 \label{fig:model_diagram}
 \end{figure}
 
 Keras (\cite{keras_2015}) was used to implement the proposed model architecture along with a variety of other machine learning specific tasks such as padding variable-length sequences, one-hot encoding, and the training and inference methods described in subsequent sections.
 
 The internal structure of the model is dependent on a set of parameters that are set during the model initialisation. 
-Tuning of these parameters can have a big impact on the quality of translation model efficiency, speed, and quality. The parameters for this project are stored in a separate parameters file (Appendix \ref{AppendixD}) that is linked to the runtime of experiments to store the relevant state of the parameters per experiment. The key parameters that are available for tuning are shown in Table \ref{tab:model-parameters} along with a description of their purpose and their default value.
+Tuning of these parameters can have a big impact on the translation model efficiency, speed, and quality. The parameters for this project are stored in a separate parameters file (Appendix \ref{AppendixD}) that is linked to the runtime of experiments to store the relevant state of the parameters per experiment. The key parameters that are available for tuning are shown in Table \ref{tab:model-parameters} along with a description of their purpose and their default value.
 
 
 \begin{table}[!ht]
@@ -204,7 +204,7 @@ Given the hardware constraints of a GTX 980 4GB graphics card, the model has a b
 
 Before training takes place, the data is split up into training data and testing data, with 80\% of the data to be assigned to training and the remaining 20\% kept separate for the test set which will be used for evaluation. The training data is split again into the final training set (80\%) and validation set (20\%).
 
-The models are trained using the Adam optimizer (\cite{adam_optimizer_2014}) with a learning rate of 0.001 and the categorical cross-entropy loss function. To help prevent overfitting during early epochs and improve generalisation of the models, dropout and recurrent dropout has been applied to the encoder \acrshort{GRU} and decoder \acrshort{GRU} with a value of $0.2$. 
+The models are trained using the Adam optimizer (\cite{adam_optimizer_2014}) with a learning rate of 0.001 and the categorical cross-entropy loss function. To help prevent overfitting during early epochs and improve generalisation of the models, dropout and recurrent dropout can be applied to the encoder \acrshort{GRU} and decoder \acrshort{GRU} with a value of $0.2$. 
 
 The full model, encoder model, and decoder model are all saved at the end of an epoch if the mean validation loss of the epoch improves upon the previous best validation loss. If no improvements are observed after 5 epochs then training is stopped.
 
@@ -227,4 +227,4 @@ In addition to the vocabulary size limit, a minimum word replacement can be spec
 \section{Evaluating Translations}
 \label{sec:3-evaluating}
 
-As identified in the literature review, \acrshort{BLEU} scores will be used as the primary metric for the translation evaluation. To ensure the robustness of the results, evaluations will be presented in the form of \acrshort{BLEU}-1 to \acrshort{BLEU}-4. Although a translation may receive a high score for \acrshort{BLEU}-1, \acrshort{BLEU}-4 scores are often considerably lower due to the higher percentage of n-gram counts that are required to match the reference translation. The evaluations are calculated using a cumulative score rather than the individual score as it better represents the metric distribution. Additionally, the \acrshort{NIST} evaluation metric will be used on the final three models, alongside the \acrshort{BLEU} score in a table to increase the validity of the translation evaluations. The final form of evaluation will be in the form of a sentence analysis table. The direct comparison between implementation translations makes it easier to visualise the discrepancies outlined by \acrshort{BLEU} scores.
+As identified in the literature review, \acrshort{BLEU} scores will be used as the primary metric for the translation evaluation. To ensure the robustness of the results, evaluations will be presented in the form of \acrshort{BLEU}-1 to \acrshort{BLEU}-4. Although a translation may receive a high score for \acrshort{BLEU}-1, \acrshort{BLEU}-4 scores are often considerably lower due to the higher percentage of n-gram counts that are required to match the reference translation. The evaluations are calculated using a cumulative score rather than the individual score as it better represents the metric distribution. Additionally, the \acrshort{NIST} evaluation metric will be used alongside the \acrshort{BLEU} score on the final three models to improve the validity of the translation evaluations. The final form of evaluation will be a sentence analysis table. The direct comparison between implementation translations makes it easier to understand the discrepancies outlined by \acrshort{BLEU} scores.
