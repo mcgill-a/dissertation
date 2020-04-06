@@ -235,7 +235,7 @@
 	\gdpr
 %	\acknowledgments
 %	\preface
-% 	\abstractpage
+ 	\abstractpage
 	\tableofcontents
 
 	% figure listing - required if you have any figures
@@ -263,8 +263,7 @@
 	\vspace*{\fill}
 	\vspace{100pt}
 	\begin{center}
-	% \Huge \textcolor{midgrey}{\thetitle} \normalsize \\
-	\Huge {\thetitle} \normalsize \\
+    {\Huge {\thetitle} \par}
 	\vspace{25pt}
 	by \\
 	\vspace{15pt}

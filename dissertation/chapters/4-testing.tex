@@ -4,17 +4,17 @@ This chapter will first explain the configuration and results of the experiments
 
 \section{Experiments}
 
-The Scottish Gaelic dataset consists of 145,000 sentences from the the original and back-translated data, as described in Table \ref{tab:low_resource-data}. The French dataset consists of 170,000 sentences from the data described in Table \ref{tab:available-data}. Finally the Irish Gaelic dataset consists of 165,000 sentences from the back-translated monolingual English data extracted from the Italian and Spanish data described in Table \ref{tab:available-data}.
+The Scottish Gaelic dataset consists of 145,000 sentences from the original and back-translated data, as described in Table \ref{tab:low_resource-data}. The French dataset consists of 170,000 sentences from the data described in Table \ref{tab:available-data}. Finally, the Irish Gaelic dataset consists of 165,000 sentences from the back-translated monolingual English data extracted from the Italian and Spanish data described in Table \ref{tab:available-data}.
 All of the sentences fit within the maximum sentence length of 20 words and as mentioned in the methodology.
-For the parent and intermediary languages, the test split been set to 0 and the validation split has been set to 0.1. This means that a significantly higher percentage of the available sentences are used for training. In line with the existing transfer learning research identified in the literature review, parent models were trained for 5 epochs before switching the dataset to child languages.
+For the parent and intermediary languages, the test split has been set to 0 and the validation split has been set to 0.1. This means that a significantly higher percentage of the available sentences are used for training. In line with the existing transfer learning research identified in the literature review, parent models were trained for 5 epochs before switching the dataset to child languages.
 
 % ======================================================
 
 \subsection{Vocabulary Size}
 \label{sec:4-vocab_size}
 
-During data pre-processing, the source and target language vocabulary size have been limited, with prioritisation given to the most frequently occurring words. To determine the most suitable vocabulary size for the full Scottish Gaelic dataset with 145,000 sentences, tests at sizes 4000, 5000, and 7000 were completed. Due to the total vocabulary size with a minimum word occurrence of 2 totalling approximately 7000, the maximum possible size for this dataset is 7000. 
-The vocabulary size of subsequent experiments will be determined by selecting the vocabulary size that returns highest \acrshort{BLEU} score. The validation loss during training and \acrshort{BLEU} score of each size is shown in Figure \ref{fig:vocab_loss_bleu}.
+During data pre-processing, the source and target language vocabulary size have been limited, with prioritisation given to the most frequently occurring words. To determine the most suitable vocabulary size for the full Scottish Gaelic dataset with 145,000 sentences, tests at sizes 4000, 5000, and 7000 were completed. Due to the total vocabulary size with a minimum word occurrence of 2 totalling approximately 7000 out of 12,000, the maximum possible size for this dataset is 7000. 
+The vocabulary size of subsequent experiments will be determined by selecting the vocabulary size that returns the highest \acrshort{BLEU} score. The validation loss during training and \acrshort{BLEU} score of each size is shown in Figure \ref{fig:vocab_loss_bleu}.
 
 \begin{figure}[ht!]
 \centering
@@ -24,14 +24,14 @@ The vocabulary size of subsequent experiments will be determined by selecting th
 \label{fig:vocab_loss_bleu}
 \end{figure}
 
-Despite similar validation loss values between 5000 and 7000, the highest \acrshort{BLEU} scores were achieved when the vocabulary size was 5000. The \acrshort{BLEU} score of each vocabulary size is proportional to each other for each n-gram count with a ratio of approximately $3:5:4$ for values 4000, 5000, and 7000. 
+The results show that a reduction in translation quality is observed when there are too many words unknown words in the dataset or when the vocabulary consists of many words that occur infrequently. Despite similar validation loss values between 5000 and 7000, the highest \acrshort{BLEU} scores were achieved when the vocabulary size was 5000. The \acrshort{BLEU} score of each vocabulary size is proportional to each other for each n-gram count with a ratio of approximately $3:5:4$ for values 4000, 5000, and 7000. 
 
 % ======================================================
 
 \subsection{Sentence Length}
 \label{sec:4-sentence_length}
 
-As mentioned previously, padding is added to any sentence with less words than the longest sentence. To determine the most suitable sentence length for the Scottish Gaelic dataset, tests at sizes 15 and 20 were completed. These values were selected based on the analysis of the dataset in Figure \ref{fig:sentence_length-gaelic}, where the majority of sentences fall within a 15 word limit, with an additional 6,000 sentences between 16 and 20. This experiment will reveal whether a reduction in the overall variable length sequence padding improves the translation quality.
+As mentioned previously, padding is added to any sentence with fewer words than the longest sentence. To determine the most suitable sentence length for the Scottish Gaelic dataset, tests at sizes 15 and 20 were completed. These values were selected based on the analysis of the dataset in Figure \ref{fig:sentence_length-gaelic}, where the majority of sentences fall within a 15-word limit, with an additional 6,000 sentences between 16 and 20. This experiment will reveal whether a reduction in the overall variable-length sequence padding improves translation quality.
 139,000 sentences from the Scottish Gaelic dataset were used for both sizes, using the vocabulary size of 5000 as determined by the result of the previous experiment. Subsequent experiments will use the sentence length that the yields highest \acrshort{BLEU} score. The validation loss and \acrshort{BLEU} score of each sentence length is shown in Figure \ref{fig:length_loss_bleu}.
 
 \begin{figure}[ht!]
@@ -42,7 +42,7 @@ As mentioned previously, padding is added to any sentence with less words than t
 \label{fig:length_loss_bleu}
 \end{figure}
 
-While a sentence length of 20 resulted in a lower validation loss during training, the \acrshort{BLEU} score evaluation shows that a sentence length of 15 results in a better translation quality. The maximum \acrshort{BLEU} score for a length of 15 is 0.25 \acrshort{BLEU}, compared to a maximum of 0.21 \acrshort{BLEU} for a length of 20. This is approximately the same difference in \acrshort{BLEU} score as the top two choices vocabulary size, suggesting that the impact of selecting the highest scoring vocabulary size and sentence length for the remaining experiments will have a significant impact on the results. 
+While a sentence length of 20 resulted in a lower validation loss during training, the \acrshort{BLEU} score evaluation shows that a sentence length of 15 results in better translation quality. The maximum \acrshort{BLEU} score for a length of 15 is 0.25 \acrshort{BLEU}, compared to a maximum of 0.21 \acrshort{BLEU} for a length of 20. This is approximately the same difference in \acrshort{BLEU} score as the top two choices vocabulary size, suggesting that the impact of selecting the highest-scoring vocabulary size and sentence length for the remaining experiments will have a significant impact on the results. 
 
 % ======================================================
 
@@ -59,7 +59,7 @@ The baseline translation model described in Section \ref{sec:3-model} has been t
 \label{fig:loss_baseline}
 \end{figure}
 
-The baseline model achieved the lowest validation loss during epoch 10 with a value of 0.457. Subsequently, the validation loss slowly increased over time for the remaining 10 epochs as the model began overfitting on the training set. For comparison with other models in subsequent experiments, the translation evaluation is available at end of this chapter in Section \ref{sec:4-results}.
+The baseline model achieved the lowest validation loss during epoch 10 with a value of 0.457. Subsequently, the validation loss slowly increased over the remaining 10 epochs as the model began overfitting on the training set. For comparison with other models in subsequent experiments, the translation evaluation is available at end of this chapter in Section \ref{sec:4-results}.
 
 % ======================================================
 \newpage
@@ -165,4 +165,4 @@ Hierarchical    & he in a   \\\hline
 \label{tab:sentence_analysis}
 \end{table}
 
-The sentence analysis table reveals the poor translation quality that lead to such low \acrshort{BLEU} scores. The samples also show that the baseline model is consistently outputting very similar sentences that include common words, potentially influencing the evaluations.
+The sentence analysis table reveals the poor translation quality that leads to such low \acrshort{BLEU} scores. The samples also show that the baseline model is consistently outputting very similar sentences that include common words, potentially influencing the evaluations.

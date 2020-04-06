@@ -2,18 +2,18 @@
 \chapter{Introduction}
 \label{introduction}
 
-\textit{Machine translation} is the process of using technology to automatically translate text from one language into another. Services such as Google Translate and Microsoft Translator are well known examples of this. 
+\textit{Machine translation} is the process of using technology to automatically translate text from one language into another. Services such as Google Translate and Microsoft Translator are well-known examples of this. 
 Machine translation was first implemented in $1954$ using a direct dictionary translation technique, where an IBM experiment successfully translated $49$ Russian sentences into English.
-Since then, rule-based, statistical, and transfer-based techniques has been at the forefront of state-of-the-art machine translation (\cite{chiang_phrase_2005}). However, in recent years there has been a shift towards \Gls{NMT}, taking advantage of neural network architectures.
+Since then, rule-based, statistical, and transfer-based techniques have been at the forefront of state-of-the-art machine translation (\cite{chiang_phrase_2005}). However, in recent years there has been a shift towards \Gls{NMT}, taking advantage of neural network architectures.
 
-Under the right circumstances, \acrshort{NMT} has shown promise in providing more accurate translations in comparison to alternative machine translation techniques. Deep neural networks require a huge volume of parallel data (source text aligned with translations) for the resultant model to be of sufficient quality. Although not typically an issue for high-resource languages such as English, German, and Spanish, there are many languages that have very little data available online, leading to poor performance of the model translation. Dialects such as Welsh, Icelandic, and Scottish Gaelic are great examples of this, where the majority of the dialect is spoken rather than written.
+Under the right circumstances, \acrshort{NMT} has shown promise in providing more accurate translations in comparison to alternative machine translation techniques. Deep neural networks require a huge volume of parallel data (source text aligned with reference translations) for the resultant model to be of sufficient quality. Although not typically an issue for high-resource languages such as English, German, and Spanish, there are many languages that have very little data available online, leading to the poor performance of the model translation. Dialects such as Welsh, Icelandic, and Scottish Gaelic are great examples of this, where the majority of the dialect is spoken rather than written.
 
 Low-resource \acrshort{NMT} approaches aim to reduce the prevalence of poor translation quality for low-resource languages.
 This is important because approaches that work well for high-resource languages do not necessarily work well on low-resource languages. \cite{koehn_six_2017} demonstrated the poor translation performance of \acrshort{NMT} in comparison to phrase-based translation when less than one million parallel sentences are included in the training corpus, as a result of overfitting. To combat this challenge and improve upon the baseline \acrshort{NMT} quality in a low-resource context, this project will incorporate various transfer learning approaches for the low-resource language Scottish Gaelic.
 
 
 \section{Problem Statement}
-According to research by \cite{w3_internet_2020}, an estimated $58$\% of all content on the internet is in English. Translation of this content into other languages empowers individuals around the world to learn and contribute towards a shared knowledge base. Achieving this relies on the accessibility of high quality translation for all languages. Translation quality for current \acrshort{NMT} approaches is reliant on extremely large parallel data sets. Therefore, the barrier to entry for high quality translation of a language is a lack of parallel training data. Low-resource \acrshort{NMT} approaches may play a key role in improving the quality of translations for low-resourced languages and dialects that are only spoken by a small subset of a country's population.
+According to research by \cite{w3_internet_2020}, an estimated $58$\% of all content on the internet is in English. Translation of this content into other languages empowers individuals around the world to learn and contribute towards a shared knowledge base. Achieving this relies on the accessibility of high-quality translation for all languages. Translation quality for current \acrshort{NMT} approaches is reliant on extremely large parallel data sets. Therefore, the barrier to entry for high-quality translation of a language is a lack of parallel training data. Low-resource \acrshort{NMT} approaches may play a key role in improving the quality of translations for low-resourced languages and dialects that are only spoken by a small subset of a country's population.
 
 
 \section{Research Questions}
@@ -24,7 +24,7 @@ From this, the project will aim to answer the following question:
 \begin{enumerate}
     \item Are transfer learning approaches effective for \acrshort{NMT} when applied to Scottish Gaelic?
     \item Is hierarchical transfer learning more effective than trivial transfer learning for Scottish Gaelic?
-    \item What impact does the vocabulary size and sentence length have on translation quality for Scottish Gaelic \acrshort{NMT}?
+    \item What impact do the vocabulary size and sentence length have on translation quality for Scottish Gaelic \acrshort{NMT}?
     
 \end{enumerate}
 
@@ -35,7 +35,7 @@ The project objectives are listed below:
 
 \begin{enumerate}
   \item Review the existing literature on low-resource neural machine translation approaches such as transfer learning and meta-learning
-  \item Gather high quality parallel training data from open source data repositories such as OPUS and LearnGaelic.
+  \item Gather high-quality parallel training data from open source data repositories such as OPUS and LearnGaelic.
   \item Implement the transfer learning approaches identified in the literature review.
   \item Evaluate and compare the quality of the models generated by the low-resource \acrshort{NMT} approaches using the \acrshort{BLEU} score metric.
 \end{enumerate}
