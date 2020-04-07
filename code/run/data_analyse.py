@@ -1,4 +1,4 @@
-''' Standard Imports '''
+# standard imports
 import math
 import sys
 import pandas as pd
@@ -9,7 +9,7 @@ import tensorflow.keras as keras
 
 sys.path.insert(0, '..')
 
-''' Local Imports '''
+# local imports
 from private.tokens import NEPTUNE_API_TOKEN
 from project.utils.parameters import params
 from project.core.model import define_model, save_models, restore_model, restore_models
@@ -17,7 +17,6 @@ from project.core.inference import infer_nmt
 from project.core.train import train
 from project.layers.attention import AttentionLayer
 from project.utils.services import timestamp
-from project.utils.visualise import plot_attention_weights
 from project.utils.directories import Info as info
 from project.utils.vocab import to_vocab
 from project.utils.data_helper import sents2sequences, get_data, split_train_validation, convert_data, visualise_data, to_pairs, save_data, load_data, data_info

@@ -17,7 +17,6 @@ from project.utils.data_helper import sents2sequences, get_data, split_train_val
 from project.utils.vocab import to_vocab
 from project.utils.logger import get_logger
 from project.utils.directories import Info as info
-from project.utils.visualise import plot_attention_weights
 from project.utils.services import timestamp
 from project.layers.attention import AttentionLayer
 from project.core.train import train
@@ -27,7 +26,7 @@ from project.utils.parameters import params
 from private.tokens import NEPTUNE_API_TOKEN
 
 
-''' Neptune Configuration '''
+# neptune configuration
 neptune.init('mcgill-a/translation', api_token=NEPTUNE_API_TOKEN)
 neptune.create_experiment(name='translate-train',
                           params=params)
@@ -35,6 +34,7 @@ neptune.create_experiment(name='translate-train',
 log_output = timestamp() + ' | [Stage] - Start'
 print(log_output)
 neptune.log_text('Runtime', log_output)
+
 #############################################################################################################################################
 
 DATA_SIZE = params['DATA_SIZE']
@@ -115,7 +115,7 @@ save_data(test_data,  info.data_output_path + 'test.pkl')
 
 #############################################################################################################################################
 
-""" Defining the full model """
+# define the models
 full_model, encoder_model, decoder_model = define_model(
     hidden_size=hidden_size, dropout_w=DROPOUT_W, dropout_u=DROPOUT_U, batch_size=BATCH_SIZE, learning_rate=LEARNING_RATE,
     source_timesteps=source_timesteps, target_timesteps=target_timesteps,
@@ -139,13 +139,14 @@ train(N_EPOCHS, full_model, encoder_model, decoder_model, tr_source_seq,
       tr_target_seq, va_source_seq, va_target_seq, BATCH_SIZE, history, source_vsize, target_vsize, neptune, OVERRIDE_SAVE, PARENT_EPOCHS)
 
 #############################################################################################################################################
+
 epochs = range(1,len(history['train_loss'])+1)
 x_ticks = [0,2,4,6,8,10,12,14,16,18,20]
 y_ticks = [0, 0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.25, 2.5, 2.75]
 
 plt.plot(epochs, history['train_loss'], 'g')
 plt.plot(epochs, history['val_loss'], 'b')
-plt.title('Baseline - Training & Validation Loss')
+plt.title('Training & Validation Loss')
 plt.ylabel('Loss')
 plt.yticks(y_ticks)
 plt.xlabel('Epoch')

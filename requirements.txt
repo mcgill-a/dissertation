@@ -3,7 +3,7 @@ astor==0.8.0
 attrs==19.3.0
 autopep8==1.4
 backcall==0.1.0
-bleach==3.1.0
+bleach==3.1.4
 blinker==1.4
 bravado==10.5.0
 bravado-core==5.16.1
@@ -106,7 +106,7 @@ smmap==3.0.1
 strict-rfc3339==0.7
 swagger-spec-validator==2.5.0
 tensorboard==2.0.0
-tensorflow==2.0.0
+tensorflow==2.0.1
 tensorflow-estimator==2.0.0
 termcolor==1.1.0
 terminado==0.8.3

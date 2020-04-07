@@ -53,7 +53,6 @@ def update_dataset(lines, vocab):
 
 
 def filter_data(source_sentences, target_sentences, min_word_occurrence=None, limit=None):
-
     if limit:
         source = filter_lines(info.source_language_name, source_sentences,
                               min_word_occurrence, params['FORCE_SOURCE_VOCAB_SIZE'])
@@ -78,10 +77,7 @@ def filter_lines(name, sentences, min_word_occurrence=None, vocab_limit=None):
     lines = update_dataset(lines, vocab)
     if vocab_limit:
         print('New ' + name + ' Vocabulary: %d' % len(vocab))
-    # mark out of vocabulary words
-    
 
-    # spot check
     for i in range(3):
         print(lines[i])
 

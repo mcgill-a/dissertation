@@ -16,7 +16,6 @@ class AttentionLayer(Layer):
     def build(self, input_shape):
         assert isinstance(input_shape, list)
         # Create a trainable weight variable for this layer.
-
         self.W_a = self.add_weight(name='W_a',
                                    shape=tf.TensorShape(
                                        (input_shape[0][2], input_shape[0][2])),
@@ -33,7 +32,6 @@ class AttentionLayer(Layer):
                                    initializer='uniform',
                                    trainable=True)
 
-        # Be sure to call this at the end
         super(AttentionLayer, self).build(input_shape)
 
     def call(self, inputs, verbose=False):
