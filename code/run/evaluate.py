@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import tensorflow.keras as keras
 from tensorflow.keras.utils import plot_model
 from nltk.translate.bleu_score import corpus_bleu
+from nltk.translate.nist_score import corpus_nist
 from tqdm.auto import tqdm
 
 sys.path.insert(0, '..')
@@ -164,18 +165,30 @@ def evaluate_model(test_samples):
         4: corpus_bleu(actual, predicted, weights=(0.25, 0.25, 0.25, 0.25)),
     }
 
+    nist_scores = {
+        1: corpus_nist(actual, predicted, n=1),
+        2: corpus_nist(actual, predicted, n=2),
+        3: corpus_nist(actual, predicted, n=3),
+        4: corpus_nist(actual, predicted, n=4),
+        5: corpus_nist(actual, predicted, n=5),
+    }
+
     for key in bleu_scores:
         neptune.log_metric('BLEU Score', key, bleu_scores[key])
-        print('BLEU-', key, ': ', bleu_scores[key])
+        print('BLEU -', key, ': ', bleu_scores[key])
+
+    for key in nist_scores:
+        neptune.log_metric('NIST Score', key, nist_scores[key])
+        print('NIST -', key, ': ', nist_scores[key])
     
-    return bleu_scores
+    return bleu_scores, nist_scores
 
 #############################################################################################################################################
 
 log_output = timestamp() + ' | [Stage] - Evaluating'
 print(log_output)
 neptune.log_text('Runtime', log_output)
-bleu_scores = evaluate_model(test_data)
+bleu_scores, nist_scores = evaluate_model(test_data)
 
 #############################################################################################################################################
 
@@ -208,16 +221,9 @@ def remove_tags(string):
     string.replace('sos', '')
     string.replace('eos', '')
 
-random.seed(420) # get the same random sentences every time
-num_tests = 5
-# Create 5 attention plots
-for i in range(num_tests):
-    
-    # Only choose from sentences within the first 1000 lines.
-    # If data size was higher then it might choose
-    # an index too high for a smaller subset
-    idx = random.randrange(1000)
-    
+random.seed(100)
+for i in range(25):
+    idx = random.randrange(len(ts_source_text)-1)
     test(ts_source_text[idx], ts_target_text[idx], i+1)
 
 log_output = timestamp() + ' | [Stage] - End'

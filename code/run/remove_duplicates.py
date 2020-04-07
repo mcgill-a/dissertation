@@ -33,7 +33,7 @@ duplicate_check(history['val_loss'])
 duplicate_check(history['train_loss'])
 
 print("Duplicates Removed.")
-
+print(history['val_loss'])
 duplicate_check(history['val_loss'])
 duplicate_check(history['train_loss'])
 

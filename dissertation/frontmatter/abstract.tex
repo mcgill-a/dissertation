@@ -1,11 +1,12 @@
 %!TEX root = ../dissertation.tex
 % the abstract
 
-One of the functions of an abstract is to help the reader decide whether the content of your dissertation is interesting enough to read in more detail. In the summary, you answer four questions:
+% What is the problem?
+Neural Machine Translation typically requires a huge volume of parallel data for the translation quality to be sufficient. Low-resource neural machine translation approaches aim to alleviate the necessity for an abundance of data.
+% What was done?
+Through a comprehensive review of the literature, this project analyses the most prevalent low-resource neural machine translation approaches. A research gap regarding the application of neural machine translation for the low-resource language Scottish Gaelic was identified, leading to the focus of back-translation data augmentation and transfer learning techniques to improve the translation quality for Scottish Gaelic. The trivial transfer learning and hierarchical transfer learning techniques identified were compared against a GRU baseline model.
 
-What is the problem?
-What was done?
-What was discovered?
-What do the findings mean?
-
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi commodo, ipsum sed pharetra gravida, orci magna rhoncus neque, id pulvinar odio lorem non turpis. Nullam sit amet enim. Suspendisse id velit vitae ligula volutpat condimentum. Aliquam erat volutpat. Sed quis velit. Nulla facilisi. Nulla libero. Vivamus pharetra posuere sapien. Nam consectetuer. Sed aliquam, nunc eget euismod ullamcorper, lectus nunc ullamcorper orci, fermentum bibendum enim nibh eget ipsum. Donec porttitor ligula eu dolor. Maecenas vitae nulla consequat libero cursus venenatis. Nam magna enim, accumsan eu, blandit sed, blandit a, eros.
+% What was discovered?
+It was discovered that when based on an analysis of the data corpus, restrictions to the sentence length and vocabulary size can lead to improvements in the quality of Scottish Gaelic translation. Furthermore, it was found that despite scoring lower by automatic translation evaluation metrics, translations from transfer learning models are more varied and relevant than a baseline model.
+% What do the findings mean?
+The findings demonstrate the significance of enforcing restrictions on the vocabulary size and sentence length of the data corpus. An analysis of these findings concludes with a suggestion that given a sufficient quantity of the data in the parent language, transfer learning may prove beneficial to the quality of Scottish Gaelic neural machine translation.
