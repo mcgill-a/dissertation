@@ -94,6 +94,7 @@ def save_models(full_model, encoder, decoder):
     decoder.save_weights(info.decoder_w_path)
     print("Saved: " + info.decoder_w_path)
 
+
 def restore_model(model_filename, model_weights_filename, custom_objects=None):
     with open(model_filename, 'r', encoding='utf8') as f:
         if custom_objects:

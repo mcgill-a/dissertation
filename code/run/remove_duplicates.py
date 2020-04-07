@@ -29,28 +29,15 @@ def duplicate_check(losses):
 
     print(duplicate_idx)
 
-
-#print(history['val_loss'])
-
 duplicate_check(history['val_loss'])
 duplicate_check(history['train_loss'])
-
-# 10,11,12
-#history['val_loss'].pop(10)
-#history['val_loss'].pop(10)
-#history['val_loss'].pop(10)
-
-# 10,11,12
-#history['train_loss'].pop(10)
-#history['train_loss'].pop(10)
-#history['train_loss'].pop(10)
 
 print("Duplicates Removed.")
 
 duplicate_check(history['val_loss'])
 duplicate_check(history['train_loss'])
 
-#save_data(history, info.model_history)
+save_data(history, info.model_history)
 
 epochs = range(1,len(history['train_loss'])+1)
 x_epochs = [0,2,4,6,8,10,12,14,16,18,20]

@@ -10,8 +10,6 @@ import pandas as pd
 from pickle import load, dump
 from tqdm.auto import tqdm
 
-# Converts the unicode file to ascii
-
 
 def unicode_to_ascii(s):
     return ''.join(c for c in unicodedata.normalize('NFD', s)
@@ -20,17 +18,14 @@ def unicode_to_ascii(s):
 
 def preprocess_sentence(sentence):
     sentence = unicode_to_ascii(sentence.lower().strip())
-
     # creating a space between a word and the punctuation following it
-    # eg: "he is a boy." => "he is a boy ."
+    # eg: "something is wrong." => "something is wrong ."
     sentence = re.sub(r"([?.!,¿])", r" \1 ", sentence)
     sentence = re.sub(r'[" "]+', " ", sentence)
 
-    # replacing everything with space except (a-z, A-Z, ".", "?", "!", ",")
+    # replace everything with a space except (a-z, A-Z, ".", "?", "!", ",")
     sentence = re.sub(r"[^a-zA-Z?.!,¿]+", " ", sentence)
-
     sentence = sentence.rstrip().strip()
-
     return sentence
 
 

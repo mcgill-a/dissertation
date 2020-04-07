@@ -6,14 +6,14 @@ from project.utils.parameters import params
 import numpy as np
 
 
-in_path = "S:/_UNI/HP/MT/repo/code/gru_attention/data/ga-en/back-translated/"
+in_path = "C:/Users/40276245/hp/repo/code/gru_attention/data/ga-en/"
 out_path = in_path + 'output/'
 files = []
 
-files.append("spa_tatoeba-english.txt")
-files.append("spa_tatoeba-irish.txt")
+files.append("en.txt")
+files.append("ga.txt")
 
-SIZE = 100000
+SIZE = 170000
 
 # load data from the input files
 source_text = read_data(in_path + files[0])

@@ -1,4 +1,4 @@
-''' Standard Imports '''
+# standard imports
 import neptune
 import math
 import sys
@@ -13,7 +13,7 @@ from tqdm.auto import tqdm
 
 sys.path.insert(0, '..')
 
-''' Local Imports '''
+# local imports
 from private.tokens import NEPTUNE_API_TOKEN
 from project.utils.parameters import params
 from project.core.model import define_model, save_models, restore_model, restore_models
@@ -21,14 +21,13 @@ from project.core.inference import infer_nmt
 from project.core.train import train
 from project.layers.attention import AttentionLayer
 from project.utils.services import timestamp
-from project.utils.visualise import plot_attention_weights
 from project.utils.directories import Info as info
 from project.utils.logger import get_logger
 from project.utils.vocab import to_vocab
 from project.utils.data_helper import sents2sequences, get_data, split_train_validation, convert_data, visualise_data, to_pairs, save_data, load_data
 
 
-''' Neptune Configuration '''
+# neptune configuration
 neptune.init('mcgill-a/translation', api_token=NEPTUNE_API_TOKEN)
 neptune.create_experiment(name='translate-evaluate',
                           params=params)
@@ -36,6 +35,7 @@ neptune.create_experiment(name='translate-evaluate',
 log_output = timestamp() + ' | [Stage] - Start'
 print(log_output)
 neptune.log_text('Runtime', log_output)
+
 #############################################################################################################################################
 
 DATA_SIZE = params['DATA_SIZE']
@@ -108,7 +108,7 @@ test_data = to_pairs(ts_source_text, ts_target_text)
 
 #############################################################################################################################################
 
-""" Defining the full model """
+# define the models
 full_model, encoder_model, decoder_model = define_model(
     hidden_size=hidden_size, dropout_w=DROPOUT_W, dropout_u=DROPOUT_U, batch_size=BATCH_SIZE, learning_rate=LEARNING_RATE,
     source_timesteps=source_timesteps, target_timesteps=target_timesteps,
@@ -199,34 +199,24 @@ def test(test_source, test_target_actual, index=0):
     logger.info('Translation ({}): {}'.format(
         info.target_language_name, test_target))
 
-
-
     neptune.log_text('translation', str(index) + " " + test_source)
     neptune.log_text('translation', str(index) + " " + test_target_actual)
     neptune.log_text('translation', str(index) + " " + test_target)
-
-
-    # plot the attention
-    filename = "attention-" + str(index) + ".png"
-    attention_img = plot_attention_weights(test_source_seq, attn_weights,
-                        source_index2word, target_index2word, filename=filename)
-    neptune.log_image('Attention Plots', attention_img,
-                    image_name="Attention Plot " + str(index) )
 
 
 def remove_tags(string):
     string.replace('sos', '')
     string.replace('eos', '')
 
+random.seed(420) # get the same random sentences every time
+num_tests = 5
 # Create 5 attention plots
-for i in range(5):
-    random.seed(i) # get the same 5 random sentences every time
-    # idx = random.randrange(len(ts_source_text))
+for i in range(num_tests):
     
-    # Only choose from sentences within the first 100 lines.
+    # Only choose from sentences within the first 1000 lines.
     # If data size was higher then it might choose
     # an index too high for a smaller subset
-    idx = random.randrange(100)
+    idx = random.randrange(1000)
     
     test(ts_source_text[idx], ts_target_text[idx], i+1)
 
