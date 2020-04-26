@@ -48,7 +48,7 @@ A convolutional layer typically involves three different actions (\cite{goodfell
 
 % Convolutional layers + filters
 A convolution is a mathematical operation that generates an activation map (matrix) using inputs such as an image matrix and a filter, outputting high values if the convolution feature is present in that location. For image classification, a filter represents a small matrix with a preset number of columns and rows.
-A convolutional layer has a specified number of filters that are used to detect different patterns. These filters are initialised with random numbers and adjusted using backpropagation to learn the weights automatically.
+A convolutional layer has a specified number of filters that are used to detect different patterns. These filters are initialised with random numbers and are adjusted using backpropagation to learn the weights automatically.
 When a convolutional layer receives an input, the filter convolves over each $n$ x $n$ block of pixels in the image and the value of each cell becomes the dot product of the block of pixels and the filter. The resultant matrix is used as input to the next layer.
 
 In early convolutional layers, filters may only detect very simple features such as edges and shapes but as the layers get deeper in the neural network, filters can identify more complicated objects such as facial features or types of animals. These high-level features are what the classifier uses for weighting the output predictions.
@@ -81,7 +81,7 @@ As demonstrated in Figure \ref{fig:cnn_pooling}, max pooling and average pooling
 \end{itemize}
 
 % Dropout
-Dropout is a technique that helps address the problem of overfitting for \acrshort{CNN}s that have many parameters. During training, a random set of neurons and their subsequent connections in the network are dropped (ignored) with probability $p$ (\cite{srivastava_dropout_2014}). This can be seen in Figure \ref{fig:cnn_dropout}. In the original research by \cite{hinton_dropout_2012}, dropout was only applied to the fully connected layers of a \acrshort{CNN}. However, \cite{lai_dropout_2017} has since found that regularisation increased when dropout is also used after the activation function of every convolutional layer in the network at a lower probability ($p = 0.1$).
+Dropout is a technique that helps address the problem of overfitting for \acrshort{CNN}s that have many parameters. During training, a random set of neurons and their subsequent connections in the network are dropped (ignored) with probability $p$ (\cite{srivastava_dropout_2014}). This can be seen in Figure \ref{fig:cnn_dropout}.
 
 \begin{figure}[ht!]
 \centering
@@ -89,6 +89,9 @@ Dropout is a technique that helps address the problem of overfitting for \acrsho
 \caption[Dropout neural network model]{Dropout neural network model. Left side: Standard \acrshort{NN} with 2 hidden layers. Right side: Standard \acrshort{NN} with 2 hidden layers, after applying dropout (\cite{srivastava_dropout_2014})}
 \label{fig:cnn_dropout}
 \end{figure}
+
+
+In the original research by \cite{hinton_dropout_2012}, dropout was only applied to the fully connected layers of a \acrshort{CNN}. However, \cite{lai_dropout_2017} has since found that regularisation increased when dropout is also used after the activation function of every convolutional layer in the network at a lower probability ($p = 0.1$).
 
 \subsection{Recurrent Neural Networks}
 
@@ -124,7 +127,7 @@ As outlined by \cite{bengio_learning_1994}, the further back an error signal is 
 
 \subsubsection{\acrlong{LSTM}}
 
-\acrfull{LSTM} is an \acrshort{RNN} architecture proposed initially by \cite{hochreiter_long_1997} that was designed to help overcome the vanishing gradient problem present during backpropagation. They are significantly better than simple \acrshort{RNN}s at capturing long term dependencies because they use a gradient-based algorithm that enforces a consistent internal state error flow. This ensures that gradients will not become insignificant and halt the learning process.
+\acrfull{LSTM} is an \acrshort{RNN} architecture proposed initially by \cite{hochreiter_long_1997} that was designed to help overcome the vanishing gradient problem present during backpropagation. They are significantly better at capturing long term dependencies than simple \acrshort{RNN}s  because they use a gradient-based algorithm that enforces a consistent internal state error flow. This ensures that gradients will not become insignificant and halt the learning process.
 
 In the diagram shown in Figure \ref{fig:rnn_lstm}, an entire vector is carried through each line from the output of one node to the input of other nodes. The vectors go through three sigmoid ($\sigma$) gates and one tanh gate (learned neural network layers) to decide what inputs pass through the network and what gets blocked. The symbol in a pink circle denotes the pointwise operation applied to the vectors (addition or multiplication).
 
@@ -135,7 +138,7 @@ In the diagram shown in Figure \ref{fig:rnn_lstm}, an entire vector is carried t
 \label{fig:rnn_lstm}
 \end{figure}
 
-Predictions are based on the vectors that pass through the gates and a copy is kept for the next time step, meaning future predictions can be informed by memories that haven't forgotten. Referring back to previous time steps allows \acrshort{LSTM}s to better represent language-specific grammar structures and transfer the meaning of sequences to other languages.
+Predictions are based on the vectors that pass through the gates and a copy is kept for the next time step, meaning future predictions can be informed by memories that haven't been forgotten. Referring back to previous time steps allows \acrshort{LSTM}s to better represent language-specific grammar structures and transfer the meaning of sequences to other languages.
 
 
 One of the issues of using \acrshort{LSTM}s comes from the bandwidth and memory resource constraints that are encountered in the architecture as a result of the high number of tensor operations required. A simpler architecture may be more computationally efficient at the risk of being less accurate for specific deep learning tasks.
@@ -239,7 +242,7 @@ The underlying metric of \acrshort{BLEU} is the 'precision measure', which is de
 \end{itemize}
 
 \acrshort{BLEU} score is calculated using the geometric mean of the modified precision scores multiplied by an exponential brevity penalty.
-The brevity penalty ($BP$) that is designed to penalise translations that are too short. This adjustment factor helps ensure that a translation with a high \acrshort{BLEU} score not only matches in words and word order but in length as well.
+The brevity penalty ($BP$) is designed to penalise translations that are too short. This adjustment factor helps ensure that a translation with a high \acrshort{BLEU} score not only matches in words and word order but in length as well.
 If the translation length is more than the reference output length then the brevity penalty is $1$. Otherwise, the brevity penalty is calculated using the following equation, where $r$ is the effective reference corpus length and $c$ is the candidate translation length:
 \begin{equation}
     BP = e^{(1-r/c)}
