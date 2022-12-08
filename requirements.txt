@@ -7,7 +7,7 @@ bleach==3.1.4
 blinker==1.4
 bravado==10.5.0
 bravado-core==5.16.1
-certifi==2019.11.28
+certifi==2022.12.7
 cffi==1.13.2
 chardet==3.0.4
 click==7.1.1
